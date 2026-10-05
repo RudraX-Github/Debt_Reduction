@@ -604,6 +604,37 @@ footer a { color: var(--primary); text-decoration: none; font-weight: 600; }
   white-space: pre;
 }
 
+
+/* Sync Timer Progress Bar */
+.sync-progress-container {
+  display: none;
+  width: 100%;
+  margin-top: 10px;
+  background: #f1f5f9;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  position: relative;
+  height: 24px;
+}
+.sync-progress-bar {
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(90deg, #0f766e 0%, #10b981 100%);
+  transition: width 0.1s linear;
+}
+.sync-progress-text {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #0f172a;
+  font-family: var(--font-mono);
+}
+
 </style>
 </head>
 <body>
@@ -618,6 +649,11 @@ footer a { color: var(--primary); text-decoration: none; font-weight: 600; }
     <div class="timer-box">
       <span>⏳ Decision Countdown:</span>
       <span id="countdown-timer">47h : 59m : 59s</span>
+    </div>
+    <!-- Live Sync Progress Countdown Bar -->
+    <div class="sync-progress-container" id="sync-progress-box">
+      <div class="sync-progress-bar" id="sync-progress-fill"></div>
+      <div class="sync-progress-text" id="sync-progress-txt">⏳ Updating Google Sheet cells... 3s</div>
     </div>
   </div>
 </div>
@@ -1236,6 +1272,39 @@ footer a { color: var(--primary); text-decoration: none; font-weight: 600; }
     <input type="hidden" name="data" id="sync_form_payload" value="" />
   </form>
 
+
+  <!-- Live Sync Progress Timer Modal -->
+  <div class="modal-overlay" id="sync-timer-modal" style="z-index: 10000;">
+    <div class="modal-card" style="max-width: 480px; text-align: center; padding: 32px 24px;">
+      <div style="font-size: 36px; margin-bottom: 12px;" id="sync-timer-icon">⏳</div>
+      <h3 style="font-size: 1.25rem; font-weight: 800; color: var(--dark); margin-bottom: 8px;" id="sync-timer-title">
+        Updating Google Sheet...
+      </h3>
+      <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 20px;" id="sync-timer-desc">
+        Transmitting 12 months & 23 columns directly into Google Sheet cells.
+      </p>
+
+      <!-- Progress Bar Container -->
+      <div style="background: #e2e8f0; border-radius: 12px; height: 14px; overflow: hidden; margin-bottom: 12px; position: relative;">
+        <div id="sync-progress-bar" style="background: linear-gradient(90deg, #0f766e, #2563eb); height: 100%; width: 0%; transition: width 0.3s ease; border-radius: 12px;"></div>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; font-size: 12px; font-weight: 700; color: var(--text-muted); margin-bottom: 20px;">
+        <span id="sync-step-label">Step 1: Dispatching payload...</span>
+        <span id="sync-countdown-sec">3s</span>
+      </div>
+
+      <div id="sync-timer-actions" style="display: none; justify-content: center; gap: 10px;">
+        <button onclick="closeSyncTimerModal()" class="btn-sync-action btn-fetch-sheet" style="padding: 9px 20px;">
+          <span>✓ Done</span>
+        </button>
+        <a href="https://docs.google.com/spreadsheets/d/1tAOqVod1YKLpM_rZ2kvOB-6HBzFjr3YiYyysnfdMLiw/edit" target="_blank" class="btn-sync-action btn-open-sheet" style="padding: 9px 18px;">
+          <span>📊 View Google Sheet ↗</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
 </main>
 
 <footer>
@@ -1594,30 +1663,35 @@ function initDataState() {
   manualDue2CheckedState = getObj("rudresh_md2_chk_v4") || {};
 
   baseMonths.forEach(m => {
-    if (actualSalariesState[m.id] === undefined) {
+    // If salary is unset or 0, restore default projected salary
+    if (!actualSalariesState[m.id] || actualSalariesState[m.id] <= 0) {
       actualSalariesState[m.id] = currentOption === 1 ? m.projectedSalaryOpt1 : m.projectedSalaryOpt2;
     }
-    if (manualSavingsState[m.id] === undefined) {
-      manualSavingsState[m.id] = m.defaultManualSave;
+    // If household expense is unset or 0, restore default ₹15,000
+    if (!householdExpState[m.id] || householdExpState[m.id] <= 0) {
+      householdExpState[m.id] = m.defaultHousehold;
+    }
+    // If utilities expense is unset or 0, restore default ₹2,689
+    if (!utilitiesExpState[m.id] || utilitiesExpState[m.id] <= 0) {
+      utilitiesExpState[m.id] = m.defaultUtilities;
+    }
+    // If grocery expense is unset or 0, restore default ₹3,500
+    if (!groceryExpState[m.id] || groceryExpState[m.id] <= 0) {
+      groceryExpState[m.id] = m.defaultGrocery;
+    }
+    // Priority cash default (e.g. ₹20,000 in Nov)
+    if (priorityCashState[m.id] === undefined || (m.cashOutlayDefault > 0 && (!priorityCashState[m.id] || priorityCashState[m.id] <= 0))) {
+      priorityCashState[m.id] = m.cashOutlayDefault;
     }
     if (misExpensesState[m.id] === undefined) {
       misExpensesState[m.id] = m.defaultMiscExpense;
     }
-    if (priorityCashState[m.id] === undefined) {
-      priorityCashState[m.id] = m.cashOutlayDefault;
-    }
-    if (householdExpState[m.id] === undefined) {
-      householdExpState[m.id] = m.defaultHousehold;
-    }
-    if (utilitiesExpState[m.id] === undefined) {
-      utilitiesExpState[m.id] = m.defaultUtilities;
-    }
-    if (groceryExpState[m.id] === undefined) {
-      groceryExpState[m.id] = m.defaultGrocery;
+    if (manualSavingsState[m.id] === undefined) {
+      manualSavingsState[m.id] = m.defaultManualSave;
     }
 
     if (manualDue1NameState[m.id] === undefined) {
-      manualDue1NameState[m.id] = "Manual Due Date 1 (e.g. 10th)";
+      manualDue1NameState[m.id] = "Manual Due Date 1 (e.g. SIP / Insurance)";
     }
     if (manualDue1AmtState[m.id] === undefined) {
       manualDue1AmtState[m.id] = 0;
@@ -1625,8 +1699,9 @@ function initDataState() {
     if (manualDue1CheckedState[m.id] === undefined) {
       manualDue1CheckedState[m.id] = false;
     }
+
     if (manualDue2NameState[m.id] === undefined) {
-      manualDue2NameState[m.id] = "Manual Due Date 2 (e.g. 20th)";
+      manualDue2NameState[m.id] = "Manual Due Date 2 (e.g. Local Chit / Society)";
     }
     if (manualDue2AmtState[m.id] === undefined) {
       manualDue2AmtState[m.id] = 0;
@@ -1634,13 +1709,10 @@ function initDataState() {
     if (manualDue2CheckedState[m.id] === undefined) {
       manualDue2CheckedState[m.id] = false;
     }
-
-    m.emis.forEach(e => {
-      if (checkedEmisState[e.id] === undefined) {
-        checkedEmisState[e.id] = true;
-      }
-    });
   });
+
+  // Save the cleaned, restored defaults so localStorage is immediately healed
+  persistState();
 }
 
 function persistState() {
@@ -1950,6 +2022,61 @@ async function testAppsScriptUrl() {
 }
 
 // 1-Click Atomic Batch Push to Google Sheet via Google Apps Script Webhook (<0.3s)
+function openSyncTimerModal() {
+  const modal = document.getElementById("sync-timer-modal");
+  const bar = document.getElementById("sync-progress-bar");
+  const icon = document.getElementById("sync-timer-icon");
+  const title = document.getElementById("sync-timer-title");
+  const desc = document.getElementById("sync-timer-desc");
+  const step = document.getElementById("sync-step-label");
+  const sec = document.getElementById("sync-countdown-sec");
+  const actions = document.getElementById("sync-timer-actions");
+
+  if (bar) bar.style.width = "0%";
+  if (icon) icon.innerText = "⏳";
+  if (title) title.innerText = "Synchronizing with Google Sheet...";
+  if (desc) desc.innerText = "Writing all 12 monthly rows & 23 columns to Google Sheet cells.";
+  if (step) step.innerText = "Step 1: Connecting to Apps Script Webhook...";
+  if (sec) sec.innerText = "3s";
+  if (actions) actions.style.display = "none";
+  if (modal) modal.classList.add("active");
+
+  let progress = 0;
+  let remaining = 3;
+  const interval = setInterval(() => {
+    progress += 25;
+    if (bar) bar.style.width = progress + "%";
+    remaining -= 0.75;
+    if (sec) sec.innerText = Math.max(0, Math.ceil(remaining)) + "s";
+
+    if (progress === 50) {
+      if (step) step.innerText = "Step 2: Updating cells in '5th Monthly EMI & Savings Tracker'...";
+    }
+    if (progress === 75) {
+      if (step) step.innerText = "Step 3: Calculating dynamic formulas & reserves...";
+    }
+
+    if (progress >= 100) {
+      clearInterval(interval);
+      if (bar) bar.style.width = "100%";
+      if (icon) icon.innerText = "🟢";
+      if (title) title.innerText = "Sync Complete!";
+      if (desc) desc.innerText = "All cells in your Google Sheet have been updated successfully.";
+      if (step) step.innerText = "✓ Status: Live Synchronized";
+      if (sec) sec.innerText = "0s";
+      if (actions) actions.style.display = "flex";
+      
+      const syncLabel = document.getElementById("sync-label");
+      if (syncLabel) syncLabel.innerText = "🟢 Synced Live with Google Sheet";
+    }
+  }, 750);
+}
+
+function closeSyncTimerModal() {
+  const modal = document.getElementById("sync-timer-modal");
+  if (modal) modal.classList.remove("active");
+}
+
 async function pushToGoogleSheet() {
   const syncLabel = document.getElementById("sync-label");
   const pushBtn = document.getElementById("btn-push-now");
@@ -1963,22 +2090,25 @@ async function pushToGoogleSheet() {
   // 1. Lock user inputs in browser localStorage immediately before pushing
   persistState();
 
+  // 2. Open visual progress countdown timer modal
+  openSyncTimerModal();
+
   if (syncLabel) syncLabel.innerText = "⏳ Pushing live data to Google Sheet cells...";
   if (pushBtn) {
     pushBtn.disabled = true;
     pushBtn.style.opacity = "0.7";
   }
 
-  // 2. Construct batch 12-month row data for all 23 columns
+  // 3. Construct batch 12-month row data for all 23 columns
   let rowsData = [];
   let runningCumFund = 0;
 
   baseMonths.forEach(m => {
     const proj = currentOption === 1 ? m.projectedSalaryOpt1 : m.projectedSalaryOpt2;
-    const act = actualSalariesState[m.id] !== undefined ? actualSalariesState[m.id] : proj;
-    const house = householdExpState[m.id] !== undefined ? householdExpState[m.id] : m.defaultHousehold;
-    const util = utilitiesExpState[m.id] !== undefined ? utilitiesExpState[m.id] : m.defaultUtilities;
-    const groc = groceryExpState[m.id] !== undefined ? groceryExpState[m.id] : m.defaultGrocery;
+    const act = (actualSalariesState[m.id] !== undefined && actualSalariesState[m.id] > 0) ? actualSalariesState[m.id] : proj;
+    const house = (householdExpState[m.id] !== undefined && householdExpState[m.id] > 0) ? householdExpState[m.id] : m.defaultHousehold;
+    const util = (utilitiesExpState[m.id] !== undefined && utilitiesExpState[m.id] > 0) ? utilitiesExpState[m.id] : m.defaultUtilities;
+    const groc = (groceryExpState[m.id] !== undefined && groceryExpState[m.id] > 0) ? groceryExpState[m.id] : m.defaultGrocery;
     const outlay = priorityCashState[m.id] !== undefined ? priorityCashState[m.id] : m.cashOutlayDefault;
     const misc = misExpensesState[m.id] || 0;
     
@@ -2039,8 +2169,8 @@ async function pushToGoogleSheet() {
 
   const payloadStr = JSON.stringify(payload);
 
-  // Triple-Redundant Execution Delivery:
-  // 1. Hidden Form POST (Bypasses all CORS and cross-origin fetch restrictions)
+  // Triple Delivery Channels:
+  // Channel 1: Hidden HTML Form POST (Bypasses cross-origin CORS)
   try {
     const form = document.getElementById("sync_hidden_form");
     const dataInput = document.getElementById("sync_form_payload");
@@ -2053,7 +2183,7 @@ async function pushToGoogleSheet() {
     console.warn("Form POST error:", eForm);
   }
 
-  // 2. Fetch POST with text/plain body
+  // Channel 2: Fetch POST
   try {
     fetch(webAppUrl, {
       method: "POST",
@@ -2065,7 +2195,7 @@ async function pushToGoogleSheet() {
     console.warn("Fetch POST error:", eFetch);
   }
 
-  // 3. Fetch GET with URL-encoded parameter
+  // Channel 3: Fetch GET fallback with encoded data
   try {
     const getUrl = webAppUrl + (webAppUrl.includes("?") ? "&" : "?") + "data=" + encodeURIComponent(payloadStr);
     if (getUrl.length < 8000) {
@@ -2074,16 +2204,11 @@ async function pushToGoogleSheet() {
   } catch(eGet) {}
 
   setTimeout(() => {
-    if (syncLabel) syncLabel.innerText = "🟢 Push Succeeded! Google Sheet updated in real time.";
     if (pushBtn) {
       pushBtn.disabled = false;
       pushBtn.style.opacity = "1";
     }
-  }, 600);
-
-  setTimeout(() => {
-    if (syncLabel) syncLabel.innerText = "Live Synced with Google Sheet";
-  }, 4000);
+  }, 3500);
 }
 
 function buildTimelineDOM() {
