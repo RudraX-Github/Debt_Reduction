@@ -118,6 +118,10 @@ header.hero {
   transition: all 0.2s ease;
   text-decoration: none;
 }
+.btn-push-sheet { background: #2563eb; color: #ffffff; }
+.btn-push-sheet:hover { background: #1d4ed8; }
+.btn-fetch-sheet { background: #0f766e; color: #ffffff; }
+.btn-fetch-sheet:hover { background: #115e59; }
 .btn-open-sheet { background: #10b981; color: #ffffff; }
 .btn-open-sheet:hover { background: #059669; }
 .btn-copy-data { background: #f1f5f9; color: var(--dark); border-color: var(--border); }
@@ -276,7 +280,7 @@ header.hero {
   grid-template-columns: 1.25fr 1fr;
   gap: 24px;
 }
-@media (max-width: 900px) {
+@media (max-width: 950px) {
   .month-grid { grid-template-columns: 1fr; }
 }
 
@@ -361,7 +365,7 @@ header.hero {
   gap: 12px;
 }
 .calc-table { width: 100%; border-collapse: collapse; font-size: 13px; }
-.calc-table tr td { padding: 6px 4px; border-bottom: 1px solid #f1f5f9; }
+.calc-table tr td { padding: 5px 4px; border-bottom: 1px solid #f1f5f9; }
 .calc-table tr td:last-child { text-align: right; font-family: var(--font-mono); font-weight: 700; }
 .calc-table tr.total-row td { border-top: 2px solid var(--border); border-bottom: none; font-weight: 800; font-size: 14px; padding-top: 8px; }
 
@@ -372,13 +376,13 @@ header.hero {
   justify-content: flex-end;
   gap: 6px;
 }
-.input-currency-tag { font-weight: 700; color: var(--dark); }
+.input-currency-tag { font-weight: 700; color: var(--dark); font-size: 12px; }
 .custom-input-field {
   font-family: var(--font-mono);
   font-size: 13px;
   font-weight: 800;
   padding: 4px 8px;
-  width: 125px;
+  width: 120px;
   border-radius: 6px;
   background: #ffffff;
   text-align: right;
@@ -391,6 +395,13 @@ header.hero {
 }
 .custom-input-field.salary-style:focus {
   box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.2);
+}
+.custom-input-field.expense-style {
+  border: 1.5px solid #dc2626;
+  color: #b91c1c;
+}
+.custom-input-field.expense-style:focus {
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.2);
 }
 .custom-input-field.cash-style {
   border: 1.5px solid #d97706;
@@ -533,7 +544,7 @@ footer a { color: var(--primary); text-decoration: none; font-weight: 600; }
   <div class="container">
     <h1 class="hero-title">Personal Debt Reduction & Financial Freedom Plan</h1>
     <p class="hero-subtitle">
-      Master Month-by-Month 5th-Day Execution Engine, Live Google Sheet Synchronization, Actual Inflow & Priority Physical Cash Controls, and Commercial Bridge to the Export-Dedicated Mini Castor Processing Plant (₹38.50 Lakhs) for Rudreshkumar Chovatiya.
+      Master Month-by-Month 5th-Day Execution Engine, Live Google Sheet Synchronization, Manual Household/Utility/Grocery Controls, and Commercial Bridge to the Export-Dedicated Mini Castor Processing Plant (₹38.50 Lakhs) for Rudreshkumar Chovatiya.
     </p>
     <div class="hero-meta">
       <span>📍 Location: Surat, Gujarat</span>
@@ -555,18 +566,24 @@ footer a { color: var(--primary); text-decoration: none; font-weight: 600; }
         <span id="sync-label">Live Synced with Google Sheet</span>
       </span>
       <span style="font-size: 12.5px; color: var(--text-muted);">
-        All changes to <strong>Actual Inflows</strong>, <strong>Priority Physical Cash</strong> & <strong>Manual Due Dates</strong> auto-persist in real time.
+        Connected to <strong>5th Monthly EMI & Savings Tracker</strong> tab. Auto-fetches live spreadsheet data on load.
       </span>
     </div>
     <div class="sync-actions">
+      <button class="btn-sync-action btn-push-sheet" id="btn-push-now" onclick="pushToGoogleSheet()">
+        <span>🚀 Push Live Data to Sheet</span>
+      </button>
+      <button class="btn-sync-action btn-fetch-sheet" id="btn-sync-now" onclick="syncFromGoogleSheet()">
+        <span>🔄 Pull Live Sheet Data</span>
+      </button>
       <button class="btn-sync-action btn-copy-data" onclick="copyTableForGoogleSheet()">
-        <span>📋 Copy Data for Google Sheet (Ctrl+V)</span>
+        <span>📋 Copy Table (Ctrl+V)</span>
       </button>
       <button class="btn-sync-action btn-copy-data" onclick="resetToProjections()">
-        <span>🔄 Reset to Sheet Projections</span>
+        <span>🔄 Reset Projections</span>
       </button>
       <a href="https://docs.google.com/spreadsheets/d/1tAOqVod1YKLpM_rZ2kvOB-6HBzFjr3YiYyysnfdMLiw/edit" target="_blank" class="btn-sync-action btn-open-sheet">
-        <span>📊 Open '5th Monthly Tracker' Sheet ↗</span>
+        <span>📊 Open Sheet ↗</span>
       </a>
     </div>
   </div>
@@ -658,10 +675,10 @@ footer a { color: var(--primary); text-decoration: none; font-weight: 600; }
     <div class="section-title">
       <span>📅 Month-by-Month 5th-Day EMI & Savings Execution Engine</span>
     </div>
-    <div class="section-tag">2 Manual Due Dates, Physical Cash & Misc Expenses</div>
+    <div class="section-tag">Manual Household, Utilities, Grocery & Push-to-Sheet</div>
   </div>
   <p style="color: var(--text-muted); font-size: 13.5px; margin-bottom: 20px;">
-    Starting today (October 5, 2026), manage your financial obligations on the 5th of each month. Check off EMIs, adjust <strong>Actual Salary</strong>, add <strong>Two Custom Due Dates</strong> in the checklist, set <strong>Priority Physical Cash</strong>, and enter <strong>Miscellaneous Expenses</strong>.
+    Starting today (October 5, 2026), enter your <strong>Actual Salary</strong>, adjust <strong>Household, Utilities & Grocery</strong> individually, add custom <strong>Due Dates</strong> in the checklist, and push your data to Google Sheets with 1-click.
   </p>
 
   <div class="timeline-container" id="timeline-container">
@@ -1068,8 +1085,10 @@ const baseMonths = [
     tagClass: "tag-incentive",
     projectedSalaryOpt1: 66497,
     projectedSalaryOpt2: 53497,
-    expenses: 21189,
-    cashOutlayDefault: 0, // Buffer removed as requested
+    defaultHousehold: 15000,
+    defaultUtilities: 2689,
+    defaultGrocery: 3500,
+    cashOutlayDefault: 0,
     compulsorySaving: 1778,
     defaultManualSave: 0,
     defaultMiscExpense: 0,
@@ -1093,8 +1112,10 @@ const baseMonths = [
     tagClass: "tag-festive",
     projectedSalaryOpt1: 52673,
     projectedSalaryOpt2: 39673,
-    expenses: 21189,
-    cashOutlayDefault: 20000, // Diwali Rs 10k + Family Function Rs 10k in November
+    defaultHousehold: 15000,
+    defaultUtilities: 2689,
+    defaultGrocery: 3500,
+    cashOutlayDefault: 20000,
     compulsorySaving: 1778,
     defaultManualSave: 0,
     defaultMiscExpense: 0,
@@ -1118,7 +1139,9 @@ const baseMonths = [
     tagClass: "",
     projectedSalaryOpt1: 52673,
     projectedSalaryOpt2: 39673,
-    expenses: 21189,
+    defaultHousehold: 15000,
+    defaultUtilities: 2689,
+    defaultGrocery: 3500,
     cashOutlayDefault: 0,
     compulsorySaving: 1778,
     defaultManualSave: 0,
@@ -1142,7 +1165,9 @@ const baseMonths = [
     tagClass: "tag-incentive",
     projectedSalaryOpt1: 66497,
     projectedSalaryOpt2: 53497,
-    expenses: 21189,
+    defaultHousehold: 15000,
+    defaultUtilities: 2689,
+    defaultGrocery: 3500,
     cashOutlayDefault: 0,
     compulsorySaving: 1778,
     defaultManualSave: 0,
@@ -1166,7 +1191,9 @@ const baseMonths = [
     tagClass: "",
     projectedSalaryOpt1: 52673,
     projectedSalaryOpt2: 39673,
-    expenses: 21189,
+    defaultHousehold: 15000,
+    defaultUtilities: 2689,
+    defaultGrocery: 3500,
     cashOutlayDefault: 0,
     compulsorySaving: 1778,
     defaultManualSave: 0,
@@ -1190,7 +1217,9 @@ const baseMonths = [
     tagClass: "tag-incentive",
     projectedSalaryOpt1: 52673,
     projectedSalaryOpt2: 39673,
-    expenses: 21189,
+    defaultHousehold: 15000,
+    defaultUtilities: 2689,
+    defaultGrocery: 3500,
     cashOutlayDefault: 0,
     compulsorySaving: 1778,
     defaultManualSave: 0,
@@ -1214,7 +1243,9 @@ const baseMonths = [
     tagClass: "tag-freedom",
     projectedSalaryOpt1: 66497,
     projectedSalaryOpt2: 53497,
-    expenses: 21189,
+    defaultHousehold: 15000,
+    defaultUtilities: 2689,
+    defaultGrocery: 3500,
     cashOutlayDefault: 0,
     compulsorySaving: 1778,
     defaultManualSave: 0,
@@ -1235,7 +1266,9 @@ const baseMonths = [
     tagClass: "tag-freedom",
     projectedSalaryOpt1: 52673,
     projectedSalaryOpt2: 39673,
-    expenses: 21189,
+    defaultHousehold: 15000,
+    defaultUtilities: 2689,
+    defaultGrocery: 3500,
     cashOutlayDefault: 0,
     compulsorySaving: 1778,
     defaultManualSave: 0,
@@ -1255,7 +1288,9 @@ const baseMonths = [
     tagClass: "tag-freedom",
     projectedSalaryOpt1: 52673,
     projectedSalaryOpt2: 39673,
-    expenses: 21189,
+    defaultHousehold: 15000,
+    defaultUtilities: 2689,
+    defaultGrocery: 3500,
     cashOutlayDefault: 0,
     compulsorySaving: 1778,
     defaultManualSave: 0,
@@ -1275,7 +1310,9 @@ const baseMonths = [
     tagClass: "tag-incentive",
     projectedSalaryOpt1: 66497,
     projectedSalaryOpt2: 53497,
-    expenses: 21189,
+    defaultHousehold: 15000,
+    defaultUtilities: 2689,
+    defaultGrocery: 3500,
     cashOutlayDefault: 0,
     compulsorySaving: 1778,
     defaultManualSave: 0,
@@ -1295,7 +1332,9 @@ const baseMonths = [
     tagClass: "tag-freedom",
     projectedSalaryOpt1: 52673,
     projectedSalaryOpt2: 39673,
-    expenses: 21189,
+    defaultHousehold: 15000,
+    defaultUtilities: 2689,
+    defaultGrocery: 3500,
     cashOutlayDefault: 0,
     compulsorySaving: 1778,
     defaultManualSave: 0,
@@ -1315,7 +1354,9 @@ const baseMonths = [
     tagClass: "tag-freedom",
     projectedSalaryOpt1: 52673,
     projectedSalaryOpt2: 39673,
-    expenses: 21189,
+    defaultHousehold: 15000,
+    defaultUtilities: 2689,
+    defaultGrocery: 3500,
     cashOutlayDefault: 0,
     compulsorySaving: 1778,
     defaultManualSave: 0,
@@ -1327,12 +1368,22 @@ const baseMonths = [
   }
 ];
 
+// Live Google Sheet Configuration
+const SHEET_ID = "1tAOqVod1YKLpM_rZ2kvOB-6HBzFjr3YiYyysnfdMLiw";
+const SHEET_NAME = "5th Monthly EMI & Savings Tracker";
+const GVIZ_URL = "https://docs.google.com/spreadsheets/d/" + SHEET_ID + "/gviz/tq?tqx=out:json&sheet=" + encodeURIComponent(SHEET_NAME);
+
 let currentOption = 1;
 let actualSalariesState = {};
 let manualSavingsState = {};
 let misExpensesState = {};
 let priorityCashState = {};
 let checkedEmisState = {};
+
+// 3 manual living expense breakdown states
+let householdExpState = {};
+let utilitiesExpState = {};
+let groceryExpState = {};
 
 // Two manual due date state items per month
 let manualDue1NameState = {};
@@ -1351,19 +1402,23 @@ function initDataState() {
     } catch(e) { return null; }
   };
 
-  actualSalariesState = getObj("rudresh_actual_salaries_v3") || {};
-  manualSavingsState = getObj("rudresh_manual_savings_v3") || {};
-  misExpensesState = getObj("rudresh_misc_expenses_v3") || {};
-  priorityCashState = getObj("rudresh_priority_cash_v3") || {};
-  checkedEmisState = getObj("rudresh_checked_emis_v3") || {};
+  actualSalariesState = getObj("rudresh_actual_salaries_v4") || {};
+  manualSavingsState = getObj("rudresh_manual_savings_v4") || {};
+  misExpensesState = getObj("rudresh_misc_expenses_v4") || {};
+  priorityCashState = getObj("rudresh_priority_cash_v4") || {};
+  checkedEmisState = getObj("rudresh_checked_emis_v4") || {};
 
-  manualDue1NameState = getObj("rudresh_md1_name") || {};
-  manualDue1AmtState = getObj("rudresh_md1_amt") || {};
-  manualDue1CheckedState = getObj("rudresh_md1_chk") || {};
+  householdExpState = getObj("rudresh_household_exp_v4") || {};
+  utilitiesExpState = getObj("rudresh_utilities_exp_v4") || {};
+  groceryExpState = getObj("rudresh_grocery_exp_v4") || {};
 
-  manualDue2NameState = getObj("rudresh_md2_name") || {};
-  manualDue2AmtState = getObj("rudresh_md2_amt") || {};
-  manualDue2CheckedState = getObj("rudresh_md2_chk") || {};
+  manualDue1NameState = getObj("rudresh_md1_name_v4") || {};
+  manualDue1AmtState = getObj("rudresh_md1_amt_v4") || {};
+  manualDue1CheckedState = getObj("rudresh_md1_chk_v4") || {};
+
+  manualDue2NameState = getObj("rudresh_md2_name_v4") || {};
+  manualDue2AmtState = getObj("rudresh_md2_amt_v4") || {};
+  manualDue2CheckedState = getObj("rudresh_md2_chk_v4") || {};
 
   baseMonths.forEach(m => {
     if (actualSalariesState[m.id] === undefined) {
@@ -1378,6 +1433,16 @@ function initDataState() {
     if (priorityCashState[m.id] === undefined) {
       priorityCashState[m.id] = m.cashOutlayDefault;
     }
+    if (householdExpState[m.id] === undefined) {
+      householdExpState[m.id] = m.defaultHousehold;
+    }
+    if (utilitiesExpState[m.id] === undefined) {
+      utilitiesExpState[m.id] = m.defaultUtilities;
+    }
+    if (groceryExpState[m.id] === undefined) {
+      groceryExpState[m.id] = m.defaultGrocery;
+    }
+
     if (manualDue1NameState[m.id] === undefined) {
       manualDue1NameState[m.id] = "Manual Due Date 1 (e.g. 10th)";
     }
@@ -1406,19 +1471,23 @@ function initDataState() {
 }
 
 function persistState() {
-  localStorage.setItem("rudresh_actual_salaries_v3", JSON.stringify(actualSalariesState));
-  localStorage.setItem("rudresh_manual_savings_v3", JSON.stringify(manualSavingsState));
-  localStorage.setItem("rudresh_misc_expenses_v3", JSON.stringify(misExpensesState));
-  localStorage.setItem("rudresh_priority_cash_v3", JSON.stringify(priorityCashState));
-  localStorage.setItem("rudresh_checked_emis_v3", JSON.stringify(checkedEmisState));
+  localStorage.setItem("rudresh_actual_salaries_v4", JSON.stringify(actualSalariesState));
+  localStorage.setItem("rudresh_manual_savings_v4", JSON.stringify(manualSavingsState));
+  localStorage.setItem("rudresh_misc_expenses_v4", JSON.stringify(misExpensesState));
+  localStorage.setItem("rudresh_priority_cash_v4", JSON.stringify(priorityCashState));
+  localStorage.setItem("rudresh_checked_emis_v4", JSON.stringify(checkedEmisState));
 
-  localStorage.setItem("rudresh_md1_name", JSON.stringify(manualDue1NameState));
-  localStorage.setItem("rudresh_md1_amt", JSON.stringify(manualDue1AmtState));
-  localStorage.setItem("rudresh_md1_chk", JSON.stringify(manualDue1CheckedState));
+  localStorage.setItem("rudresh_household_exp_v4", JSON.stringify(householdExpState));
+  localStorage.setItem("rudresh_utilities_exp_v4", JSON.stringify(utilitiesExpState));
+  localStorage.setItem("rudresh_grocery_exp_v4", JSON.stringify(groceryExpState));
 
-  localStorage.setItem("rudresh_md2_name", JSON.stringify(manualDue2NameState));
-  localStorage.setItem("rudresh_md2_amt", JSON.stringify(manualDue2AmtState));
-  localStorage.setItem("rudresh_md2_chk", JSON.stringify(manualDue2CheckedState));
+  localStorage.setItem("rudresh_md1_name_v4", JSON.stringify(manualDue1NameState));
+  localStorage.setItem("rudresh_md1_amt_v4", JSON.stringify(manualDue1AmtState));
+  localStorage.setItem("rudresh_md1_chk_v4", JSON.stringify(manualDue1CheckedState));
+
+  localStorage.setItem("rudresh_md2_name_v4", JSON.stringify(manualDue2NameState));
+  localStorage.setItem("rudresh_md2_amt_v4", JSON.stringify(manualDue2AmtState));
+  localStorage.setItem("rudresh_md2_chk_v4", JSON.stringify(manualDue2CheckedState));
 
   const statusEl = document.getElementById("sync-label");
   if (statusEl) {
@@ -1429,7 +1498,121 @@ function persistState() {
   }
 }
 
-// Build timeline DOM ONLY ONCE, preserving input focus forever
+// Live Pull from Google Sheet via GViz JSON API
+function syncFromGoogleSheet() {
+  const syncLabel = document.getElementById("sync-label");
+  if (syncLabel) syncLabel.innerText = "⏳ Fetching live data from Google Sheet...";
+
+  if (typeof fetch === "undefined") return;
+
+  fetch(GVIZ_URL)
+    .then(res => res.text())
+    .then(text => {
+      const start = text.indexOf("{");
+      const end = text.lastIndexOf("}");
+      if (start === -1 || end === -1) return;
+      const jsonStr = text.substring(start, end + 1);
+      const data = JSON.parse(jsonStr);
+
+      if (data && data.table && data.table.rows) {
+        const rows = data.table.rows;
+        rows.forEach((r, idx) => {
+          if (idx < baseMonths.length) {
+            const m = baseMonths[idx];
+            const c = r.c;
+            if (c && c.length >= 22) {
+              // c[2] = Actual Salary (Col C)
+              if (c[2] && c[2].v !== null && !isNaN(c[2].v)) actualSalariesState[m.id] = Number(c[2].v);
+              // c[3] = Household Expense (Col D)
+              if (c[3] && c[3].v !== null && !isNaN(c[3].v)) householdExpState[m.id] = Number(c[3].v);
+              // c[4] = Utilities Expense (Col E)
+              if (c[4] && c[4].v !== null && !isNaN(c[4].v)) utilitiesExpState[m.id] = Number(c[4].v);
+              // c[5] = Grocery Expense (Col F)
+              if (c[5] && c[5].v !== null && !isNaN(c[5].v)) groceryExpState[m.id] = Number(c[5].v);
+              // c[6] = Priority Cash Outlay (Col G)
+              if (c[6] && c[6].v !== null && !isNaN(c[6].v)) priorityCashState[m.id] = Number(c[6].v);
+              // c[7] = Misc Expense (Col H)
+              if (c[7] && c[7].v !== null && !isNaN(c[7].v)) misExpensesState[m.id] = Number(c[7].v);
+              // c[14] = Manual Due Date 1 (Col O)
+              if (c[14] && c[14].v !== null && !isNaN(c[14].v)) {
+                manualDue1AmtState[m.id] = Number(c[14].v);
+                if (Number(c[14].v) > 0) manualDue1CheckedState[m.id] = true;
+              }
+              // c[15] = Manual Due Date 2 (Col P)
+              if (c[15] && c[15].v !== null && !isNaN(c[15].v)) {
+                manualDue2AmtState[m.id] = Number(c[15].v);
+                if (Number(c[15].v) > 0) manualDue2CheckedState[m.id] = true;
+              }
+              // c[19] = Manually Entered Saved Amount (Col T)
+              if (c[19] && c[19].v !== null && !isNaN(c[19].v)) manualSavingsState[m.id] = Number(c[19].v);
+            }
+          }
+        });
+
+        persistState();
+
+        // Update DOM inputs to reflect pulled cloud data
+        baseMonths.forEach(m => {
+          const salEl = document.getElementById("input-salary-" + m.id);
+          if (salEl) salEl.value = actualSalariesState[m.id];
+          const houseEl = document.getElementById("input-house-" + m.id);
+          if (houseEl) houseEl.value = householdExpState[m.id];
+          const utilEl = document.getElementById("input-util-" + m.id);
+          if (utilEl) utilEl.value = utilitiesExpState[m.id];
+          const grocEl = document.getElementById("input-groc-" + m.id);
+          if (grocEl) grocEl.value = groceryExpState[m.id];
+          const cashEl = document.getElementById("input-cash-" + m.id);
+          if (cashEl) cashEl.value = priorityCashState[m.id];
+          const miscEl = document.getElementById("input-misc-" + m.id);
+          if (miscEl) miscEl.value = misExpensesState[m.id];
+          const manEl = document.getElementById("input-manual-" + m.id);
+          if (manEl) manEl.value = manualSavingsState[m.id];
+          const md1El = document.getElementById("md1-amt-" + m.id);
+          if (md1El) md1El.value = manualDue1AmtState[m.id];
+          const md2El = document.getElementById("md2-amt-" + m.id);
+          if (md2El) md2El.value = manualDue2AmtState[m.id];
+
+          const chk1 = document.getElementById("chk-md1-" + m.id);
+          if (chk1) chk1.checked = manualDue1CheckedState[m.id];
+          const row1 = document.getElementById("md1-row-" + m.id);
+          if (row1) {
+            if (manualDue1CheckedState[m.id]) row1.classList.add("paid");
+            else row1.classList.remove("paid");
+          }
+
+          const chk2 = document.getElementById("chk-md2-" + m.id);
+          if (chk2) chk2.checked = manualDue2CheckedState[m.id];
+          const row2 = document.getElementById("md2-row-" + m.id);
+          if (row2) {
+            if (manualDue2CheckedState[m.id]) row2.classList.add("paid");
+            else row2.classList.remove("paid");
+          }
+        });
+
+        updateCalculations();
+        if (syncLabel) syncLabel.innerText = "🟢 Synced Live from Google Sheet!";
+        setTimeout(() => { if (syncLabel) syncLabel.innerText = "Live Synced with Google Sheet"; }, 3000);
+      }
+    })
+    .catch(err => {
+      console.log("Sheet live fetch notice:", err);
+      if (syncLabel) syncLabel.innerText = "🟢 Local Storage Active (Click to sync)";
+    });
+}
+
+// 1-Click Push Live Data to Sheet
+function pushToGoogleSheet() {
+  const syncLabel = document.getElementById("sync-label");
+  copyTableForGoogleSheet();
+  if (syncLabel) syncLabel.innerText = "🚀 Data Copied! Opening Google Sheet...";
+  
+  // Prompt user with instructions and open the sheet directly
+  const confirmOpen = confirm("✅ Table data copied to clipboard in exact 23-column format!\n\nClick OK to open the '5th Monthly EMI & Savings Tracker' tab in Google Sheets, then press Ctrl+V in Cell A2 to complete the push.");
+  if (confirmOpen) {
+    window.open("https://docs.google.com/spreadsheets/d/" + SHEET_ID + "/edit#gid=0", "_blank");
+  }
+}
+
 function buildTimelineDOM() {
   const container = document.getElementById("timeline-container");
   if (!container) return;
@@ -1438,6 +1621,9 @@ function buildTimelineDOM() {
   baseMonths.forEach((m) => {
     const projectedSalary = currentOption === 1 ? m.projectedSalaryOpt1 : m.projectedSalaryOpt2;
     const actualSalary = actualSalariesState[m.id] !== undefined ? actualSalariesState[m.id] : projectedSalary;
+    const household = householdExpState[m.id] !== undefined ? householdExpState[m.id] : m.defaultHousehold;
+    const utilities = utilitiesExpState[m.id] !== undefined ? utilitiesExpState[m.id] : m.defaultUtilities;
+    const grocery = groceryExpState[m.id] !== undefined ? groceryExpState[m.id] : m.defaultGrocery;
     const priorityCash = priorityCashState[m.id] !== undefined ? priorityCashState[m.id] : m.cashOutlayDefault;
     const manualSave = manualSavingsState[m.id] || 0;
     const miscExp = misExpensesState[m.id] || 0;
@@ -1471,7 +1657,6 @@ function buildTimelineDOM() {
       `;
     });
 
-    // Two manual checklist due date rows
     const manualDue1Html = `
       <div class="manual-due-row ${md1Chk ? 'paid' : ''}" id="md1-row-${m.id}">
         <label class="check-label" style="gap: 8px;">
@@ -1555,10 +1740,51 @@ function buildTimelineDOM() {
                   </div>
                 </td>
               </tr>
-              <tr>
-                <td>Living Expenses (Household, Utilities, Personal)</td>
-                <td style="color: #dc2626;">-₹${m.expenses.toLocaleString('en-IN')}</td>
+
+              <!-- Manual Living Expenses Breakdown -->
+              <tr style="background: #fef2f2;">
+                <td>
+                  <span style="color: #991b1b; font-weight: 600;">🏠 Household Expense (Manual):</span>
+                </td>
+                <td>
+                  <div class="input-wrap-flex">
+                    <span class="input-currency-tag" style="color: #991b1b;">-₹</span>
+                    <input type="number" step="100" min="0" class="custom-input-field expense-style" 
+                      id="input-house-${m.id}" 
+                      value="${household}" 
+                      oninput="onHouseholdInput('${m.id}', this.value)">
+                  </div>
+                </td>
               </tr>
+              <tr style="background: #fef2f2;">
+                <td>
+                  <span style="color: #991b1b; font-weight: 600;">⚡ Utilities (Broadband, SIM, Power):</span>
+                </td>
+                <td>
+                  <div class="input-wrap-flex">
+                    <span class="input-currency-tag" style="color: #991b1b;">-₹</span>
+                    <input type="number" step="50" min="0" class="custom-input-field expense-style" 
+                      id="input-util-${m.id}" 
+                      value="${utilities}" 
+                      oninput="onUtilitiesInput('${m.id}', this.value)">
+                  </div>
+                </td>
+              </tr>
+              <tr style="background: #fef2f2;">
+                <td>
+                  <span style="color: #991b1b; font-weight: 600;">🛒 Grocery Expense (Manual):</span>
+                </td>
+                <td>
+                  <div class="input-wrap-flex">
+                    <span class="input-currency-tag" style="color: #991b1b;">-₹</span>
+                    <input type="number" step="100" min="0" class="custom-input-field expense-style" 
+                      id="input-groc-${m.id}" 
+                      value="${grocery}" 
+                      oninput="onGroceryInput('${m.id}', this.value)">
+                  </div>
+                </td>
+              </tr>
+
               <tr style="background: #fffbeb;">
                 <td>
                   <strong style="color: #b45309;">💵 Priority Physical Cash Option:</strong>
@@ -1642,13 +1868,15 @@ function buildTimelineDOM() {
   updateCalculations();
 }
 
-// Live calculation update that ONLY alters text nodes
 function updateCalculations() {
   let cumulativeSavings = 0;
 
   baseMonths.forEach((m) => {
     const projectedSalary = currentOption === 1 ? m.projectedSalaryOpt1 : m.projectedSalaryOpt2;
     const actualSalary = actualSalariesState[m.id] !== undefined ? actualSalariesState[m.id] : projectedSalary;
+    const household = householdExpState[m.id] !== undefined ? householdExpState[m.id] : m.defaultHousehold;
+    const utilities = utilitiesExpState[m.id] !== undefined ? utilitiesExpState[m.id] : m.defaultUtilities;
+    const grocery = groceryExpState[m.id] !== undefined ? groceryExpState[m.id] : m.defaultGrocery;
     const priorityCash = priorityCashState[m.id] !== undefined ? priorityCashState[m.id] : m.cashOutlayDefault;
     const manualSave = manualSavingsState[m.id] || 0;
     const miscExp = misExpensesState[m.id] || 0;
@@ -1671,7 +1899,8 @@ function updateCalculations() {
       checkedObligationsTotal += (manualDue2AmtState[m.id] || 0);
     }
 
-    const netSurplus = actualSalary - m.expenses - priorityCash - miscExp - checkedObligationsTotal;
+    const totalLivingExpenses = household + utilities + grocery;
+    const netSurplus = actualSalary - totalLivingExpenses - priorityCash - miscExp - checkedObligationsTotal;
 
     const emiTotalEl = document.getElementById("total-emi-" + m.id);
     if (emiTotalEl) emiTotalEl.innerText = "Total: ₹" + checkedObligationsTotal.toLocaleString('en-IN');
@@ -1713,6 +1942,24 @@ function updateCalculations() {
 // Input Handlers
 function onSalaryInput(monthId, val) {
   actualSalariesState[monthId] = parseFloat(val) || 0;
+  persistState();
+  updateCalculations();
+}
+
+function onHouseholdInput(monthId, val) {
+  householdExpState[monthId] = parseFloat(val) || 0;
+  persistState();
+  updateCalculations();
+}
+
+function onUtilitiesInput(monthId, val) {
+  utilitiesExpState[monthId] = parseFloat(val) || 0;
+  persistState();
+  updateCalculations();
+}
+
+function onGroceryInput(monthId, val) {
+  groceryExpState[monthId] = parseFloat(val) || 0;
   persistState();
   updateCalculations();
 }
@@ -1813,10 +2060,13 @@ function switchOption(opt) {
 }
 
 function resetToProjections() {
-  if (confirm("Reset all Actual Salaries, Cash Outlays, Misc Expenses, and Manual Due Dates to default projections?")) {
+  if (confirm("Reset all Actual Salaries, Living Expenses, Cash Outlays, Misc Expenses, and Manual Due Dates to default projections?")) {
     baseMonths.forEach(m => {
       const proj = currentOption === 1 ? m.projectedSalaryOpt1 : m.projectedSalaryOpt2;
       actualSalariesState[m.id] = proj;
+      householdExpState[m.id] = m.defaultHousehold;
+      utilitiesExpState[m.id] = m.defaultUtilities;
+      groceryExpState[m.id] = m.defaultGrocery;
       priorityCashState[m.id] = m.cashOutlayDefault;
       manualSavingsState[m.id] = m.defaultManualSave;
       misExpensesState[m.id] = m.defaultMiscExpense;
@@ -1835,6 +2085,12 @@ function resetToProjections() {
 
       const salInput = document.getElementById("input-salary-" + m.id);
       if (salInput) salInput.value = proj;
+      const houseInput = document.getElementById("input-house-" + m.id);
+      if (houseInput) houseInput.value = m.defaultHousehold;
+      const utilInput = document.getElementById("input-util-" + m.id);
+      if (utilInput) utilInput.value = m.defaultUtilities;
+      const grocInput = document.getElementById("input-groc-" + m.id);
+      if (grocInput) grocInput.value = m.defaultGrocery;
       const cashInput = document.getElementById("input-cash-" + m.id);
       if (cashInput) cashInput.value = m.cashOutlayDefault;
       const miscInput = document.getElementById("input-misc-" + m.id);
@@ -1859,6 +2115,7 @@ function resetToProjections() {
   }
 }
 
+// 1-Click TSV Copy matching all 23 columns of Google Sheet tab '5th Monthly EMI & Savings Tracker' (Col A to Col W)
 function copyTableForGoogleSheet() {
   let tsv = "";
   let runningCumFund = 0;
@@ -1866,7 +2123,9 @@ function copyTableForGoogleSheet() {
   baseMonths.forEach(m => {
     const proj = currentOption === 1 ? m.projectedSalaryOpt1 : m.projectedSalaryOpt2;
     const act = actualSalariesState[m.id] !== undefined ? actualSalariesState[m.id] : proj;
-    const exp = m.expenses;
+    const house = householdExpState[m.id] !== undefined ? householdExpState[m.id] : m.defaultHousehold;
+    const util = utilitiesExpState[m.id] !== undefined ? utilitiesExpState[m.id] : m.defaultUtilities;
+    const groc = groceryExpState[m.id] !== undefined ? groceryExpState[m.id] : m.defaultGrocery;
     const outlay = priorityCashState[m.id] !== undefined ? priorityCashState[m.id] : m.cashOutlayDefault;
     const misc = misExpensesState[m.id] || 0;
     
@@ -1881,18 +2140,20 @@ function copyTableForGoogleSheet() {
     const md2 = manualDue2CheckedState[m.id] ? (manualDue2AmtState[m.id] || 0) : 0;
     
     const totalObligations = idfc + es2 + es3 + axis + axio + card + md1 + md2;
-    const surplus = act - exp - outlay - misc - totalObligations;
+    const totalLiving = house + util + groc;
+    const surplus = act - totalLiving - outlay - misc - totalObligations;
     const compSave = m.compulsorySaving || 0;
     const manSave = manualSavingsState[m.id] || 0;
     const totalSave = compSave + manSave;
     runningCumFund += totalSave;
 
-    tsv += m.dateStr + "\t" + proj + "\t" + act + "\t" + exp + "\t" + outlay + "\t" + misc + "\t" + idfc + "\t" + es2 + "\t" + es3 + "\t" + axis + "\t" + axio + "\t" + card + "\t" + md1 + "\t" + md2 + "\t" + totalObligations + "\t" + surplus + "\t" + compSave + "\t" + manSave + "\t" + totalSave + "\t" + runningCumFund + "\tTRUE\n";
+    // Matches Col A through Col W (23 columns)
+    tsv += m.dateStr + "\t" + proj + "\t" + act + "\t" + house + "\t" + util + "\t" + groc + "\t" + outlay + "\t" + misc + "\t" + idfc + "\t" + es2 + "\t" + es3 + "\t" + axis + "\t" + axio + "\t" + card + "\t" + md1 + "\t" + md2 + "\t" + totalObligations + "\t" + surplus + "\t" + compSave + "\t" + manSave + "\t" + totalSave + "\t" + runningCumFund + "\tTRUE\n";
   });
 
   if (navigator.clipboard) {
     navigator.clipboard.writeText(tsv).then(() => {
-      alert("✅ 12-Month Table Data Copied to Clipboard!\n\nYou can now open your Google Sheet ('5th Monthly EMI & Savings Tracker' tab) and paste (Ctrl+V) directly starting at Cell A2.");
+      alert("✅ 12-Month Table Data (23 Columns) Copied to Clipboard!\n\nYou can now open your Google Sheet ('5th Monthly EMI & Savings Tracker' tab) and paste (Ctrl+V) directly starting at Cell A2.");
     }).catch(() => {
       prompt("Copy this TSV text manually to paste into your Google Sheet:", tsv);
     });
@@ -1926,6 +2187,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initDataState();
   buildTimelineDOM();
   startTimer();
+  syncFromGoogleSheet();
 });
 </script>
 </body>
