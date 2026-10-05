@@ -521,6 +521,89 @@ footer {
   margin-top: 40px;
 }
 footer a { color: var(--primary); text-decoration: none; font-weight: 600; }
+
+/* Apps Script Webhook Button & Modal Styling */
+.btn-setup-script { background: #475569; color: #ffffff; }
+.btn-setup-script:hover { background: #334155; }
+
+.modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(15, 23, 42, 0.75);
+  z-index: 9999;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  backdrop-filter: blur(4px);
+}
+.modal-overlay.active { display: flex; }
+.modal-card {
+  background: #ffffff;
+  border-radius: var(--radius);
+  max-width: 720px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  border: 1px solid var(--border);
+  padding: 28px;
+}
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 14px;
+}
+.modal-title { font-size: 1.25rem; font-weight: 800; color: var(--dark); display: flex; align-items: center; gap: 8px; }
+.modal-close {
+  background: #f1f5f9;
+  border: none;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-muted);
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.modal-close:hover { background: #e2e8f0; color: var(--dark); }
+.modal-step {
+  background: #f8fafc;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 16px;
+  margin-bottom: 14px;
+}
+.modal-step-title {
+  font-weight: 700;
+  color: var(--primary);
+  font-size: 13.5px;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.code-box {
+  background: #0f172a;
+  color: #f8fafc;
+  padding: 14px;
+  border-radius: 8px;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  max-height: 220px;
+  overflow-y: auto;
+  margin-top: 8px;
+  line-height: 1.5;
+  user-select: all;
+  white-space: pre;
+}
+
 </style>
 </head>
 <body>
@@ -570,19 +653,19 @@ footer a { color: var(--primary); text-decoration: none; font-weight: 600; }
       </span>
     </div>
     <div class="sync-actions">
-      <button class="btn-sync-action btn-push-sheet" id="btn-push-now" onclick="pushToGoogleSheet()">
+      <button class="btn-sync-action btn-push-sheet" id="btn-push-now" onclick="pushToGoogleSheet()" title="Live sync updated cell values directly into Google Sheet using Apps Script">
         <span>🚀 Push Live Data to Sheet</span>
       </button>
-      <button class="btn-sync-action btn-fetch-sheet" id="btn-sync-now" onclick="syncFromGoogleSheet()">
+      <button class="btn-sync-action btn-fetch-sheet" id="btn-sync-now" onclick="syncFromGoogleSheet()" title="Fetch live cell data from Google Sheet">
         <span>🔄 Pull Live Sheet Data</span>
       </button>
-      <button class="btn-sync-action btn-copy-data" onclick="copyTableForGoogleSheet()">
-        <span>📋 Copy Table (Ctrl+V)</span>
+      <button class="btn-sync-action btn-setup-script" id="btn-setup-script" onclick="openAppsScriptModal()" title="Configure Google Apps Script Webhook URL">
+        <span>⚙️ Apps Script Webhook</span>
       </button>
-      <button class="btn-sync-action btn-copy-data" onclick="resetToProjections()">
-        <span>🔄 Reset Projections</span>
+      <button class="btn-sync-action btn-copy-data" onclick="resetToProjections()" title="Reset manual inputs to default projections">
+        <span>🔄 Reset Defaults</span>
       </button>
-      <a href="https://docs.google.com/spreadsheets/d/1tAOqVod1YKLpM_rZ2kvOB-6HBzFjr3YiYyysnfdMLiw/edit" target="_blank" class="btn-sync-action btn-open-sheet">
+      <a href="https://docs.google.com/spreadsheets/d/1tAOqVod1YKLpM_rZ2kvOB-6HBzFjr3YiYyysnfdMLiw/edit" target="_blank" class="btn-sync-action btn-open-sheet" title="Open Google Sheet in new tab">
         <span>📊 Open Sheet ↗</span>
       </a>
     </div>
@@ -1060,6 +1143,95 @@ footer a { color: var(--primary); text-decoration: none; font-weight: 600; }
     </p>
     <div style="border: 1.5px solid var(--border); border-radius: 10px; overflow: hidden; background: #ffffff;">
       <iframe src="https://docs.google.com/spreadsheets/d/1tAOqVod1YKLpM_rZ2kvOB-6HBzFjr3YiYyysnfdMLiw/preview?widget=true&headers=false" width="100%" height="520" style="border: none;"></iframe>
+    </div>
+  </div>
+
+
+  <!-- Google Apps Script Live Push Configuration Modal -->
+  <div class="modal-overlay" id="apps-script-modal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div>
+          <div class="modal-title">⚙️ Google Apps Script Live Push Webhook</div>
+          <div style="font-size: 13px; color: var(--text-muted); margin-top: 4px;">
+            Direct 1-click live cell synchronization between this dashboard and Google Sheet cells (no Ctrl+V required!)
+          </div>
+        </div>
+        <button class="modal-close" onclick="closeAppsScriptModal()" title="Close">&times;</button>
+      </div>
+
+      <!-- Web App URL Input Box -->
+      <div style="background: #f0fdf4; border: 1.5px solid #86efac; border-radius: 10px; padding: 16px; margin-bottom: 20px;">
+        <label style="font-weight: 700; font-size: 13.5px; color: #166534; display: block; margin-bottom: 6px;">
+          🔗 Deployed Apps Script Web App URL:
+        </label>
+        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+          <input type="url" id="input-apps-script-url" value="https://script.google.com/macros/s/AKfycbyDV3eFw0ehdkGO3zzPqmkfiKp1_B7yuoWvQSf4OQjXw9NKrS2Glfz36T8jH0PF-PLj2g/exec" placeholder="https://script.google.com/macros/s/.../exec"
+            style="flex: 1; min-width: 280px; padding: 10px 14px; border: 1.5px solid #cbd5e1; border-radius: 8px; font-family: var(--font-mono); font-size: 13px;" />
+          <button onclick="saveAppsScriptUrlAndPush()" class="btn-sync-action btn-push-sheet" style="padding: 10px 18px;">
+            <span>💾 Save & Push Now</span>
+          </button>
+          <button onclick="testAppsScriptUrl()" class="btn-sync-action btn-fetch-sheet" style="padding: 10px 14px;">
+            <span>🧪 Test Connection</span>
+          </button>
+        </div>
+        <div id="modal-test-status" style="margin-top: 8px; font-size: 12.5px; font-weight: 600;"></div>
+      </div>
+
+      <!-- Instructions Steps -->
+      <div style="margin-bottom: 16px; font-weight: 700; font-size: 14px; color: var(--dark);">
+        ⚡ Quick 2-Minute One-Time Setup in Google Sheet:
+      </div>
+
+      <div class="modal-step">
+        <div class="modal-step-title">
+          <span style="background: var(--primary); color: white; border-radius: 50%; width: 22px; height: 22px; display: inline-flex; align-items: center; justify-content: center; font-size: 12px;">1</span>
+          Open Apps Script in Google Sheet
+        </div>
+        <div style="font-size: 13px; color: var(--text-main);">
+          Open your <a href="https://docs.google.com/spreadsheets/d/1tAOqVod1YKLpM_rZ2kvOB-6HBzFjr3YiYyysnfdMLiw/edit" target="_blank" style="color: var(--blue); font-weight: 700;">Personal Debt Reduction & Savings Tracker ↗</a>, then click <strong>Extensions</strong> &gt; <strong>Apps Script</strong>.
+          <br><em style="color: var(--text-muted); font-size: 12px;">(Tip: You can also see this code inside the "Live Sync Apps Script" tab of your Google Sheet!)</em>
+        </div>
+      </div>
+
+      <div class="modal-step">
+        <div class="modal-step-title">
+          <span style="background: var(--primary); color: white; border-radius: 50%; width: 22px; height: 22px; display: inline-flex; align-items: center; justify-content: center; font-size: 12px;">2</span>
+          Paste the Webhook Script
+        </div>
+        <div style="font-size: 13px; color: var(--text-main); margin-bottom: 8px;">
+          Replace all code in <code>Code.gs</code> with the code below:
+        </div>
+        <div style="display: flex; justify-content: flex-end; margin-bottom: 4px;">
+          <button onclick="copyAppsScriptCode()" class="btn-sync-action btn-copy-data" style="padding: 4px 10px; font-size: 11.5px;">
+            <span>📋 Copy Code to Clipboard</span>
+          </button>
+        </div>
+        <pre class="code-box" id="apps-script-code-block"></pre>
+      </div>
+
+      <div class="modal-step">
+        <div class="modal-step-title">
+          <span style="background: var(--primary); color: white; border-radius: 50%; width: 22px; height: 22px; display: inline-flex; align-items: center; justify-content: center; font-size: 12px;">3</span>
+          Deploy as Web App
+        </div>
+        <div style="font-size: 13px; color: var(--text-main); line-height: 1.6;">
+          Click <strong>Deploy</strong> &gt; <strong>New deployment</strong>:
+          <ul style="margin-left: 20px; margin-top: 4px;">
+            <li>Select type: <strong>Web app</strong> (gear icon)</li>
+            <li>Description: <code>Debt Tracker Live Push</code></li>
+            <li>Execute as: <strong>Me (your email)</strong></li>
+            <li>Who has access: <strong>Anyone</strong> <span style="color: var(--danger); font-weight: 700;">(Required for dashboard live push)</span></li>
+          </ul>
+          Click <strong>Deploy</strong>, authorize Google permissions, then copy the <strong>Web app URL</strong> and paste it into the box at the top!
+        </div>
+      </div>
+
+      <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px;">
+        <button onclick="closeAppsScriptModal()" class="btn-sync-action btn-copy-data" style="padding: 8px 16px;">
+          <span>Close</span>
+        </button>
+      </div>
     </div>
   </div>
 
@@ -1600,16 +1772,272 @@ function syncFromGoogleSheet() {
     });
 }
 
-// 1-Click Push Live Data to Sheet
-function pushToGoogleSheet() {
+const APPS_SCRIPT_STORAGE_KEY = "DEBT_TRACKER_APPS_SCRIPT_URL";
+const DEFAULT_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyDV3eFw0ehdkGO3zzPqmkfiKp1_B7yuoWvQSf4OQjXw9NKrS2Glfz36T8jH0PF-PLj2g/exec";
+
+const APPS_SCRIPT_SOURCE_CODE = `function doGet(e) {
+  return ContentService.createTextOutput(JSON.stringify({
+    status: "ready",
+    message: "Google Apps Script Live Sync Web App is active and ready."
+  })).setMimeType(ContentService.MimeType.JSON);
+}
+
+function doPost(e) {
+  try {
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var sheetName = "5th Monthly EMI & Savings Tracker";
+    var sheet = ss.getSheetByName(sheetName);
+    
+    if (!sheet) {
+      return ContentService.createTextOutput(JSON.stringify({
+        status: "error",
+        message: "Tab '" + sheetName + "' not found."
+      })).setMimeType(ContentService.MimeType.JSON);
+    }
+    
+    var data = JSON.parse(e.postData.contents);
+    var rows = data.rows;
+    if (!rows || !rows.length) {
+      return ContentService.createTextOutput(JSON.stringify({
+        status: "error",
+        message: "No row data provided in payload."
+      })).setMimeType(ContentService.MimeType.JSON);
+    }
+    
+    for (var i = 0; i < rows.length; i++) {
+      var r = rows[i];
+      var row = i + 2; // Row 2 to 13 (Oct-26 to Sep-27)
+      
+      // Update Input Columns A to P (Cols 1 to 16)
+      sheet.getRange(row, 1, 1, 16).setValues([[
+        r.monthDueDate,        // Col A: Month & Due Date
+        r.projectedSalary,     // Col B: Projected Salary
+        r.actualSalary,        // Col C: Actual Total Salary / Inflow (Manual)
+        r.householdExpense,    // Col D: Household Expense (Manual)
+        r.utilities,           // Col E: Utilities (Manual)
+        r.grocery,             // Col F: Grocery (Manual)
+        r.priorityCash,        // Col G: Priority Cash Outlay
+        r.miscExpense,         // Col H: Miscellaneous Expense
+        r.idfcEmi,             // Col I: IDFC Loan EMI
+        r.earlySalary2Emi,     // Col J: EarlySalary Loan 2 EMI
+        r.earlySalary3Emi,     // Col K: EarlySalary Loan 3 EMI
+        r.axisCardEmi,         // Col L: Axis Card EMI
+        r.axioBnpl,            // Col M: Axio BNPL
+        r.cardFinance,         // Col N: Card 5 & 6 Finance / Paydown
+        r.manualDueDate1,      // Col O: Manual Due Date 1
+        r.manualDueDate2       // Col P: Manual Due Date 2
+      ]]);
+      
+      // Set dynamic formulas for Q and R
+      sheet.getRange(row, 17).setFormula("=SUM(I" + row + ":P" + row + ")");
+      sheet.getRange(row, 18).setFormula("=C" + row + "-(D" + row + "+E" + row + "+F" + row + ")-G" + row + "-H" + row + "-Q" + row);
+      
+      // Update Savings Input Columns S and T (Cols 19 and 20)
+      sheet.getRange(row, 19, 1, 2).setValues([[ r.compulsorySaving, r.manualSavedAmt ]]);
+      
+      // Set dynamic formulas for U and V
+      sheet.getRange(row, 21).setFormula("=S" + row + "+T" + row);
+      if (row === 2) {
+        sheet.getRange(row, 22).setFormula("=U2");
+      } else {
+        sheet.getRange(row, 22).setFormula("=V" + (row - 1) + "+U" + row);
+      }
+      
+      // Update Checkbox Col W (Col 23)
+      sheet.getRange(row, 23).setValue(Boolean(r.isPaid));
+    }
+    
+    return ContentService.createTextOutput(JSON.stringify({
+      status: "success",
+      updatedRows: rows.length,
+      timestamp: new Date().toISOString()
+    })).setMimeType(ContentService.MimeType.JSON);
+    
+  } catch(err) {
+    return ContentService.createTextOutput(JSON.stringify({
+      status: "error",
+      error: err.toString()
+    })).setMimeType(ContentService.MimeType.JSON);
+  }
+}`;
+
+function getAppsScriptUrl() {
+  return localStorage.getItem(APPS_SCRIPT_STORAGE_KEY) || DEFAULT_APPS_SCRIPT_URL;
+}
+
+function openAppsScriptModal(autoPrompt) {
+  const modal = document.getElementById("apps-script-modal");
+  const input = document.getElementById("input-apps-script-url");
+  const codeBox = document.getElementById("apps-script-code-block");
+  const statusEl = document.getElementById("modal-test-status");
+
+  if (codeBox) codeBox.innerText = APPS_SCRIPT_SOURCE_CODE;
+  if (input) input.value = getAppsScriptUrl();
+  if (statusEl) {
+    if (getAppsScriptUrl()) {
+      statusEl.innerHTML = '<span style="color: #16a34a;">🟢 Currently configured URL saved in browser storage.</span>';
+    } else {
+      statusEl.innerHTML = '<span style="color: #d97706;">🟡 No Web App URL saved yet. Please follow the 3 steps below.</span>';
+    }
+  }
+  if (modal) modal.classList.add("active");
+}
+
+function closeAppsScriptModal() {
+  const modal = document.getElementById("apps-script-modal");
+  if (modal) modal.classList.remove("active");
+}
+
+function copyAppsScriptCode() {
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(APPS_SCRIPT_SOURCE_CODE).then(() => {
+      alert("✅ Apps Script code copied to clipboard!\n\nOpen Extensions > Apps Script in your Google Sheet, paste into Code.gs, and Deploy as Web App.");
+    });
+  } else {
+    prompt("Copy this Apps Script code:", APPS_SCRIPT_SOURCE_CODE);
+  }
+}
+
+function saveAppsScriptUrlAndPush() {
+  const input = document.getElementById("input-apps-script-url");
+  const url = input ? input.value.trim() : "";
+  if (!url) {
+    alert("Please enter a valid Google Apps Script Web App URL (starts with https://script.google.com/macros/s/...)");
+    return;
+  }
+  localStorage.setItem(APPS_SCRIPT_STORAGE_KEY, url);
+  closeAppsScriptModal();
+  pushToGoogleSheet();
+}
+
+async function testAppsScriptUrl() {
+  const input = document.getElementById("input-apps-script-url");
+  const url = input ? input.value.trim() : "";
+  const statusEl = document.getElementById("modal-test-status");
+  if (!url) {
+    if (statusEl) statusEl.innerHTML = '<span style="color: #dc2626;">❌ Please enter a Web App URL first.</span>';
+    return;
+  }
+  if (statusEl) statusEl.innerHTML = '<span style="color: #2563eb;">⏳ Testing connection to Web App...</span>';
+  try {
+    localStorage.setItem(APPS_SCRIPT_STORAGE_KEY, url);
+    await fetch(url, { method: "POST", mode: "no-cors", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify({ action: "ping" }) });
+    if (statusEl) statusEl.innerHTML = '<span style="color: #16a34a;">🟢 Request dispatched successfully! Apps Script endpoint is reachable.</span>';
+  } catch(err) {
+    if (statusEl) statusEl.innerHTML = '<span style="color: #dc2626;">❌ Error reaching Web App: ' + err.message + '</span>';
+  }
+}
+
+// 1-Click Push Live Data to Sheet via Google Apps Script Webhook (No Ctrl+V)
+async function pushToGoogleSheet() {
   const syncLabel = document.getElementById("sync-label");
-  copyTableForGoogleSheet();
-  if (syncLabel) syncLabel.innerText = "🚀 Data Copied! Opening Google Sheet...";
-  
-  // Prompt user with instructions and open the sheet directly
-  const confirmOpen = confirm("✅ Table data copied to clipboard in exact 23-column format!\n\nClick OK to open the '5th Monthly EMI & Savings Tracker' tab in Google Sheets, then press Ctrl+V in Cell A2 to complete the push.");
-  if (confirmOpen) {
-    window.open("https://docs.google.com/spreadsheets/d/" + SHEET_ID + "/edit#gid=0", "_blank");
+  const pushBtn = document.getElementById("btn-push-now");
+  const webAppUrl = getAppsScriptUrl();
+
+  if (!webAppUrl) {
+    openAppsScriptModal(true);
+    return;
+  }
+
+  if (syncLabel) syncLabel.innerText = "⏳ Pushing live data to Google Sheet cells via Apps Script...";
+  if (pushBtn) {
+    pushBtn.disabled = true;
+    pushBtn.style.opacity = "0.7";
+  }
+
+  // Construct 12-month row data for all 23 columns
+  let rowsData = [];
+  let runningCumFund = 0;
+
+  baseMonths.forEach(m => {
+    const proj = currentOption === 1 ? m.projectedSalaryOpt1 : m.projectedSalaryOpt2;
+    const act = actualSalariesState[m.id] !== undefined ? actualSalariesState[m.id] : proj;
+    const house = householdExpState[m.id] !== undefined ? householdExpState[m.id] : m.defaultHousehold;
+    const util = utilitiesExpState[m.id] !== undefined ? utilitiesExpState[m.id] : m.defaultUtilities;
+    const groc = groceryExpState[m.id] !== undefined ? groceryExpState[m.id] : m.defaultGrocery;
+    const outlay = priorityCashState[m.id] !== undefined ? priorityCashState[m.id] : m.cashOutlayDefault;
+    const misc = misExpensesState[m.id] || 0;
+    
+    const idfc = (m.emis.find(e => e.id.startsWith("idfc")) || {amt: 0}).amt;
+    const es2 = (m.emis.find(e => e.id.startsWith("es2")) || {amt: 0}).amt;
+    const es3 = (m.emis.find(e => e.id.startsWith("es3")) || {amt: 0}).amt;
+    const axis = (m.emis.find(e => e.id.startsWith("axis")) || {amt: 0}).amt;
+    const axio = (m.emis.find(e => e.id.startsWith("axio")) || {amt: 0}).amt;
+    const card = (m.emis.find(e => e.id.startsWith("card")) || {amt: 0}).amt;
+
+    const md1 = manualDue1CheckedState[m.id] ? (manualDue1AmtState[m.id] || 0) : 0;
+    const md2 = manualDue2CheckedState[m.id] ? (manualDue2AmtState[m.id] || 0) : 0;
+    
+    const totalObligations = idfc + es2 + es3 + axis + axio + card + md1 + md2;
+    const totalLiving = house + util + groc;
+    const surplus = act - totalLiving - outlay - misc - totalObligations;
+    const compSave = m.compulsorySaving || 0;
+    const manSave = manualSavingsState[m.id] || 0;
+    const totalSave = compSave + manSave;
+    runningCumFund += totalSave;
+
+    const allEmisPaid = m.emis.every(e => !e.active || (paidEmisState[e.id] === true));
+
+    rowsData.push({
+      monthDueDate: m.dateStr,
+      projectedSalary: proj,
+      actualSalary: act,
+      householdExpense: house,
+      utilities: util,
+      grocery: groc,
+      priorityCash: outlay,
+      miscExpense: misc,
+      idfcEmi: idfc,
+      earlySalary2Emi: es2,
+      earlySalary3Emi: es3,
+      axisCardEmi: axis,
+      axioBnpl: axio,
+      cardFinance: card,
+      manualDueDate1: md1,
+      manualDueDate2: md2,
+      totalScheduledEmis: totalObligations,
+      cashSurplus: surplus,
+      compulsorySaving: compSave,
+      manualSavedAmt: manSave,
+      totalMonthlySaved: totalSave,
+      totalSavingFund: runningCumFund,
+      isPaid: allEmisPaid
+    });
+  });
+
+  const payload = {
+    action: "updateTrackerRows",
+    sheetName: "5th Monthly EMI & Savings Tracker",
+    timestamp: new Date().toISOString(),
+    option: currentOption,
+    rows: rowsData
+  };
+
+  try {
+    await fetch(webAppUrl, {
+      method: "POST",
+      mode: "no-cors",
+      headers: {
+        "Content-Type": "text/plain;charset=utf-8"
+      },
+      body: JSON.stringify(payload)
+    });
+
+    if (syncLabel) syncLabel.innerText = "🟢 Push Succeeded! Cells updated in Google Sheet.";
+    
+    setTimeout(() => {
+      syncFromGoogleSheet();
+    }, 2000);
+
+  } catch(err) {
+    console.error("Push error:", err);
+    if (syncLabel) syncLabel.innerText = "❌ Push Failed! Check Apps Script URL";
+    alert("❌ Error pushing to Google Apps Script Web App.\n\nPlease check your Web App URL in '⚙️ Apps Script Webhook'.");
+  } finally {
+    if (pushBtn) {
+      pushBtn.disabled = false;
+      pushBtn.style.opacity = "1";
+    }
   }
 }
 
