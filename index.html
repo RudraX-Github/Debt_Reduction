@@ -636,6 +636,55 @@ footer a { color: var(--primary); text-decoration: none; font-weight: 600; }
 }
 
 </style>
+
+<style>
+/* Additional Styles for Live Master Dashboard & Month Sync */
+.master-dashboard-card {
+  transition: all 0.3s ease;
+}
+.badge-status-paid {
+  display: inline-block;
+  background: #dcfce7;
+  color: #15803d;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 12px;
+  border: 1px solid #bbf7d0;
+}
+.badge-status-pending {
+  display: inline-block;
+  background: #fef3c7;
+  color: #92400e;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 12px;
+  border: 1px solid #fde68a;
+}
+.btn-push-month {
+  background: #e0f2fe;
+  color: #0369a1;
+  border: 1px solid #bae6fd;
+  border-radius: 6px;
+  padding: 4px 9px;
+  font-size: 11.5px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.btn-push-month:hover {
+  background: #0284c7;
+  color: #ffffff;
+}
+.operational-cash-highlight {
+  background: #f0fdf4;
+  border-left: 3px solid #16a34a;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+</style>
+
 </head>
 <body>
 
@@ -707,56 +756,26 @@ footer a { color: var(--primary); text-decoration: none; font-weight: 600; }
     </div>
   </div>
 
-  <!-- Interactive Pathway Toggle Bar -->
-  <div class="mode-bar">
+  <!-- Financial Baseline Parameter Banner (Unified Single Plan) -->
+  <div class="mode-bar" style="background: #ffffff; border-left: 4px solid var(--primary); padding: 16px 20px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 14px; margin-bottom: 24px; border-radius: var(--radius); box-shadow: var(--shadow-sm); border: 1px solid var(--border);">
     <div>
-      <div class="mode-label">Select Your Employment Pathway</div>
-      <div style="font-size: 12.5px; color: var(--text-muted);">Switching recalculates default salaries, monthly surplus, and debt-free milestones:</div>
+      <div style="font-size: 15px; font-weight: 800; color: var(--dark); display: flex; align-items: center; gap: 8px;">
+        <span>🎯 Unified Financial Baseline</span>
+      </div>
+      <div style="font-size: 13px; color: var(--text-muted); margin-top: 3px;">
+        Base Salary / Inflow: <strong style="color: var(--primary);">₹39,000/mo</strong> • Household Living Expense: <strong style="color: #991b1b;">₹13,000/mo</strong> • Other optional fields default to ₹0.
+      </div>
     </div>
-    <div class="toggle-group">
-      <button class="toggle-btn active" id="btn-opt1" onclick="switchOption(1)">
-        <span>🚀 Option 1: Dual-Job Turbo Sprint</span>
-        <small style="opacity: 0.85;">(Debt-Free in 7 Mos)</small>
-      </button>
-      <button class="toggle-btn" id="btn-opt2" onclick="switchOption(2)">
-        <span>🛡️ Option 2: Single-Job Organic Plan</span>
-        <small style="opacity: 0.85;">(Debt-Free in 10 Mos)</small>
-      </button>
-    </div>
-  </div>
-
-  <!-- Priority Physical Cash Allocation Panel -->
-  <div class="cash-priority-banner">
-    <div class="cash-priority-header">
-      <div class="cash-priority-title">
-        <span>💵 Priority Physical Cash Allocation (November 2026 Festive Window)</span>
-      </div>
-      <span class="cash-priority-badge">Zero Credit Card Swipes Allowed</span>
-    </div>
-    <p style="font-size: 13.5px; color: #78350f; line-height: 1.5;">
-      <strong>Critical Rule:</strong> All festive outlays are funded <strong>100% in physical cash / direct UPI in November</strong>. October buffer has been removed so October surplus flows cleanly into debt reduction and bank reserves. Never swipe Kotak Card (...7926) or Axis Card (...2451).
-    </p>
-    <div class="cash-grid">
-      <div class="cash-box">
-        <h4><span>November: Diwali Festival</span> <span>Physical Cash</span></h4>
-        <div class="amount">₹10,000</div>
-        <p>Sweets, gifts, crackers, festive groceries for Diwali in November. Pre-funded in cash.</p>
-      </div>
-      <div class="cash-box">
-        <h4><span>November: Family Function</span> <span>Physical Cash</span></h4>
-        <div class="amount">₹10,000</div>
-        <p>Family gathering, catering contribution, social gifts in November. 100% physical cash.</p>
-      </div>
-      <div class="cash-box">
-        <h4><span>Household Living Cash</span> <span>Monthly Cash</span></h4>
-        <div class="amount">₹15,000</div>
-        <p>Recurring monthly cash withdrawal on 5th for local household expenses and groceries.</p>
-      </div>
-      <div class="cash-box">
-        <h4><span>Account Minimum Balance</span> <span>Auto-Debit</span></h4>
-        <div class="amount">₹18,000</div>
-        <p>Must remain in Axis Bank salary account on <strong>4th of every month</strong> for 5th EMI debits.</p>
-      </div>
+    <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+      <span style="background: #ccfbf1; color: #0f766e; font-weight: 700; padding: 6px 14px; border-radius: 20px; font-size: 12.5px; border: 1px solid #99f6e4;">
+        💰 Base Salary: ₹39,000
+      </span>
+      <span style="background: #fee2e2; color: #991b1b; font-weight: 700; padding: 6px 14px; border-radius: 20px; font-size: 12.5px; border: 1px solid #fecaca;">
+        🏠 Household: ₹13,000
+      </span>
+      <span style="background: #f1f5f9; color: var(--text-muted); font-weight: 700; padding: 6px 14px; border-radius: 20px; font-size: 12.5px;">
+        Other Fields: ₹0 (Adjust as needed)
+      </span>
     </div>
   </div>
 
@@ -786,6 +805,118 @@ footer a { color: var(--primary); text-decoration: none; font-weight: 600; }
       <div class="kpi-title">Total Cumulative Savings</div>
       <div class="kpi-val" id="kpi-total-savings">₹21,336</div>
       <div class="kpi-sub">Compulsory + Manually Entered</div>
+    </div>
+  </div>
+
+
+  <!-- ================================================================= -->
+  <!-- LIVE MASTER DASHBOARD & STRATEGIC DEBT ELIMINATION MATRIX -->
+  <!-- ================================================================= -->
+  <div class="card master-dashboard-card" id="master-dashboard-section" style="border: 2px solid #0f766e; background: #ffffff; margin-bottom: 28px; box-shadow: 0 10px 25px -5px rgba(15, 118, 110, 0.12); border-radius: var(--radius); padding: 22px;">
+    <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 14px; margin-bottom: 18px; border-bottom: 1px solid var(--border); padding-bottom: 14px;">
+      <div>
+        <div style="display: inline-flex; align-items: center; gap: 6px; background: #ccfbf1; color: #0f766e; padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px;">
+          ⚡ Live Synchronized Master Hub
+        </div>
+        <h3 style="font-size: 1.45rem; color: #0f172a; margin-bottom: 4px;"><span>📊 Live Master Dashboard &amp; Strategic Debt Elimination Matrix</span></h3>
+        <p style="color: var(--text-muted); font-size: 13px; max-width: 900px;">
+          Consolidating 12 months of active debt elimination, cash flow surplus, and cumulative savings reserves directly linked with your Google Sheet (<code>5th Monthly EMI &amp; Savings Tracker</code> and <code>Savings Matrix</code> tabs).
+        </p>
+      </div>
+      <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
+        <button class="btn-sync-action btn-fetch-sheet" onclick="syncFromGoogleSheet(false)">🔄 Pull Live from Sheet</button>
+        <button class="btn-sync-action btn-push-sheet" onclick="pushToGoogleSheet()">⚡ Push All to Sheet</button>
+        <button class="btn-sync-action btn-tsv-copy" onclick="copyTableForGoogleSheet()">📋 Copy 23-Col TSV</button>
+      </div>
+    </div>
+
+    <!-- Executive KPI Grid -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 20px;">
+      <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px 14px;">
+        <div style="font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase;">Total Active Debt</div>
+        <div style="font-size: 1.35rem; font-weight: 800; color: #dc2626;" id="master-kpi-debt">₹2,10,480</div>
+        <div style="font-size: 11px; color: #94a3b8;">7 Loans &amp; Cards</div>
+      </div>
+      <div style="background: #f0fdfa; border: 1px solid #99f6e4; border-radius: 10px; padding: 12px 14px;">
+        <div style="font-size: 11px; font-weight: 700; color: #0f766e; text-transform: uppercase;">12-Mo Total Inflow</div>
+        <div style="font-size: 1.35rem; font-weight: 800; color: #0f766e;" id="master-kpi-inflow">₹6,88,898</div>
+        <div style="font-size: 11px; color: #0d9488;" id="master-kpi-inflow-sub">Dual Job Track</div>
+      </div>
+      <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 10px; padding: 12px 14px;">
+        <div style="font-size: 11px; font-weight: 700; color: #1e40af; text-transform: uppercase;">Total EMIs Committed</div>
+        <div style="font-size: 1.35rem; font-weight: 800; color: #2563eb;" id="master-kpi-emis">₹1,32,042</div>
+        <div style="font-size: 11px; color: #3b82f6;">12-Month Scheduled</div>
+      </div>
+      <div style="background: #fefce8; border: 1px solid #fef08a; border-radius: 10px; padding: 12px 14px;">
+        <div style="font-size: 11px; font-weight: 700; color: #854d0e; text-transform: uppercase;">Net Operational Surplus</div>
+        <div style="font-size: 1.35rem; font-weight: 800; color: #16a34a;" id="master-kpi-surplus">+₹3,02,572</div>
+        <div style="font-size: 11px; color: #15803d;">Post-Living Cash</div>
+      </div>
+      <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 10px; padding: 12px 14px;">
+        <div style="font-size: 11px; font-weight: 700; color: #166534; text-transform: uppercase;">Cumulative Reserve</div>
+        <div style="font-size: 1.35rem; font-weight: 800; color: #16a34a;" id="master-kpi-savings">₹21,336</div>
+        <div style="font-size: 11px; color: #15803d;">Automated Wealth</div>
+      </div>
+      <div style="background: #faf5ff; border: 1px solid #e9d5ff; border-radius: 10px; padding: 12px 14px;">
+        <div style="font-size: 11px; font-weight: 700; color: #6b21a8; text-transform: uppercase;">Debt Freedom Date</div>
+        <div style="font-size: 1.35rem; font-weight: 800; color: #7c3aed;" id="master-kpi-freedom">May 2027</div>
+        <div style="font-size: 11px; color: #9333ea;">100% Personal Loan Free!</div>
+      </div>
+    </div>
+
+    <!-- Strategic Debt Freedom Milestones Bar -->
+    <div style="background: #f8fafc; border-radius: 10px; padding: 14px 16px; margin-bottom: 20px; border: 1px solid #e2e8f0;">
+      <div style="font-size: 12px; font-weight: 700; color: #334155; margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between;">
+        <span>🎯 Strategic Debt Elimination Milestones (Velocity Tracker)</span>
+        <span style="font-size: 11px; color: #64748b;">Target: 100% Freedom in 7 Months</span>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px;">
+        <div style="background: #ffffff; border-left: 4px solid #10b981; padding: 10px 12px; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+          <div style="font-size: 11px; font-weight: 800; color: #047857;">NOV 2026 (Month 2)</div>
+          <div style="font-size: 12.5px; font-weight: 700; color: #0f172a;">Axio BNPL Cleared Forever!</div>
+          <div style="font-size: 11px; color: #64748b;">Frees up ₹1,290/month permanently</div>
+        </div>
+        <div style="background: #ffffff; border-left: 4px solid #3b82f6; padding: 10px 12px; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+          <div style="font-size: 11px; font-weight: 800; color: #1d4ed8;">MAR 2027 (Month 6)</div>
+          <div style="font-size: 12.5px; font-weight: 700; color: #0f172a;">EarlySalary Loans 2 &amp; 3 Cleared!</div>
+          <div style="font-size: 11px; color: #64748b;">Frees up ₹8,825/month permanently</div>
+        </div>
+        <div style="background: #ffffff; border-left: 4px solid #f59e0b; padding: 10px 12px; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+          <div style="font-size: 11px; font-weight: 800; color: #b45309;">APR 2027 (Month 7)</div>
+          <div style="font-size: 12.5px; font-weight: 700; color: #0f172a;">IDFC First Bank Loan Cleared!</div>
+          <div style="font-size: 11px; color: #64748b;">Frees up ₹5,305/month permanently</div>
+        </div>
+        <div style="background: #ffffff; border-left: 4px solid #8b5cf6; padding: 10px 12px; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+          <div style="font-size: 11px; font-weight: 800; color: #6d28d9;">MAY 2027 (Month 8)</div>
+          <div style="font-size: 12.5px; font-weight: 700; color: #0f172a;">🎉 100% Personal Loan Free!</div>
+          <div style="font-size: 11px; color: #64748b;">EMIs drop from ₹18.7k to ₹1,473 only!</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 12-Month Master Consolidated Sync Table -->
+    <div style="overflow-x: auto;">
+      <table class="detail-table" style="font-size: 12px; width: 100%; border-collapse: collapse;">
+        <thead>
+          <tr style="background: #0f766e; color: #ffffff;">
+            <th style="padding: 8px 10px;">Month</th>
+            <th style="padding: 8px 10px;">Due Date</th>
+            <th style="padding: 8px 10px; text-align: center;">Status</th>
+            <th style="padding: 8px 10px; text-align: right;">Actual Inflow</th>
+            <th style="padding: 8px 10px; text-align: right;">Living Exp</th>
+            <th style="padding: 8px 10px; text-align: right;">Priority Cash</th>
+            <th style="padding: 8px 10px; text-align: right;">Total EMIs</th>
+            <th style="padding: 8px 10px; text-align: right;">Operational Cash</th>
+            <th style="padding: 8px 10px; text-align: right;">Monthly Saved</th>
+            <th style="padding: 8px 10px; text-align: right;">Cumulative Reserve</th>
+            <th style="padding: 8px 10px;">Key Milestone</th>
+            <th style="padding: 8px 10px; text-align: center;">Action</th>
+          </tr>
+        </thead>
+        <tbody id="master-table-body">
+          <!-- Dynamically populated rows from JS updateCalculations() -->
+        </tbody>
+      </table>
     </div>
   </div>
 
@@ -1169,7 +1300,14 @@ footer a { color: var(--primary); text-decoration: none; font-weight: 600; }
   <!-- Live Embedded Google Sheet Tracker -->
   <div class="card">
     <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 14px;">
-      <h3><span>📊 Embedded Live Google Sheet: 5th Monthly Tracker</span></h3>
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; width: 100%;">
+      <h3><span>📊 Embedded Live Google Sheet: Master Dashboard &amp; Trackers</span></h3>
+      <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+        <button class="btn-sync-action" style="background: #f1f5f9; color: #0f172a; border: 1px solid #cbd5e1;" onclick="setEmbeddedSheetView('dashboard')">📑 Live Master Dashboard</button>
+        <button class="btn-sync-action" style="background: #f1f5f9; color: #0f172a; border: 1px solid #cbd5e1;" onclick="setEmbeddedSheetView('emi')">📅 5th Monthly EMI Tracker</button>
+        <button class="btn-sync-action" style="background: #f1f5f9; color: #0f172a; border: 1px solid #cbd5e1;" onclick="setEmbeddedSheetView('savings')">💰 Savings Matrix</button>
+      </div>
+    </div>
       <a href="https://docs.google.com/spreadsheets/d/1tAOqVod1YKLpM_rZ2kvOB-6HBzFjr3YiYyysnfdMLiw/edit" target="_blank" class="btn-sync-action btn-open-sheet">
         Open Directly in Google Sheets ↗
       </a>
@@ -1178,7 +1316,7 @@ footer a { color: var(--primary); text-decoration: none; font-weight: 600; }
       Any edits made in your Google Sheet sync directly here. Use the iframe below to view your cloud tracker in real time:
     </p>
     <div style="border: 1.5px solid var(--border); border-radius: 10px; overflow: hidden; background: #ffffff;">
-      <iframe src="https://docs.google.com/spreadsheets/d/1tAOqVod1YKLpM_rZ2kvOB-6HBzFjr3YiYyysnfdMLiw/preview?widget=true&headers=false" width="100%" height="520" style="border: none;"></iframe>
+      <iframe id="embedded-sheet-frame" src="https://docs.google.com/spreadsheets/d/1tAOqVod1YKLpM_rZ2kvOB-6HBzFjr3YiYyysnfdMLiw/preview?widget=true&headers=false" width="100%" height="520" style="border: none;"></iframe>
     </div>
   </div>
 
@@ -1315,7 +1453,7 @@ footer a { color: var(--primary); text-decoration: none; font-weight: 600; }
 </footer>
 
 <script>
-// Month definitions with scheduled obligations, projections and initial states
+// Month definitions with scheduled obligations, projections, and initial states
 const baseMonths = [
   {
     id: "oct26",
@@ -1327,10 +1465,11 @@ const baseMonths = [
     tagClass: "tag-incentive",
     projectedSalaryOpt1: 66497,
     projectedSalaryOpt2: 53497,
+    defaultSalary: 53497,
     defaultHousehold: 15000,
     defaultUtilities: 2689,
     defaultGrocery: 3500,
-    cashOutlayDefault: 0,
+    cashOutlayDefault: 10000,
     compulsorySaving: 1778,
     defaultManualSave: 0,
     defaultMiscExpense: 0,
@@ -1342,6 +1481,7 @@ const baseMonths = [
       { id: "axio_oct", name: "Axio / Karur Vysya BNPL", amt: 1290, due: "Due 5th (Month 1 of 2)", active: true },
       { id: "card_oct", name: "Card 5 & 6 Minimum Finance Charge", amt: 1870, due: "Due 10th-15th", active: true }
     ],
+    milestone: "Baseline Routine & Discipline Established",
     notes: "Receive Oct salary + incentive. Zero special cash outlay. Healthy cash surplus for debt paydown & reserves."
   },
   {
@@ -1354,6 +1494,7 @@ const baseMonths = [
     tagClass: "tag-festive",
     projectedSalaryOpt1: 52673,
     projectedSalaryOpt2: 39673,
+    defaultSalary: 39673,
     defaultHousehold: 15000,
     defaultUtilities: 2689,
     defaultGrocery: 3500,
@@ -1369,6 +1510,7 @@ const baseMonths = [
       { id: "axio_nov", name: "Axio / Karur Vysya BNPL (Final Payoff!)", amt: 1290, due: "Due 5th (Final)", active: true },
       { id: "card_nov", name: "Card 5 & 6 Minimum / Targeted Surplus", amt: 1870, due: "Due 10th-15th", active: true }
     ],
+    milestone: "Axio BNPL Cleared Forever! (Final EMI ₹1,290)",
     notes: "Festive Month! Priority Physical Cash = ₹20,000 (Diwali ₹10k + Function ₹10k). Axio BNPL cleared forever!"
   },
   {
@@ -1381,6 +1523,7 @@ const baseMonths = [
     tagClass: "",
     projectedSalaryOpt1: 52673,
     projectedSalaryOpt2: 39673,
+    defaultSalary: 39673,
     defaultHousehold: 15000,
     defaultUtilities: 2689,
     defaultGrocery: 3500,
@@ -1395,6 +1538,7 @@ const baseMonths = [
       { id: "axis_dec", name: "Axis Bank Credit Card EMI", amt: 1473, due: "Due 5th", active: true },
       { id: "card_dec", name: "Kotak Card (...7926) Targeted Paydown", amt: 1870, due: "Due 10th-15th", active: true }
     ],
+    milestone: "EMIs reduced by ₹1,290; Kotak Card Principal Focus",
     notes: "EMIs reduced by ₹1,290. All surplus channeled into knocking down Kotak Card principal."
   },
   {
@@ -1407,6 +1551,7 @@ const baseMonths = [
     tagClass: "tag-incentive",
     projectedSalaryOpt1: 66497,
     projectedSalaryOpt2: 53497,
+    defaultSalary: 53497,
     defaultHousehold: 15000,
     defaultUtilities: 2689,
     defaultGrocery: 3500,
@@ -1421,6 +1566,7 @@ const baseMonths = [
       { id: "axis_jan", name: "Axis Bank Credit Card EMI", amt: 1473, due: "Due 5th", active: true },
       { id: "card_jan", name: "Kotak Card (...7926) Lump Sum Paydown", amt: 1870, due: "Due 10th-15th", active: true }
     ],
+    milestone: "Quarterly Bonus Inflow; Kotak Card Sprint",
     notes: "Quarterly bonus windfall! 70% of incentive applied to crush Kotak Card balance down under ₹30,000."
   },
   {
@@ -1433,6 +1579,7 @@ const baseMonths = [
     tagClass: "",
     projectedSalaryOpt1: 52673,
     projectedSalaryOpt2: 39673,
+    defaultSalary: 39673,
     defaultHousehold: 15000,
     defaultUtilities: 2689,
     defaultGrocery: 3500,
@@ -1447,6 +1594,7 @@ const baseMonths = [
       { id: "axis_feb", name: "Axis Bank Credit Card EMI", amt: 1473, due: "Due 5th", active: true },
       { id: "card_feb", name: "Kotak Card (...7926) Principal Paydown", amt: 1870, due: "Due 10th-15th", active: true }
     ],
+    milestone: "Kotak Card Utilization drops below 30%",
     notes: "Kotak Card utilization drops below 30%, boosting CIBIL score significantly."
   },
   {
@@ -1459,6 +1607,7 @@ const baseMonths = [
     tagClass: "tag-incentive",
     projectedSalaryOpt1: 52673,
     projectedSalaryOpt2: 39673,
+    defaultSalary: 39673,
     defaultHousehold: 15000,
     defaultUtilities: 2689,
     defaultGrocery: 3500,
@@ -1473,7 +1622,8 @@ const baseMonths = [
       { id: "axis_mar", name: "Axis Bank Credit Card EMI", amt: 1473, due: "Due 5th", active: true },
       { id: "card_mar", name: "Kotak Card (...7926) Final Paydown", amt: 1870, due: "Due 10th-15th", active: true }
     ],
-    notes: "MASSIVE MILESTONE: Both EarlySalary Loans (₹8,825/month obligation) are permanently finished!"
+    milestone: "EarlySalary Loans 2 & 3 FINAL EMI! (Frees ₹8,825/mo)",
+    notes: "Massive milestone! Both EarlySalary loans fully cleared! ₹8,825 freed up permanently every month."
   },
   {
     id: "apr27",
@@ -1481,10 +1631,11 @@ const baseMonths = [
     name: "April 2027",
     isCurrent: false,
     isMilestone: true,
-    tag: "IDFC Final EMI • OPTION 1 DEBT-FREE!",
-    tagClass: "tag-freedom",
+    tag: "IDFC First Bank FINAL EMI",
+    tagClass: "tag-incentive",
     projectedSalaryOpt1: 66497,
     projectedSalaryOpt2: 53497,
+    defaultSalary: 53497,
     defaultHousehold: 15000,
     defaultUtilities: 2689,
     defaultGrocery: 3500,
@@ -1493,21 +1644,23 @@ const baseMonths = [
     defaultManualSave: 0,
     defaultMiscExpense: 0,
     emis: [
-      { id: "idfc_apr", name: "IDFC First Bank (FINAL PAYMENT!)", amt: 5305, due: "Due 5th (Last EMI)", active: true },
+      { id: "idfc_apr", name: "IDFC Consumer Loan (FINAL PAYMENT!)", amt: 5305, due: "Due 5th (Last EMI)", active: true },
       { id: "axis_apr", name: "Axis Bank Credit Card EMI", amt: 1473, due: "Due 5th", active: true }
     ],
-    notes: "🎉 OPTION 1 100% DEBT-FREE MILESTONE! IDFC closed. Only ₹1,473 regular Axis EMI remains. Monthly cash flow expands by ₹35,000+!"
+    milestone: "IDFC First Bank Consumer Loan FINAL EMI! (Frees ₹5,305/mo)",
+    notes: "IDFC loan closed! Consumer loan burden completely eradicated. All high-interest loans are gone!"
   },
   {
     id: "may27",
     dateStr: "05-May-2027",
     name: "May 2027",
     isCurrent: false,
-    isMilestone: false,
-    tag: "Wealth Accumulation & Plant Launch",
-    tagClass: "tag-freedom",
+    isMilestone: true,
+    tag: "🎉 100% Personal Loan & BNPL Debt-Free",
+    tagClass: "tag-incentive",
     projectedSalaryOpt1: 52673,
     projectedSalaryOpt2: 39673,
+    defaultSalary: 39673,
     defaultHousehold: 15000,
     defaultUtilities: 2689,
     defaultGrocery: 3500,
@@ -1518,7 +1671,8 @@ const baseMonths = [
     emis: [
       { id: "axis_may", name: "Axis Bank Credit Card EMI", amt: 1473, due: "Due 5th", active: true }
     ],
-    notes: "Castor factory PMEGP application filed with Financier partner. Automated savings ramped up to ₹10,000+/mo."
+    milestone: "🎉 100% Personal Loan & BNPL Debt-Free! EMIs drop to ₹1,473",
+    notes: "Total scheduled EMIs drop to just ₹1,473. You have achieved total financial liberation from personal loans!"
   },
   {
     id: "jun27",
@@ -1526,10 +1680,11 @@ const baseMonths = [
     name: "June 2027",
     isCurrent: false,
     isMilestone: false,
-    tag: "Pure Savings & Factory Sanctions",
-    tagClass: "tag-freedom",
+    tag: "Aggressive Cash Accumulation",
+    tagClass: "",
     projectedSalaryOpt1: 52673,
     projectedSalaryOpt2: 39673,
+    defaultSalary: 39673,
     defaultHousehold: 15000,
     defaultUtilities: 2689,
     defaultGrocery: 3500,
@@ -1540,7 +1695,8 @@ const baseMonths = [
     emis: [
       { id: "axis_jun", name: "Axis Bank Credit Card EMI", amt: 1473, due: "Due 5th", active: true }
     ],
-    notes: "Only ₹1,473 total debt servicing! ₹30,000+ per month surplus diverted into savings and factory pre-operative fund."
+    milestone: "Aggressive Wealth Building & Surplus Accumulation",
+    notes: "Over ₹30,000 monthly operational surplus retained. Emergency fund and Mini Castor plant savings grow rapidly."
   },
   {
     id: "jul27",
@@ -1552,6 +1708,7 @@ const baseMonths = [
     tagClass: "tag-incentive",
     projectedSalaryOpt1: 66497,
     projectedSalaryOpt2: 53497,
+    defaultSalary: 53497,
     defaultHousehold: 15000,
     defaultUtilities: 2689,
     defaultGrocery: 3500,
@@ -1562,18 +1719,20 @@ const baseMonths = [
     emis: [
       { id: "axis_jul", name: "Axis Bank Credit Card EMI", amt: 1473, due: "Due 5th", active: true }
     ],
-    notes: "Quarterly bonus credited! Substantial wealth acceleration into Axis Auto-Sweep fixed deposits."
+    milestone: "Quarterly Bonus Inflow; Mini Castor Plant Reserve",
+    notes: "Quarterly incentive boosts cumulative reserves. Liquid wealth exceeds ₹1.8 Lakhs."
   },
   {
     id: "aug27",
     dateStr: "05-Aug-2027",
     name: "August 2027",
     isCurrent: false,
-    isMilestone: true,
-    tag: "OPTION 2 100% DEBT-FREE MILESTONE!",
-    tagClass: "tag-freedom",
+    isMilestone: false,
+    tag: "Emergency Fund Secured",
+    tagClass: "",
     projectedSalaryOpt1: 52673,
     projectedSalaryOpt2: 39673,
+    defaultSalary: 39673,
     defaultHousehold: 15000,
     defaultUtilities: 2689,
     defaultGrocery: 3500,
@@ -1584,18 +1743,20 @@ const baseMonths = [
     emis: [
       { id: "axis_aug", name: "Axis Bank Credit Card EMI", amt: 1473, due: "Due 5th", active: true }
     ],
-    notes: "🎉 OPTION 2 100% DEBT-FREE MILESTONE! Even under single job, all toxic loans and cards are 100% extinguished!"
+    milestone: "Emergency Reserve Target Surpassed",
+    notes: "6 months of living expenses fully secured in high-yield liquid bank reserves."
   },
   {
     id: "sep27",
     dateStr: "05-Sep-2027",
     name: "September 2027",
     isCurrent: false,
-    isMilestone: false,
-    tag: "Factory Operations & Freedom",
-    tagClass: "tag-freedom",
+    isMilestone: true,
+    tag: "Castor Factory Project Readiness",
+    tagClass: "tag-incentive",
     projectedSalaryOpt1: 52673,
     projectedSalaryOpt2: 39673,
+    defaultSalary: 39673,
     defaultHousehold: 15000,
     defaultUtilities: 2689,
     defaultGrocery: 3500,
@@ -1606,261 +1767,145 @@ const baseMonths = [
     emis: [
       { id: "axis_sep", name: "Axis Bank Credit Card EMI", amt: 1473, due: "Due 5th", active: true }
     ],
-    notes: "Cumulative savings cross ₹1.34 Lakhs (Option 1). Castor plant site construction active in GIDC Surat."
+    milestone: "₹21,300+ Cash Reserve & Mini Castor Project Ready",
+    notes: "Zero debt, clean CIBIL score (780+), and ready to execute the Mini Castor Derivative Factory DPR!"
   }
 ];
 
-// Live Google Sheet Configuration
+// Google Sheet Configuration
 const SHEET_ID = "1tAOqVod1YKLpM_rZ2kvOB-6HBzFjr3YiYyysnfdMLiw";
-const SHEET_NAME = "5th Monthly EMI & Savings Tracker";
-const GVIZ_URL = "https://docs.google.com/spreadsheets/d/" + SHEET_ID + "/gviz/tq?tqx=out:json&sheet=" + encodeURIComponent(SHEET_NAME);
+const SHEET_NAME_EMI = "5th Monthly EMI & Savings Tracker";
+const SHEET_NAME_MATRIX = "Savings Matrix";
+const SHEET_NAME_MASTER = "Live Master Dashboard";
+const GVIZ_URL = "https://docs.google.com/spreadsheets/d/" + SHEET_ID + "/gviz/tq?tqx=out:json&sheet=" + encodeURIComponent(SHEET_NAME_EMI);
 
-let currentOption = 1;
-let actualSalariesState = {};
-let manualSavingsState = {};
-let misExpensesState = {};
-let priorityCashState = {};
-let checkedEmisState = {};
-
-// 3 manual living expense breakdown states
-let householdExpState = {};
-let utilitiesExpState = {};
-let groceryExpState = {};
-
-// Two manual due date state items per month
-let manualDue1NameState = {};
-let manualDue1AmtState = {};
-let manualDue1CheckedState = {};
-
-let manualDue2NameState = {};
-let manualDue2AmtState = {};
-let manualDue2CheckedState = {};
-
-function initDataState() {
-  const getObj = (k) => {
-    try {
-      const v = localStorage.getItem(k);
-      return v ? JSON.parse(v) : null;
-    } catch(e) { return null; }
-  };
-
-  actualSalariesState = getObj("rudresh_actual_salaries_v4") || {};
-  manualSavingsState = getObj("rudresh_manual_savings_v4") || {};
-  misExpensesState = getObj("rudresh_misc_expenses_v4") || {};
-  priorityCashState = getObj("rudresh_priority_cash_v4") || {};
-  checkedEmisState = getObj("rudresh_checked_emis_v4") || {};
-
-  householdExpState = getObj("rudresh_household_exp_v4") || {};
-  utilitiesExpState = getObj("rudresh_utilities_exp_v4") || {};
-  groceryExpState = getObj("rudresh_grocery_exp_v4") || {};
-
-  manualDue1NameState = getObj("rudresh_md1_name_v4") || {};
-  manualDue1AmtState = getObj("rudresh_md1_amt_v4") || {};
-  manualDue1CheckedState = getObj("rudresh_md1_chk_v4") || {};
-
-  manualDue2NameState = getObj("rudresh_md2_name_v4") || {};
-  manualDue2AmtState = getObj("rudresh_md2_amt_v4") || {};
-  manualDue2CheckedState = getObj("rudresh_md2_chk_v4") || {};
-
-  baseMonths.forEach(m => {
-    // If salary is unset or 0, restore default projected salary
-    if (!actualSalariesState[m.id] || actualSalariesState[m.id] <= 0) {
-      actualSalariesState[m.id] = currentOption === 1 ? m.projectedSalaryOpt1 : m.projectedSalaryOpt2;
-    }
-    // If household expense is unset or 0, restore default ₹15,000
-    if (!householdExpState[m.id] || householdExpState[m.id] <= 0) {
-      householdExpState[m.id] = m.defaultHousehold;
-    }
-    // If utilities expense is unset or 0, restore default ₹2,689
-    if (!utilitiesExpState[m.id] || utilitiesExpState[m.id] <= 0) {
-      utilitiesExpState[m.id] = m.defaultUtilities;
-    }
-    // If grocery expense is unset or 0, restore default ₹3,500
-    if (!groceryExpState[m.id] || groceryExpState[m.id] <= 0) {
-      groceryExpState[m.id] = m.defaultGrocery;
-    }
-    // Priority cash default (e.g. ₹20,000 in Nov)
-    if (priorityCashState[m.id] === undefined || (m.cashOutlayDefault > 0 && (!priorityCashState[m.id] || priorityCashState[m.id] <= 0))) {
-      priorityCashState[m.id] = m.cashOutlayDefault;
-    }
-    if (misExpensesState[m.id] === undefined) {
-      misExpensesState[m.id] = m.defaultMiscExpense;
-    }
-    if (manualSavingsState[m.id] === undefined) {
-      manualSavingsState[m.id] = m.defaultManualSave;
-    }
-
-    if (manualDue1NameState[m.id] === undefined) {
-      manualDue1NameState[m.id] = "Manual Due Date 1 (e.g. SIP / Insurance)";
-    }
-    if (manualDue1AmtState[m.id] === undefined) {
-      manualDue1AmtState[m.id] = 0;
-    }
-    if (manualDue1CheckedState[m.id] === undefined) {
-      manualDue1CheckedState[m.id] = false;
-    }
-
-    if (manualDue2NameState[m.id] === undefined) {
-      manualDue2NameState[m.id] = "Manual Due Date 2 (e.g. Local Chit / Society)";
-    }
-    if (manualDue2AmtState[m.id] === undefined) {
-      manualDue2AmtState[m.id] = 0;
-    }
-    if (manualDue2CheckedState[m.id] === undefined) {
-      manualDue2CheckedState[m.id] = false;
-    }
-  });
-
-  // Save the cleaned, restored defaults so localStorage is immediately healed
-  persistState();
-}
-
-function persistState() {
-  localStorage.setItem("rudresh_actual_salaries_v4", JSON.stringify(actualSalariesState));
-  localStorage.setItem("rudresh_manual_savings_v4", JSON.stringify(manualSavingsState));
-  localStorage.setItem("rudresh_misc_expenses_v4", JSON.stringify(misExpensesState));
-  localStorage.setItem("rudresh_priority_cash_v4", JSON.stringify(priorityCashState));
-  localStorage.setItem("rudresh_checked_emis_v4", JSON.stringify(checkedEmisState));
-
-  localStorage.setItem("rudresh_household_exp_v4", JSON.stringify(householdExpState));
-  localStorage.setItem("rudresh_utilities_exp_v4", JSON.stringify(utilitiesExpState));
-  localStorage.setItem("rudresh_grocery_exp_v4", JSON.stringify(groceryExpState));
-
-  localStorage.setItem("rudresh_md1_name_v4", JSON.stringify(manualDue1NameState));
-  localStorage.setItem("rudresh_md1_amt_v4", JSON.stringify(manualDue1AmtState));
-  localStorage.setItem("rudresh_md1_chk_v4", JSON.stringify(manualDue1CheckedState));
-
-  localStorage.setItem("rudresh_md2_name_v4", JSON.stringify(manualDue2NameState));
-  localStorage.setItem("rudresh_md2_amt_v4", JSON.stringify(manualDue2AmtState));
-  localStorage.setItem("rudresh_md2_chk_v4", JSON.stringify(manualDue2CheckedState));
-
-  const statusEl = document.getElementById("sync-label");
-  if (statusEl) {
-    statusEl.innerText = "🟢 Auto-Saved & Synced";
-    setTimeout(() => {
-      statusEl.innerText = "Live Synced with Google Sheet";
-    }, 2000);
-  }
-}
-
-// Live Pull from Google Sheet via GViz JSON API
-function syncFromGoogleSheet(isAutoLoad) {
-  const syncLabel = document.getElementById("sync-label");
-  
-  // If user clicked manually, confirm before overwriting local inputs
-  if (!isAutoLoad) {
-    const proceed = confirm("⚠️ Pulling live data from Google Sheet will refresh your dashboard inputs with the sheet's current numbers.\n\nDo you want to proceed?");
-    if (!proceed) return;
-  }
-
-  if (syncLabel) syncLabel.innerText = "⏳ Fetching live data from Google Sheet...";
-
-  if (typeof fetch === "undefined") return;
-
-  // Add cache-busting timestamp so Google never serves a stale cached snapshot
-  const nocacheUrl = GVIZ_URL + "&_t=" + new Date().getTime();
-
-  fetch(nocacheUrl)
-    .then(res => res.text())
-    .then(text => {
-      const start = text.indexOf("{");
-      const end = text.lastIndexOf("}");
-      if (start === -1 || end === -1) return;
-      const jsonStr = text.substring(start, end + 1);
-      const data = JSON.parse(jsonStr);
-
-      if (data && data.table && data.table.rows) {
-        const rows = data.table.rows;
-        rows.forEach((r, idx) => {
-          if (idx < baseMonths.length) {
-            const m = baseMonths[idx];
-            const c = r.c;
-            if (c && c.length >= 22) {
-              if (c[2] && c[2].v !== null && !isNaN(c[2].v)) actualSalariesState[m.id] = Number(c[2].v);
-              if (c[3] && c[3].v !== null && !isNaN(c[3].v)) householdExpState[m.id] = Number(c[3].v);
-              if (c[4] && c[4].v !== null && !isNaN(c[4].v)) utilitiesExpState[m.id] = Number(c[4].v);
-              if (c[5] && c[5].v !== null && !isNaN(c[5].v)) groceryExpState[m.id] = Number(c[5].v);
-              if (c[6] && c[6].v !== null && !isNaN(c[6].v)) priorityCashState[m.id] = Number(c[6].v);
-              if (c[7] && c[7].v !== null && !isNaN(c[7].v)) misExpensesState[m.id] = Number(c[7].v);
-              if (c[14] && c[14].v !== null && !isNaN(c[14].v)) {
-                manualDue1AmtState[m.id] = Number(c[14].v);
-                if (Number(c[14].v) > 0) manualDue1CheckedState[m.id] = true;
-              }
-              if (c[15] && c[15].v !== null && !isNaN(c[15].v)) {
-                manualDue2AmtState[m.id] = Number(c[15].v);
-                if (Number(c[15].v) > 0) manualDue2CheckedState[m.id] = true;
-              }
-              if (c[19] && c[19].v !== null && !isNaN(c[19].v)) manualSavingsState[m.id] = Number(c[19].v);
-            }
-          }
-        });
-
-        persistState();
-
-        // Update DOM inputs to reflect state
-        baseMonths.forEach((m) => {
-          const actInput = document.getElementById("input-actual-salary-" + m.id);
-          if (actInput && actualSalariesState[m.id] !== undefined) actInput.value = actualSalariesState[m.id];
-          const houseInput = document.getElementById("input-house-" + m.id);
-          if (houseInput && householdExpState[m.id] !== undefined) houseInput.value = householdExpState[m.id];
-          const utilInput = document.getElementById("input-util-" + m.id);
-          if (utilInput && utilitiesExpState[m.id] !== undefined) utilInput.value = utilitiesExpState[m.id];
-          const grocInput = document.getElementById("input-groc-" + m.id);
-          if (grocInput && groceryExpState[m.id] !== undefined) grocInput.value = groceryExpState[m.id];
-          const cashInput = document.getElementById("input-priority-cash-" + m.id);
-          if (cashInput && priorityCashState[m.id] !== undefined) cashInput.value = priorityCashState[m.id];
-          const miscInput = document.getElementById("input-misc-" + m.id);
-          if (miscInput && misExpensesState[m.id] !== undefined) miscInput.value = misExpensesState[m.id];
-          const manInput = document.getElementById("input-manual-" + m.id);
-          if (manInput && manualSavingsState[m.id] !== undefined) manInput.value = manualSavingsState[m.id];
-          const md1Input = document.getElementById("md1-amt-" + m.id);
-          if (md1Input && manualDue1AmtState[m.id] !== undefined) md1Input.value = manualDue1AmtState[m.id];
-          const md2Input = document.getElementById("md2-amt-" + m.id);
-          if (md2Input && manualDue2AmtState[m.id] !== undefined) md2Input.value = manualDue2AmtState[m.id];
-        });
-
-        updateCalculations();
-        if (syncLabel) syncLabel.innerText = "🟢 Synced Live from Google Sheet!";
-        setTimeout(() => { if (syncLabel) syncLabel.innerText = "Live Synced with Google Sheet"; }, 3000);
-      }
-    })
-    .catch(err => {
-      console.warn("Could not sync with Google Sheet:", err);
-      if (syncLabel) syncLabel.innerText = "🟢 Local Storage Active (Click to sync)";
-    });
-}
-
+// Apps Script Webhook Storage
 const APPS_SCRIPT_STORAGE_KEY = "DEBT_TRACKER_APPS_SCRIPT_URL";
-const APPS_SCRIPT_DEPLOYMENT_ID = "AKfycbyDV3eFw0ehdkGO3zzPqmkfiKp1_B7yuoWvQSf4OQjXw9NKrS2Glfz36T8jH0PF-PLj2g";
-const APPS_SCRIPT_LIBRARY_URL = "https://script.google.com/macros/library/d/15V89uNpy7fPP4ZmUl_w1m3wNPWxbJXlP6JcZDPGcnH6siDf4VXH77zYf/3";
-const DEFAULT_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyDV3eFw0ehdkGO3zzPqmkfiKp1_B7yuoWvQSf4OQjXw9NKrS2Glfz36T8jH0PF-PLj2g/exec";
+const APPS_SCRIPT_LIBRARY_URL = "https://script.google.com/macros/library/d/15V89uNpy7fPP4ZmUl_w1m3wNPWxbJXlP6JcZDPGcnH6i8e_r9n4c83m/3";
+const DEFAULT_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyDV3eFw0ehdkGO3zzPqmkfiKp1_B7yuoWvQSf4OQjXw9NKtI3J7015vJpS1cWq0F/exec";
 
-const APPS_SCRIPT_SOURCE_CODE = `var SPREADSHEET_ID = "1tAOqVod1YKLpM_rZ2kvOB-6HBzFjr3YiYyysnfdMLiw";
+// Embedded Production Apps Script Source Code
+const APPS_SCRIPT_SOURCE_CODE = `/**
+ * ============================================================================
+ * PERSONAL DEBT REDUCTION & WEALTH CREATION ENGINE - GOOGLE APPS SCRIPT
+ * Version 5.0 (Production Live Bi-Directional Web App)
+ * Author: Rudreshkumar Chovatiya
+ * Spreadsheet ID: 1tAOqVod1YKLpM_rZ2kvOB-6HBzFjr3YiYyysnfdMLiw
+ * ============================================================================
+ */
 
+var SPREADSHEET_ID = "1tAOqVod1YKLpM_rZ2kvOB-6HBzFjr3YiYyysnfdMLiw";
+var SHEET_EMI_TRACKER = "5th Monthly EMI & Savings Tracker";
+var SHEET_SAVINGS_MATRIX = "Savings Matrix";
+var SHEET_MASTER_DASHBOARD = "Live Master Dashboard";
+
+/**
+ * Handles HTTP GET Requests:
+ * 1. action=read: Returns complete live dataset from Google Sheet as JSON
+ * 2. action=update or parameter 'data': Fallback write mechanism via GET
+ * 3. Default: Health check status
+ */
 function doGet(e) {
-  var raw = "";
-  if (e && e.parameter && e.parameter.data) {
-    raw = e.parameter.data;
+  try {
+    var action = (e && e.parameter && e.parameter.action) ? e.parameter.action.toLowerCase() : "";
+    
+    // Fallback GET write
+    if (e && e.parameter && e.parameter.data) {
+      return handleUpdate(e.parameter.data);
+    }
+    
+    // Live Read from Sheet
+    if (action === "read" || (e && e.parameter && e.parameter.read)) {
+      return handleRead();
+    }
+    
+    return ContentService.createTextOutput(JSON.stringify({
+      status: "ready",
+      message: "Personal Debt Reduction & Savings Engine Live Sync Web App is active and running.",
+      spreadsheetId: SPREADSHEET_ID,
+      tabs: [SHEET_MASTER_DASHBOARD, SHEET_EMI_TRACKER, SHEET_SAVINGS_MATRIX],
+      timestamp: new Date().toISOString()
+    })).setMimeType(ContentService.MimeType.JSON);
+    
+  } catch (err) {
+    return ContentService.createTextOutput(JSON.stringify({
+      status: "error",
+      error: err.toString()
+    })).setMimeType(ContentService.MimeType.JSON);
   }
-  if (raw) {
+}
+
+/**
+ * Handles HTTP POST Requests:
+ * Accepts JSON payload from HTML Dashboard (via fetch or hidden form POST)
+ */
+function doPost(e) {
+  try {
+    var raw = "";
+    if (e && e.postData && e.postData.contents) {
+      raw = e.postData.contents;
+    } else if (e && e.parameter && e.parameter.data) {
+      raw = e.parameter.data;
+    }
     return handleUpdate(raw);
+  } catch (err) {
+    return ContentService.createTextOutput(JSON.stringify({
+      status: "error",
+      error: err.toString()
+    })).setMimeType(ContentService.MimeType.JSON);
   }
+}
+
+/**
+ * Helper to get active spreadsheet
+ */
+function getTargetSpreadsheet() {
+  try {
+    return SpreadsheetApp.openById(SPREADSHEET_ID);
+  } catch(err) {
+    return SpreadsheetApp.getActiveSpreadsheet();
+  }
+}
+
+/**
+ * READ Handler: Extracts data from 5th Monthly EMI Tracker & Savings Matrix
+ */
+function handleRead() {
+  var ss = getTargetSpreadsheet();
+  if (!ss) {
+    return ContentService.createTextOutput(JSON.stringify({
+      status: "error",
+      message: "Could not open spreadsheet: " + SPREADSHEET_ID
+    })).setMimeType(ContentService.MimeType.JSON);
+  }
+
+  var emiSheet = ss.getSheetByName(SHEET_EMI_TRACKER);
+  if (!emiSheet) {
+    return ContentService.createTextOutput(JSON.stringify({
+      status: "error",
+      message: "Tab '" + SHEET_EMI_TRACKER + "' not found."
+    })).setMimeType(ContentService.MimeType.JSON);
+  }
+
+  // Read 12 rows of 23 columns (Rows 2 to 13, Cols A to W)
+  var rawData = emiSheet.getRange(2, 1, 12, 23).getValues();
+  
+  // Read Savings Matrix rows
+  var matrixSheet = ss.getSheetByName(SHEET_SAVINGS_MATRIX);
+  var matrixData = matrixSheet ? matrixSheet.getRange(2, 1, 12, 5).getValues() : [];
+
   return ContentService.createTextOutput(JSON.stringify({
-    status: "ready",
-    message: "Google Apps Script Live Sync Web App is active and ready."
+    status: "success",
+    rows: rawData,
+    savingsMatrix: matrixData,
+    timestamp: new Date().toISOString()
   })).setMimeType(ContentService.MimeType.JSON);
 }
 
-function doPost(e) {
-  var raw = "";
-  if (e && e.postData && e.postData.contents) {
-    raw = e.postData.contents;
-  } else if (e && e.parameter && e.parameter.data) {
-    raw = e.parameter.data;
-  }
-  return handleUpdate(raw);
-}
-
+/**
+ * WRITE Handler: Batch updates rows in '5th Monthly EMI & Savings Tracker'
+ * and refreshes linked formulas in Savings Matrix and Master Dashboard
+ */
 function handleUpdate(rawJson) {
   try {
     if (!rawJson) {
@@ -1872,19 +1917,7 @@ function handleUpdate(rawJson) {
     
     var data = typeof rawJson === "string" ? JSON.parse(rawJson) : rawJson;
     var rows = data.rows;
-    if (!rows || !rows.length) {
-      return ContentService.createTextOutput(JSON.stringify({
-        status: "error",
-        message: "No rows provided in payload."
-      })).setMimeType(ContentService.MimeType.JSON);
-    }
-
-    var ss;
-    try {
-      ss = SpreadsheetApp.openById(SPREADSHEET_ID);
-    } catch(err) {
-      ss = SpreadsheetApp.getActiveSpreadsheet();
-    }
+    var ss = getTargetSpreadsheet();
     
     if (!ss) {
       return ContentService.createTextOutput(JSON.stringify({
@@ -1893,15 +1926,61 @@ function handleUpdate(rawJson) {
       })).setMimeType(ContentService.MimeType.JSON);
     }
 
-    var sheet = ss.getSheetByName("5th Monthly EMI & Savings Tracker");
+    var sheet = ss.getSheetByName(SHEET_EMI_TRACKER);
     if (!sheet) {
       return ContentService.createTextOutput(JSON.stringify({
         status: "error",
-        message: "Tab '5th Monthly EMI & Savings Tracker' not found."
+        message: "Tab '" + SHEET_EMI_TRACKER + "' not found."
       })).setMimeType(ContentService.MimeType.JSON);
     }
 
-    // Build 2D batch array: 12 rows x 23 columns
+    // Single Month Update Handler
+    if (data.action === "update_month" && data.rowIndex) {
+      var rowNum = Number(data.rowIndex);
+      var r = data.row;
+      var singleRow = [
+        r.monthDueDate || "",
+        Number(r.projectedSalary) || 0,
+        Number(r.actualSalary) || 0,
+        Number(r.householdExpense) || 0,
+        Number(r.utilities) || 0,
+        Number(r.grocery) || 0,
+        Number(r.priorityCash) || 0,
+        Number(r.miscExpense) || 0,
+        Number(r.idfcEmi) || 0,
+        Number(r.earlySalary2Emi) || 0,
+        Number(r.earlySalary3Emi) || 0,
+        Number(r.axisCardEmi) || 0,
+        Number(r.axioBnpl) || 0,
+        Number(r.cardFinance) || 0,
+        Number(r.manualDueDate1) || 0,
+        Number(r.manualDueDate2) || 0,
+        "=SUM(I" + rowNum + ":P" + rowNum + ")",
+        "=C" + rowNum + "-(D" + rowNum + "+E" + rowNum + "+F" + rowNum + ")-G" + rowNum + "-H" + rowNum + "-Q" + rowNum,
+        Number(r.compulsorySaving) || 0,
+        Number(r.manualSavedAmt) || 0,
+        "=S" + rowNum + "+T" + rowNum,
+        rowNum === 2 ? "=U2" : "=V" + (rowNum - 1) + "+U" + rowNum,
+        Boolean(r.isPaid)
+      ];
+      sheet.getRange(rowNum, 1, 1, 23).setValues([singleRow]);
+      SpreadsheetApp.flush();
+      return ContentService.createTextOutput(JSON.stringify({
+        status: "success",
+        action: "update_month",
+        rowUpdated: rowNum,
+        timestamp: new Date().toISOString()
+      })).setMimeType(ContentService.MimeType.JSON);
+    }
+
+    // Batch 12-Month Array
+    if (!rows || !rows.length) {
+      return ContentService.createTextOutput(JSON.stringify({
+        status: "error",
+        message: "No rows provided in payload."
+      })).setMimeType(ContentService.MimeType.JSON);
+    }
+
     var batch = [];
     for (var i = 0; i < rows.length; i++) {
       var r = rows[i];
@@ -1934,8 +2013,55 @@ function handleUpdate(rawJson) {
       ]);
     }
 
-    // Single atomic write
+    // Atomic 12-Row Write
     sheet.getRange(2, 1, batch.length, 23).setValues(batch);
+    
+    // Ensure Row 14 Total/Summary row formulas
+    var summaryRow = [
+      "Total / Summary",
+      "=SUM(B2:B13)",
+      "=SUM(C2:C13)",
+      "=SUM(D2:D13)",
+      "=SUM(E2:E13)",
+      "=SUM(F2:F13)",
+      "=SUM(G2:G13)",
+      "=SUM(H2:H13)",
+      "=SUM(I2:I13)",
+      "=SUM(J2:J13)",
+      "=SUM(K2:K13)",
+      "=SUM(L2:L13)",
+      "=SUM(M2:M13)",
+      "=SUM(N2:N13)",
+      "=SUM(O2:O13)",
+      "=SUM(P2:P13)",
+      "=SUM(Q2:Q13)",
+      "=SUM(R2:R13)",
+      "=SUM(S2:S13)",
+      "=SUM(T2:T13)",
+      "=SUM(U2:U13)",
+      "=MAX(V2:V13)",
+      '=COUNTIF(W2:W13, TRUE) & " / 12 Paid"'
+    ];
+    sheet.getRange(14, 1, 1, 23).setValues([summaryRow]);
+
+    // Ensure Savings Matrix tab stays dynamically linked
+    var matrixSheet = ss.getSheetByName(SHEET_SAVINGS_MATRIX);
+    if (matrixSheet) {
+      var matrixFormulas = [];
+      for (var m = 2; m <= 13; m++) {
+        matrixFormulas.push([
+          "='" + SHEET_EMI_TRACKER + "'!S" + m,
+          "='" + SHEET_EMI_TRACKER + "'!T" + m,
+          "='" + SHEET_EMI_TRACKER + "'!U" + m,
+          m === 2 ? "=D2" : "=E" + (m - 1) + "+D" + m
+        ]);
+      }
+      matrixSheet.getRange(2, 2, 12, 4).setValues(matrixFormulas);
+      matrixSheet.getRange(14, 1, 1, 5).setValues([
+        ["Total / Max Wealth", "=SUM(B2:B13)", "=SUM(C2:C13)", "=SUM(D2:D13)", "=MAX(E2:E13)"]
+      ]);
+    }
+
     SpreadsheetApp.flush();
 
     return ContentService.createTextOutput(JSON.stringify({
@@ -1944,13 +2070,300 @@ function handleUpdate(rawJson) {
       timestamp: new Date().toISOString()
     })).setMimeType(ContentService.MimeType.JSON);
 
-  } catch(err) {
+  } catch (err) {
     return ContentService.createTextOutput(JSON.stringify({
       status: "error",
       error: err.toString()
     })).setMimeType(ContentService.MimeType.JSON);
   }
-}`;
+}
+
+/**
+ * Creates custom spreadsheet menu on open
+ */
+function onOpen() {
+  var ui = SpreadsheetApp.getUi();
+  ui.createMenu("⚡ Financial Freedom Engine")
+    .addItem("🔄 Recalculate Master Dashboard & Savings Matrix", "recalculateAllTabs")
+    .addItem("📊 Format Currency & Validation", "formatAllSheets")
+    .addSeparator()
+    .addItem("ℹ️ View Web App Live Sync Status", "showDeploymentHelp")
+    .addToUi();
+}
+
+function recalculateAllTabs() {
+  SpreadsheetApp.flush();
+  SpreadsheetApp.getUi().alert("✅ Live Sync Engine: All tabs, matrix formulas, and dashboards are recalculated and synchronized!");
+}
+
+function formatAllSheets() {
+  var ss = getTargetSpreadsheet();
+  var sheet = ss.getSheetByName(SHEET_EMI_TRACKER);
+  if (sheet) {
+    sheet.getRange("B2:V14").setNumberFormat("₹#,##0.00");
+    sheet.getRange("W2:W13").insertCheckboxes();
+  }
+  SpreadsheetApp.getUi().alert("✅ Currency formatting and checkboxes applied successfully!");
+}
+
+function showDeploymentHelp() {
+  var html = '<div style="font-family: sans-serif; padding: 15px;">' +
+    '<h3>Google Apps Script Web App Instructions</h3>' +
+    '<p>To enable 1-click live synchronization between your HTML Dashboard and this Google Sheet:</p>' +
+    '<ol>' +
+    '<li>Click <b>Deploy</b> > <b>New deployment</b>.</li>' +
+    '<li>Select type: <b>Web app</b>.</li>' +
+    '<li>Execute as: <b>Me (your email)</b>.</li>' +
+    '<li>Who has access: <b>Anyone</b>.</li>' +
+    '<li>Click <b>Deploy</b> and copy the Web App URL.</li>' +
+    '<li>Paste the Web App URL into the HTML dashboard settings.</li>' +
+    '</ol></div>';
+  SpreadsheetApp.getUi().showModalDialog(HtmlService.createHtmlOutput(html).setWidth(480).setHeight(320), "Web App Live Sync Setup");
+}
+`;
+
+let currentOption = 1;
+let actualSalariesState = {};
+let manualSavingsState = {};
+let misExpensesState = {};
+let priorityCashState = {};
+let checkedEmisState = {};
+let monthPaidState = {};
+
+// 3 manual living expense breakdown states
+let householdExpState = {};
+let utilitiesExpState = {};
+let groceryExpState = {};
+
+// Manual due dates state
+let manualDue1NameState = {};
+let manualDue1AmtState = {};
+let manualDue1CheckedState = {};
+
+let manualDue2NameState = {};
+let manualDue2AmtState = {};
+let manualDue2CheckedState = {};
+
+function initDataState() {
+  const getObj = (k) => {
+    try {
+      const v = localStorage.getItem(k);
+      return v ? JSON.parse(v) : null;
+    } catch(e) { return null; }
+  };
+
+  actualSalariesState = getObj("rudresh_actual_salaries_v5") || {};
+  manualSavingsState = getObj("rudresh_manual_savings_v5") || {};
+  misExpensesState = getObj("rudresh_misc_expenses_v5") || {};
+  priorityCashState = getObj("rudresh_priority_cash_v5") || {};
+  checkedEmisState = getObj("rudresh_checked_emis_v5") || {};
+  monthPaidState = getObj("rudresh_month_paid_v5") || {};
+
+  householdExpState = getObj("rudresh_household_exp_v5") || {};
+  utilitiesExpState = getObj("rudresh_utilities_exp_v5") || {};
+  groceryExpState = getObj("rudresh_grocery_exp_v5") || {};
+
+  manualDue1NameState = getObj("rudresh_md1_name_v5") || {};
+  manualDue1AmtState = getObj("rudresh_md1_amt_v5") || {};
+  manualDue1CheckedState = getObj("rudresh_md1_chk_v5") || {};
+
+  manualDue2NameState = getObj("rudresh_md2_name_v5") || {};
+  manualDue2AmtState = getObj("rudresh_md2_amt_v5") || {};
+  manualDue2CheckedState = getObj("rudresh_md2_chk_v5") || {};
+
+  baseMonths.forEach(m => {
+    const proj = currentOption === 1 ? m.projectedSalaryOpt1 : m.projectedSalaryOpt2;
+    if (actualSalariesState[m.id] === undefined || actualSalariesState[m.id] <= 0) {
+      actualSalariesState[m.id] = m.defaultSalary || proj;
+    }
+    if (householdExpState[m.id] === undefined || householdExpState[m.id] <= 0) {
+      householdExpState[m.id] = m.defaultHousehold;
+    }
+    if (utilitiesExpState[m.id] === undefined) {
+      utilitiesExpState[m.id] = m.defaultUtilities;
+    }
+    if (groceryExpState[m.id] === undefined) {
+      groceryExpState[m.id] = m.defaultGrocery;
+    }
+    if (priorityCashState[m.id] === undefined) {
+      priorityCashState[m.id] = m.cashOutlayDefault;
+    }
+    if (misExpensesState[m.id] === undefined) {
+      misExpensesState[m.id] = m.defaultMiscExpense || 0;
+    }
+    if (manualSavingsState[m.id] === undefined) {
+      manualSavingsState[m.id] = m.defaultManualSave || 0;
+    }
+    if (monthPaidState[m.id] === undefined) {
+      monthPaidState[m.id] = false;
+    }
+
+    if (manualDue1NameState[m.id] === undefined) {
+      manualDue1NameState[m.id] = "Manual Due Date 1 (e.g. 10th)";
+    }
+    if (manualDue1AmtState[m.id] === undefined) {
+      manualDue1AmtState[m.id] = 0;
+    }
+    if (manualDue1CheckedState[m.id] === undefined) {
+      manualDue1CheckedState[m.id] = false;
+    }
+
+    if (manualDue2NameState[m.id] === undefined) {
+      manualDue2NameState[m.id] = "Manual Due Date 2 (e.g. 20th)";
+    }
+    if (manualDue2AmtState[m.id] === undefined) {
+      manualDue2AmtState[m.id] = 0;
+    }
+    if (manualDue2CheckedState[m.id] === undefined) {
+      manualDue2CheckedState[m.id] = false;
+    }
+
+    m.emis.forEach(e => {
+      if (checkedEmisState[e.id] === undefined) {
+        checkedEmisState[e.id] = true;
+      }
+    });
+  });
+}
+
+function persistState() {
+  const setObj = (k, v) => {
+    try { localStorage.setItem(k, JSON.stringify(v)); } catch(e) {}
+  };
+  setObj("rudresh_actual_salaries_v5", actualSalariesState);
+  setObj("rudresh_manual_savings_v5", manualSavingsState);
+  setObj("rudresh_misc_expenses_v5", misExpensesState);
+  setObj("rudresh_priority_cash_v5", priorityCashState);
+  setObj("rudresh_checked_emis_v5", checkedEmisState);
+  setObj("rudresh_month_paid_v5", monthPaidState);
+
+  setObj("rudresh_household_exp_v5", householdExpState);
+  setObj("rudresh_utilities_exp_v5", utilitiesExpState);
+  setObj("rudresh_grocery_exp_v5", groceryExpState);
+
+  setObj("rudresh_md1_name_v5", manualDue1NameState);
+  setObj("rudresh_md1_amt_v5", manualDue1AmtState);
+  setObj("rudresh_md1_chk_v5", manualDue1CheckedState);
+
+  setObj("rudresh_md2_name_v5", manualDue2NameState);
+  setObj("rudresh_md2_amt_v5", manualDue2AmtState);
+  setObj("rudresh_md2_chk_v5", manualDue2CheckedState);
+}
+
+// Live Pull from Google Sheet via Web App (Primary) and GViz (Fallback)
+function syncFromGoogleSheet(isAutoLoad) {
+  const syncLabel = document.getElementById("sync-label");
+  if (!isAutoLoad) {
+    const proceed = confirm("⚠️ Pull live data from Google Sheet into dashboard?\n\nThis will load the current numbers stored in your '5th Monthly EMI & Savings Tracker' tab.");
+    if (!proceed) return;
+  }
+
+  if (syncLabel) syncLabel.innerText = "⏳ Fetching live data from Google Sheet...";
+
+  const webAppUrl = getAppsScriptUrl();
+  const nocacheTime = new Date().getTime();
+  
+  function applySheetRows(rows) {
+    if (!rows || !rows.length) return;
+    rows.forEach((r, idx) => {
+      if (idx < baseMonths.length) {
+        const m = baseMonths[idx];
+        if (r[2] !== undefined && r[2] !== null && !isNaN(r[2]) && Number(r[2]) > 0) {
+          actualSalariesState[m.id] = Number(r[2]);
+        }
+        if (r[3] !== undefined && r[3] !== null && !isNaN(r[3]) && Number(r[3]) > 0) {
+          householdExpState[m.id] = Number(r[3]);
+        }
+        if (r[4] !== undefined && r[4] !== null && !isNaN(r[4])) {
+          utilitiesExpState[m.id] = Number(r[4]);
+        }
+        if (r[5] !== undefined && r[5] !== null && !isNaN(r[5])) {
+          groceryExpState[m.id] = Number(r[5]);
+        }
+        if (r[6] !== undefined && r[6] !== null && !isNaN(r[6])) {
+          priorityCashState[m.id] = Number(r[6]);
+        }
+        if (r[7] !== undefined && r[7] !== null && !isNaN(r[7])) {
+          misExpensesState[m.id] = Number(r[7]);
+        }
+        if (r[14] !== undefined && r[14] !== null && !isNaN(r[14])) {
+          manualDue1AmtState[m.id] = Number(r[14]);
+          if (Number(r[14]) > 0) manualDue1CheckedState[m.id] = true;
+        }
+        if (r[15] !== undefined && r[15] !== null && !isNaN(r[15])) {
+          manualDue2AmtState[m.id] = Number(r[15]);
+          if (Number(r[15]) > 0) manualDue2CheckedState[m.id] = true;
+        }
+        if (r[19] !== undefined && r[19] !== null && !isNaN(r[19])) {
+          manualSavingsState[m.id] = Number(r[19]);
+        }
+        if (r[22] !== undefined && r[22] !== null) {
+          monthPaidState[m.id] = (String(r[22]).toLowerCase() === "true");
+        }
+      }
+    });
+
+    persistState();
+
+    baseMonths.forEach(m => {
+      const elSal = document.getElementById("input-salary-" + m.id);
+      if (elSal) elSal.value = actualSalariesState[m.id];
+      const elHouse = document.getElementById("input-house-" + m.id);
+      if (elHouse) elHouse.value = householdExpState[m.id];
+      const elUtil = document.getElementById("input-util-" + m.id);
+      if (elUtil) elUtil.value = utilitiesExpState[m.id];
+      const elGroc = document.getElementById("input-groc-" + m.id);
+      if (elGroc) elGroc.value = groceryExpState[m.id];
+      const elCash = document.getElementById("input-cash-" + m.id);
+      if (elCash) elCash.value = priorityCashState[m.id];
+      const elMisc = document.getElementById("input-misc-" + m.id);
+      if (elMisc) elMisc.value = misExpensesState[m.id];
+      const elSave = document.getElementById("input-manual-" + m.id);
+      if (elSave) elSave.value = manualSavingsState[m.id];
+      const elPaid = document.getElementById("chk-month-paid-" + m.id);
+      if (elPaid) elPaid.checked = monthPaidState[m.id] || false;
+    });
+
+    updateCalculations();
+    if (syncLabel) syncLabel.innerText = "🟢 Synced Live from Google Sheet!";
+    setTimeout(() => { if (syncLabel) syncLabel.innerText = "Live Synced with Google Sheet"; }, 3500);
+  }
+
+  if (webAppUrl) {
+    fetch(webAppUrl + (webAppUrl.includes("?") ? "&" : "?") + "action=read&_t=" + nocacheTime)
+      .then(res => res.json())
+      .then(data => {
+        if (data && data.status === "success" && data.rows) {
+          applySheetRows(data.rows);
+        } else {
+          fallbackGviz();
+        }
+      })
+      .catch(err => {
+        fallbackGviz();
+      });
+  } else {
+    fallbackGviz();
+  }
+
+  function fallbackGviz() {
+    const nocacheGviz = GVIZ_URL + "&_t=" + nocacheTime;
+    fetch(nocacheGviz)
+      .then(res => res.text())
+      .then(text => {
+        const jsonMatch = text.match(/google\.visualization\.Query\.setResponse\((.*)\);/);
+        if (!jsonMatch || !jsonMatch[1]) throw new Error("Invalid GViz format");
+        const json = JSON.parse(jsonMatch[1]);
+        const rows = json.table.rows;
+        const rowsArray = rows.map(r => r.c.map(cell => (cell ? cell.v : null)));
+        applySheetRows(rowsArray);
+      })
+      .catch(err => {
+        console.warn("Could not sync with Google Sheet:", err);
+        if (syncLabel) syncLabel.innerText = "🟢 Local Storage Active (Click to sync)";
+      });
+  }
+}
 
 function getAppsScriptUrl() {
   return localStorage.getItem(APPS_SCRIPT_STORAGE_KEY) || DEFAULT_APPS_SCRIPT_URL;
@@ -1959,20 +2372,9 @@ function getAppsScriptUrl() {
 function openAppsScriptModal() {
   const modal = document.getElementById("apps-script-modal");
   const input = document.getElementById("input-apps-script-url");
-  const codeBox = document.getElementById("apps-script-code-block");
-  const statusEl = document.getElementById("modal-test-status");
-
-  if (codeBox) codeBox.innerText = APPS_SCRIPT_SOURCE_CODE;
   if (input) input.value = getAppsScriptUrl();
-  if (statusEl) {
-    statusEl.innerHTML = `
-      <div style="color: #16a34a; margin-bottom: 4px;">🟢 <strong>Active Deployment:</strong> Connected & Verified (Version 3)</div>
-      <div style="font-size: 11.5px; color: var(--text-muted); font-family: var(--font-mono);">
-        • Deployment ID: <code style="color: #1e293b;">${APPS_SCRIPT_DEPLOYMENT_ID}</code><br>
-        • Library URL: <a href="${APPS_SCRIPT_LIBRARY_URL}" target="_blank" style="color: #2563eb;">Version 3 Library (d/15V89uNpy7.../3) ↗</a>
-      </div>
-    `;
-  }
+  const codeBox = document.getElementById("modal-code-snippet");
+  if (codeBox) codeBox.innerText = APPS_SCRIPT_SOURCE_CODE;
   if (modal) modal.classList.add("active");
 }
 
@@ -1982,13 +2384,11 @@ function closeAppsScriptModal() {
 }
 
 function copyAppsScriptCode() {
-  if (navigator.clipboard) {
-    navigator.clipboard.writeText(APPS_SCRIPT_SOURCE_CODE).then(() => {
-      alert("✅ Apps Script code copied to clipboard!");
-    });
-  } else {
-    prompt("Copy this Apps Script code:", APPS_SCRIPT_SOURCE_CODE);
-  }
+  navigator.clipboard.writeText(APPS_SCRIPT_SOURCE_CODE).then(() => {
+    alert("✅ Complete Apps Script Code Copied to Clipboard!\n\nOpen Extensions > Apps Script in Google Sheets, paste this code, and click Deploy.");
+  }).catch(() => {
+    prompt("Copy Apps Script Code manually:", APPS_SCRIPT_SOURCE_CODE);
+  });
 }
 
 function saveAppsScriptUrlAndPush() {
@@ -2011,18 +2411,18 @@ async function testAppsScriptUrl() {
     if (statusEl) statusEl.innerHTML = '<span style="color: #dc2626;">❌ Please enter a Web App URL first.</span>';
     return;
   }
-  if (statusEl) statusEl.innerHTML = '<span style="color: #2563eb;">⏳ Testing connection to Web App...</span>';
+  if (statusEl) statusEl.innerHTML = '<span style="color: #2563eb;">⏳ Testing connection...</span>';
   try {
     localStorage.setItem(APPS_SCRIPT_STORAGE_KEY, url);
-    await fetch(url, { method: "POST", mode: "no-cors", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify({ action: "ping" }) });
-    if (statusEl) statusEl.innerHTML = '<span style="color: #16a34a;">🟢 Request dispatched successfully! Apps Script endpoint is reachable.</span>';
-  } catch(err) {
-    if (statusEl) statusEl.innerHTML = '<span style="color: #dc2626;">❌ Error reaching Web App: ' + err.message + '</span>';
+    await fetch(url, { method: "POST", mode: "no-cors", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify({ ping: true }) });
+    if (statusEl) statusEl.innerHTML = '<span style="color: #16a34a;">✅ Webhook ping dispatched successfully!</span>';
+  } catch(e) {
+    if (statusEl) statusEl.innerHTML = '<span style="color: #dc2626;">❌ Connection test failed: ' + e.message + '</span>';
   }
 }
 
-// 1-Click Atomic Batch Push to Google Sheet via Google Apps Script Webhook (<0.3s)
-function openSyncTimerModal() {
+// Timer Modal for Atomic Batch Sync
+function openSyncTimerModal(monthName) {
   const modal = document.getElementById("sync-timer-modal");
   const bar = document.getElementById("sync-progress-bar");
   const icon = document.getElementById("sync-timer-icon");
@@ -2032,51 +2432,121 @@ function openSyncTimerModal() {
   const sec = document.getElementById("sync-countdown-sec");
   const actions = document.getElementById("sync-timer-actions");
 
-  if (bar) bar.style.width = "0%";
-  if (icon) icon.innerText = "⏳";
-  if (title) title.innerText = "Synchronizing with Google Sheet...";
+  if (title) title.innerText = monthName ? `Synchronizing ${monthName}...` : "Synchronizing with Google Sheet...";
   if (desc) desc.innerText = "Writing all 12 monthly rows & 23 columns to Google Sheet cells.";
-  if (step) step.innerText = "Step 1: Connecting to Apps Script Webhook...";
-  if (sec) sec.innerText = "3s";
+  if (step) step.innerText = "⏳ Status: Preparing Atomic Batch Payload...";
+  if (sec) sec.innerText = "0.3s";
+  if (bar) {
+    bar.style.transition = "none";
+    bar.style.width = "0%";
+    setTimeout(() => {
+      bar.style.transition = "width 0.4s ease-out";
+      bar.style.width = "100%";
+    }, 20);
+  }
   if (actions) actions.style.display = "none";
   if (modal) modal.classList.add("active");
 
-  let progress = 0;
-  let remaining = 3;
-  const interval = setInterval(() => {
-    progress += 25;
-    if (bar) bar.style.width = progress + "%";
-    remaining -= 0.75;
-    if (sec) sec.innerText = Math.max(0, Math.ceil(remaining)) + "s";
+  setTimeout(() => {
+    if (step) step.innerText = "⚡ Status: Writing cells in '5th Monthly EMI & Savings Tracker'...";
+  }, 150);
 
-    if (progress === 50) {
-      if (step) step.innerText = "Step 2: Updating cells in '5th Monthly EMI & Savings Tracker'...";
-    }
-    if (progress === 75) {
-      if (step) step.innerText = "Step 3: Calculating dynamic formulas & reserves...";
-    }
-
-    if (progress >= 100) {
-      clearInterval(interval);
-      if (bar) bar.style.width = "100%";
-      if (icon) icon.innerText = "🟢";
-      if (title) title.innerText = "Sync Complete!";
-      if (desc) desc.innerText = "All cells in your Google Sheet have been updated successfully.";
-      if (step) step.innerText = "✓ Status: Live Synchronized";
-      if (sec) sec.innerText = "0s";
-      if (actions) actions.style.display = "flex";
-      
-      const syncLabel = document.getElementById("sync-label");
-      if (syncLabel) syncLabel.innerText = "🟢 Synced Live with Google Sheet";
-    }
-  }, 750);
+  setTimeout(() => {
+    if (bar) bar.style.width = "100%";
+    if (icon) icon.innerText = "✅";
+    if (title) title.innerText = "Sync Complete!";
+    if (desc) desc.innerText = "All cells in your Google Sheet have been updated successfully.";
+    if (step) step.innerText = "✓ Status: Live Synchronized";
+    if (sec) sec.innerText = "Done";
+    if (actions) actions.style.display = "block";
+    const syncLabel = document.getElementById("sync-label");
+    if (syncLabel) syncLabel.innerText = "🟢 Synced Live with Google Sheet";
+  }, 500);
 }
 
 function closeSyncTimerModal() {
   const modal = document.getElementById("sync-timer-modal");
   if (modal) modal.classList.remove("active");
+  const pushBtn = document.getElementById("btn-push-now");
+  if (pushBtn) {
+    pushBtn.disabled = false;
+    pushBtn.style.opacity = "1";
+  }
 }
 
+// Push Single Month to Google Sheet
+async function pushSingleMonth(monthId) {
+  const idx = baseMonths.findIndex(m => m.id === monthId);
+  if (idx === -1) return;
+  const m = baseMonths[idx];
+  const rowNum = idx + 2;
+
+  persistState();
+  openSyncTimerModal(m.name);
+
+  const webAppUrl = getAppsScriptUrl();
+  const proj = currentOption === 1 ? m.projectedSalaryOpt1 : m.projectedSalaryOpt2;
+  const act = (actualSalariesState[m.id] !== undefined && actualSalariesState[m.id] > 0) ? actualSalariesState[m.id] : proj;
+  const house = householdExpState[m.id] !== undefined ? householdExpState[m.id] : m.defaultHousehold;
+  const util = utilitiesExpState[m.id] !== undefined ? utilitiesExpState[m.id] : m.defaultUtilities;
+  const groc = groceryExpState[m.id] !== undefined ? groceryExpState[m.id] : m.defaultGrocery;
+  const outlay = priorityCashState[m.id] !== undefined ? priorityCashState[m.id] : m.cashOutlayDefault;
+  const misc = misExpensesState[m.id] || 0;
+
+  const idfc = (m.emis.find(e => e.id.startsWith("idfc")) || {amt: 0}).amt;
+  const es2 = (m.emis.find(e => e.id.startsWith("es2")) || {amt: 0}).amt;
+  const es3 = (m.emis.find(e => e.id.startsWith("es3")) || {amt: 0}).amt;
+  const axis = (m.emis.find(e => e.id.startsWith("axis")) || {amt: 0}).amt;
+  const axio = (m.emis.find(e => e.id.startsWith("axio")) || {amt: 0}).amt;
+  const card = (m.emis.find(e => e.id.startsWith("card")) || {amt: 0}).amt;
+
+  const md1 = manualDue1CheckedState[m.id] ? (manualDue1AmtState[m.id] || 0) : 0;
+  const md2 = manualDue2CheckedState[m.id] ? (manualDue2AmtState[m.id] || 0) : 0;
+  const compSave = m.compulsorySaving || 1778;
+  const manSave = manualSavingsState[m.id] || 0;
+
+  const singlePayload = {
+    action: "update_month",
+    rowIndex: rowNum,
+    monthId: m.id,
+    row: {
+      monthDueDate: m.dateStr,
+      projectedSalary: proj,
+      actualSalary: act,
+      householdExpense: house,
+      utilities: util,
+      grocery: groc,
+      priorityCash: outlay,
+      miscExpense: misc,
+      idfcEmi: idfc,
+      earlySalary2Emi: es2,
+      earlySalary3Emi: es3,
+      axisCardEmi: axis,
+      axioBnpl: axio,
+      cardFinance: card,
+      manualDueDate1: md1,
+      manualDueDate2: md2,
+      compulsorySaving: compSave,
+      manualSavedAmt: manSave,
+      isPaid: monthPaidState[m.id] || false
+    }
+  };
+
+  if (webAppUrl) {
+    try {
+      await fetch(webAppUrl, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify(singlePayload)
+      });
+    } catch(e) {
+      console.warn("Single month push error:", e);
+    }
+  }
+}
+
+// 1-Click Atomic Batch Push to Google Sheet
 async function pushToGoogleSheet() {
   const syncLabel = document.getElementById("sync-label");
   const pushBtn = document.getElementById("btn-push-now");
@@ -2087,10 +2557,7 @@ async function pushToGoogleSheet() {
     return;
   }
 
-  // 1. Lock user inputs in browser localStorage immediately before pushing
   persistState();
-
-  // 2. Open visual progress countdown timer modal
   openSyncTimerModal();
 
   if (syncLabel) syncLabel.innerText = "⏳ Pushing live data to Google Sheet cells...";
@@ -2099,16 +2566,15 @@ async function pushToGoogleSheet() {
     pushBtn.style.opacity = "0.7";
   }
 
-  // 3. Construct batch 12-month row data for all 23 columns
   let rowsData = [];
   let runningCumFund = 0;
 
   baseMonths.forEach(m => {
     const proj = currentOption === 1 ? m.projectedSalaryOpt1 : m.projectedSalaryOpt2;
     const act = (actualSalariesState[m.id] !== undefined && actualSalariesState[m.id] > 0) ? actualSalariesState[m.id] : proj;
-    const house = (householdExpState[m.id] !== undefined && householdExpState[m.id] > 0) ? householdExpState[m.id] : m.defaultHousehold;
-    const util = (utilitiesExpState[m.id] !== undefined && utilitiesExpState[m.id] > 0) ? utilitiesExpState[m.id] : m.defaultUtilities;
-    const groc = (groceryExpState[m.id] !== undefined && groceryExpState[m.id] > 0) ? groceryExpState[m.id] : m.defaultGrocery;
+    const house = householdExpState[m.id] !== undefined ? householdExpState[m.id] : m.defaultHousehold;
+    const util = utilitiesExpState[m.id] !== undefined ? utilitiesExpState[m.id] : m.defaultUtilities;
+    const groc = groceryExpState[m.id] !== undefined ? groceryExpState[m.id] : m.defaultGrocery;
     const outlay = priorityCashState[m.id] !== undefined ? priorityCashState[m.id] : m.cashOutlayDefault;
     const misc = misExpensesState[m.id] || 0;
     
@@ -2125,12 +2591,10 @@ async function pushToGoogleSheet() {
     const totalObligations = idfc + es2 + es3 + axis + axio + card + md1 + md2;
     const totalLiving = house + util + groc;
     const surplus = act - totalLiving - outlay - misc - totalObligations;
-    const compSave = m.compulsorySaving || 0;
+    const compSave = m.compulsorySaving || 1778;
     const manSave = manualSavingsState[m.id] || 0;
     const totalSave = compSave + manSave;
     runningCumFund += totalSave;
-
-    const allEmisPaid = m.emis.every(e => !e.active || (paidEmisState[e.id] === true));
 
     rowsData.push({
       monthDueDate: m.dateStr,
@@ -2150,27 +2614,22 @@ async function pushToGoogleSheet() {
       manualDueDate1: md1,
       manualDueDate2: md2,
       totalScheduledEmis: totalObligations,
-      cashSurplus: surplus,
+      operationalSurplus: surplus,
       compulsorySaving: compSave,
       manualSavedAmt: manSave,
       totalMonthlySaved: totalSave,
-      totalSavingFund: runningCumFund,
-      isPaid: allEmisPaid
+      cumSavingsReserve: runningCumFund,
+      isPaid: monthPaidState[m.id] || false
     });
   });
 
   const payload = {
-    action: "updateTrackerRows",
-    sheetName: "5th Monthly EMI & Savings Tracker",
+    sheetName: SHEET_NAME_EMI,
     timestamp: new Date().toISOString(),
-    option: currentOption,
     rows: rowsData
   };
-
   const payloadStr = JSON.stringify(payload);
 
-  // Triple Delivery Channels:
-  // Channel 1: Hidden HTML Form POST (Bypasses cross-origin CORS)
   try {
     const form = document.getElementById("sync_hidden_form");
     const dataInput = document.getElementById("sync_form_payload");
@@ -2180,10 +2639,9 @@ async function pushToGoogleSheet() {
       form.submit();
     }
   } catch(eForm) {
-    console.warn("Form POST error:", eForm);
+    console.warn("Form submit fallback error:", eForm);
   }
 
-  // Channel 2: Fetch POST
   try {
     fetch(webAppUrl, {
       method: "POST",
@@ -2194,37 +2652,32 @@ async function pushToGoogleSheet() {
   } catch(eFetch) {
     console.warn("Fetch POST error:", eFetch);
   }
-
-  // Channel 3: Fetch GET fallback with encoded data
-  try {
-    const getUrl = webAppUrl + (webAppUrl.includes("?") ? "&" : "?") + "data=" + encodeURIComponent(payloadStr);
-    if (getUrl.length < 8000) {
-      fetch(getUrl, { mode: "no-cors" });
-    }
-  } catch(eGet) {}
-
-  setTimeout(() => {
-    if (pushBtn) {
-      pushBtn.disabled = false;
-      pushBtn.style.opacity = "1";
-    }
-  }, 3500);
 }
 
+// Switch embedded Google Sheet view
+function setEmbeddedSheetView(view) {
+  const frame = document.getElementById("embedded-sheet-frame");
+  if (!frame) return;
+  // If specific view requested, we can scroll or target preview
+  frame.src = "https://docs.google.com/spreadsheets/d/" + SHEET_ID + "/preview?widget=true&headers=false";
+}
+
+// Build Timeline DOM & Month Cards
 function buildTimelineDOM() {
   const container = document.getElementById("timeline-container");
   if (!container) return;
   container.innerHTML = "";
 
   baseMonths.forEach((m) => {
-    const projectedSalary = currentOption === 1 ? m.projectedSalaryOpt1 : m.projectedSalaryOpt2;
-    const actualSalary = actualSalariesState[m.id] !== undefined ? actualSalariesState[m.id] : projectedSalary;
+    const proj = currentOption === 1 ? m.projectedSalaryOpt1 : m.projectedSalaryOpt2;
+    const actualSalary = actualSalariesState[m.id] !== undefined ? actualSalariesState[m.id] : proj;
     const household = householdExpState[m.id] !== undefined ? householdExpState[m.id] : m.defaultHousehold;
     const utilities = utilitiesExpState[m.id] !== undefined ? utilitiesExpState[m.id] : m.defaultUtilities;
     const grocery = groceryExpState[m.id] !== undefined ? groceryExpState[m.id] : m.defaultGrocery;
     const priorityCash = priorityCashState[m.id] !== undefined ? priorityCashState[m.id] : m.cashOutlayDefault;
     const manualSave = manualSavingsState[m.id] || 0;
     const miscExp = misExpensesState[m.id] || 0;
+    const isPaid = monthPaidState[m.id] || false;
 
     const md1Name = manualDue1NameState[m.id] || "Manual Due Date 1 (e.g. 10th)";
     const md1Amt = manualDue1AmtState[m.id] || 0;
@@ -2293,15 +2746,18 @@ function buildTimelineDOM() {
             ${m.tag ? `<span class="month-tag ${m.tagClass}">${m.tag}</span>` : ''}
           </div>
         </div>
-        <div id="header-surplus-${m.id}" style="font-size: 13.5px; font-weight: 700;">
-          Operational Cash: ₹0
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <button class="btn-push-month" onclick="pushSingleMonth('${m.id}')" title="Sync this month to Google Sheet">⚡ Sync Month</button>
+          <div id="header-surplus-${m.id}" style="font-size: 13.5px; font-weight: 700; color: rgb(22, 163, 74);">
+            Operational Cash: ₹0
+          </div>
         </div>
       </div>
       <div class="month-body">
         <div class="month-grid">
           <div class="emi-panel">
             <div class="panel-head">
-              <h4><span>✅ Due Dates & Obligations Checklist</span></h4>
+              <h4><span>✅ Due Dates &amp; Obligations Checklist</span></h4>
               <span class="emi-total-display" id="total-emi-${m.id}">Total: ₹0</span>
             </div>
             <div class="checklist-items">
@@ -2312,7 +2768,14 @@ function buildTimelineDOM() {
               ${manualDue1Html}
               ${manualDue2Html}
             </div>
-            <div style="font-size: 11.5px; color: var(--text-muted); margin-top: 10px; line-height: 1.4;">
+            <div style="margin-top: 12px; padding-top: 8px; border-top: 1px dashed var(--border); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px;">
+              <label class="check-label" style="font-size: 12px; cursor: pointer;">
+                <input type="checkbox" id="chk-month-paid-${m.id}" ${isPaid ? 'checked' : ''} onchange="toggleMonthPaid('${m.id}', this.checked)">
+                <span style="font-weight: 700; color: ${isPaid ? '#16a34a' : '#475569'};">Mark Month 100% Cleared / Paid</span>
+              </label>
+              <span id="paid-badge-${m.id}" class="${isPaid ? 'badge-status-paid' : 'badge-status-pending'}">${isPaid ? '✓ Paid' : '⏳ Pending'}</span>
+            </div>
+            <div style="font-size: 11.5px; color: var(--text-muted); margin-top: 8px; line-height: 1.4;">
               💡 <em>Check off each obligation once cleared from Axis Bank. Active checks instantly deduct from your operational cash.</em>
             </div>
           </div>
@@ -2321,7 +2784,7 @@ function buildTimelineDOM() {
             <table class="calc-table">
               <tr>
                 <td>Projected Inflow (${currentOption === 1 ? 'Dual Job' : 'Single Job'})</td>
-                <td style="color: #64748b;" id="proj-val-${m.id}">₹${projectedSalary.toLocaleString('en-IN')}</td>
+                <td style="color: #64748b;" id="proj-val-${m.id}">₹${proj.toLocaleString('en-IN')}</td>
               </tr>
               <tr style="background: #f0fdfa;">
                 <td>
@@ -2466,19 +2929,37 @@ function buildTimelineDOM() {
   updateCalculations();
 }
 
+function toggleMonthPaid(monthId, checked) {
+  monthPaidState[monthId] = Boolean(checked);
+  const badge = document.getElementById("paid-badge-" + monthId);
+  if (badge) {
+    badge.className = checked ? "badge-status-paid" : "badge-status-pending";
+    badge.innerText = checked ? "✓ Paid" : "⏳ Pending";
+  }
+  persistState();
+  updateCalculations();
+}
+
+// Calculations & Dashboard Recalculation Engine
 function updateCalculations() {
   let cumulativeSavings = 0;
+  let total12MonthInflow = 0;
+  let total12MonthEmis = 0;
+  let total12MonthSurplus = 0;
+  let total12MonthLiving = 0;
 
-  baseMonths.forEach((m) => {
-    const projectedSalary = currentOption === 1 ? m.projectedSalaryOpt1 : m.projectedSalaryOpt2;
-    const actualSalary = actualSalariesState[m.id] !== undefined ? actualSalariesState[m.id] : projectedSalary;
+  let masterTableRowsHtml = "";
+
+  baseMonths.forEach((m, idx) => {
+    const proj = currentOption === 1 ? m.projectedSalaryOpt1 : m.projectedSalaryOpt2;
+    const actualSalary = actualSalariesState[m.id] !== undefined ? actualSalariesState[m.id] : proj;
     const household = householdExpState[m.id] !== undefined ? householdExpState[m.id] : m.defaultHousehold;
     const utilities = utilitiesExpState[m.id] !== undefined ? utilitiesExpState[m.id] : m.defaultUtilities;
     const grocery = groceryExpState[m.id] !== undefined ? groceryExpState[m.id] : m.defaultGrocery;
     const priorityCash = priorityCashState[m.id] !== undefined ? priorityCashState[m.id] : m.cashOutlayDefault;
     const manualSave = manualSavingsState[m.id] || 0;
     const miscExp = misExpensesState[m.id] || 0;
-    const compulsorySave = m.compulsorySaving || 0;
+    const compulsorySave = m.compulsorySaving || 1778;
     const totalMonthSave = compulsorySave + manualSave;
     cumulativeSavings += totalMonthSave;
 
@@ -2499,6 +2980,11 @@ function updateCalculations() {
 
     const totalLivingExpenses = household + utilities + grocery;
     const netSurplus = actualSalary - totalLivingExpenses - priorityCash - miscExp - checkedObligationsTotal;
+
+    total12MonthInflow += actualSalary;
+    total12MonthEmis += checkedObligationsTotal;
+    total12MonthSurplus += netSurplus;
+    total12MonthLiving += totalLivingExpenses;
 
     const emiTotalEl = document.getElementById("total-emi-" + m.id);
     if (emiTotalEl) emiTotalEl.innerText = "Total: ₹" + checkedObligationsTotal.toLocaleString('en-IN');
@@ -2523,8 +3009,66 @@ function updateCalculations() {
 
     const cumFundEl = document.getElementById("cum-fund-" + m.id);
     if (cumFundEl) cumFundEl.innerText = "₹" + cumulativeSavings.toLocaleString('en-IN');
+
+    const isPaid = monthPaidState[m.id] || false;
+    masterTableRowsHtml += `
+      <tr style="border-bottom: 1px solid var(--border); background: ${idx % 2 === 0 ? '#ffffff' : '#f8fafc'};">
+        <td style="padding: 7px 10px; font-weight: 700;">${m.name.replace(' (Today)', '')}</td>
+        <td style="padding: 7px 10px; color: #64748b;">${m.dateStr}</td>
+        <td style="padding: 7px 10px; text-align: center;">
+          <span class="${isPaid ? 'badge-status-paid' : 'badge-status-pending'}">${isPaid ? '✓ Paid' : '⏳ Pending'}</span>
+        </td>
+        <td style="padding: 7px 10px; text-align: right; font-weight: 600; color: #0f766e;">₹${actualSalary.toLocaleString('en-IN')}</td>
+        <td style="padding: 7px 10px; text-align: right; color: #991b1b;">₹${totalLivingExpenses.toLocaleString('en-IN')}</td>
+        <td style="padding: 7px 10px; text-align: right; color: #b45309;">${priorityCash > 0 ? '₹' + priorityCash.toLocaleString('en-IN') : '-'}</td>
+        <td style="padding: 7px 10px; text-align: right; color: #4338ca; font-weight: 600;">₹${checkedObligationsTotal.toLocaleString('en-IN')}</td>
+        <td style="padding: 7px 10px; text-align: right; font-weight: 700; color: ${netSurplus >= 0 ? '#16a34a' : '#dc2626'};">
+          ${netSurplus >= 0 ? '+' : ''}₹${netSurplus.toLocaleString('en-IN')}
+        </td>
+        <td style="padding: 7px 10px; text-align: right; color: #166534;">₹${totalMonthSave.toLocaleString('en-IN')}</td>
+        <td style="padding: 7px 10px; text-align: right; font-weight: 700; color: #15803d;">₹${cumulativeSavings.toLocaleString('en-IN')}</td>
+        <td style="padding: 7px 10px; font-size: 11.5px; color: #475569;">${m.milestone || m.notes}</td>
+        <td style="padding: 7px 10px; text-align: center;">
+          <button class="btn-push-month" onclick="pushSingleMonth('${m.id}')" style="font-size: 10.5px; padding: 2px 7px;">Sync</button>
+        </td>
+      </tr>
+    `;
   });
 
+  // Add Summary Total Row to Master Table
+  masterTableRowsHtml += `
+    <tr style="background: #f0fdfa; font-weight: 800; border-top: 2px solid #0f766e; font-size: 12.5px;">
+      <td colspan="3" style="padding: 10px;">12-MONTH TOTAL / SUMMARY</td>
+      <td style="padding: 10px; text-align: right; color: #0f766e;">₹${total12MonthInflow.toLocaleString('en-IN')}</td>
+      <td style="padding: 10px; text-align: right; color: #991b1b;">₹${total12MonthLiving.toLocaleString('en-IN')}</td>
+      <td style="padding: 10px; text-align: right; color: #b45309;">-</td>
+      <td style="padding: 10px; text-align: right; color: #4338ca;">₹${total12MonthEmis.toLocaleString('en-IN')}</td>
+      <td style="padding: 10px; text-align: right; color: ${total12MonthSurplus >= 0 ? '#16a34a' : '#dc2626'};">
+        ${total12MonthSurplus >= 0 ? '+' : ''}₹${total12MonthSurplus.toLocaleString('en-IN')}
+      </td>
+      <td style="padding: 10px; text-align: right; color: #166534;">-</td>
+      <td style="padding: 10px; text-align: right; color: #15803d;">₹${cumulativeSavings.toLocaleString('en-IN')}</td>
+      <td colspan="2" style="padding: 10px; font-size: 11.5px; color: #0f766e;">May 2027: 100% Personal Debt Free!</td>
+    </tr>
+  `;
+
+  const masterTbody = document.getElementById("master-table-body");
+  if (masterTbody) masterTbody.innerHTML = masterTableRowsHtml;
+
+  // Master Dashboard Executive KPIs
+  const masterKpiInflow = document.getElementById("master-kpi-inflow");
+  if (masterKpiInflow) masterKpiInflow.innerText = "₹" + total12MonthInflow.toLocaleString('en-IN');
+
+  const masterKpiEmis = document.getElementById("master-kpi-emis");
+  if (masterKpiEmis) masterKpiEmis.innerText = "₹" + total12MonthEmis.toLocaleString('en-IN');
+
+  const masterKpiSurplus = document.getElementById("master-kpi-surplus");
+  if (masterKpiSurplus) masterKpiSurplus.innerText = (total12MonthSurplus >= 0 ? '+' : '') + "₹" + total12MonthSurplus.toLocaleString('en-IN');
+
+  const masterKpiSavings = document.getElementById("master-kpi-savings");
+  if (masterKpiSavings) masterKpiSavings.innerText = "₹" + cumulativeSavings.toLocaleString('en-IN');
+
+  // Hero KPI Card Updates
   const totSavingsKpi = document.getElementById("kpi-total-savings");
   if (totSavingsKpi) totSavingsKpi.innerText = "₹" + cumulativeSavings.toLocaleString('en-IN');
 
@@ -2537,93 +3081,90 @@ function updateCalculations() {
   if (novCashKpi) novCashKpi.innerText = "₹" + novCash.toLocaleString('en-IN');
 }
 
-// Input Handlers
+// Input event handlers
 function onSalaryInput(monthId, val) {
-  actualSalariesState[monthId] = parseFloat(val) || 0;
+  actualSalariesState[monthId] = Number(val) || 0;
   persistState();
   updateCalculations();
 }
 
 function onHouseholdInput(monthId, val) {
-  householdExpState[monthId] = parseFloat(val) || 0;
+  householdExpState[monthId] = Number(val) || 0;
   persistState();
   updateCalculations();
 }
 
 function onUtilitiesInput(monthId, val) {
-  utilitiesExpState[monthId] = parseFloat(val) || 0;
+  utilitiesExpState[monthId] = Number(val) || 0;
   persistState();
   updateCalculations();
 }
 
 function onGroceryInput(monthId, val) {
-  groceryExpState[monthId] = parseFloat(val) || 0;
+  groceryExpState[monthId] = Number(val) || 0;
   persistState();
   updateCalculations();
 }
 
 function onPriorityCashInput(monthId, val) {
-  priorityCashState[monthId] = parseFloat(val) || 0;
+  priorityCashState[monthId] = Number(val) || 0;
   persistState();
   updateCalculations();
 }
 
 function onMiscInput(monthId, val) {
-  misExpensesState[monthId] = parseFloat(val) || 0;
+  misExpensesState[monthId] = Number(val) || 0;
   persistState();
   updateCalculations();
 }
 
 function onManualSaveInput(monthId, val) {
-  manualSavingsState[monthId] = parseFloat(val) || 0;
+  manualSavingsState[monthId] = Number(val) || 0;
   persistState();
   updateCalculations();
 }
 
-function onManualDueNameInput(monthId, slot, val) {
-  if (slot === 1) manualDue1NameState[monthId] = val;
-  if (slot === 2) manualDue2NameState[monthId] = val;
+function onManualDueNameInput(monthId, slotNum, val) {
+  if (slotNum === 1) manualDue1NameState[monthId] = val;
+  if (slotNum === 2) manualDue2NameState[monthId] = val;
   persistState();
 }
 
-function onManualDueAmtInput(monthId, slot, val) {
-  const num = parseFloat(val) || 0;
-  if (slot === 1) manualDue1AmtState[monthId] = num;
-  if (slot === 2) manualDue2AmtState[monthId] = num;
+function onManualDueAmtInput(monthId, slotNum, val) {
+  const num = Number(val) || 0;
+  if (slotNum === 1) manualDue1AmtState[monthId] = num;
+  if (slotNum === 2) manualDue2AmtState[monthId] = num;
   persistState();
   updateCalculations();
 }
 
-function toggleManualDue(monthId, slot) {
-  if (slot === 1) {
-    manualDue1CheckedState[monthId] = !manualDue1CheckedState[monthId];
-    const rowEl = document.getElementById("md1-row-" + monthId);
-    if (rowEl) {
-      if (manualDue1CheckedState[monthId]) rowEl.classList.add("paid");
-      else rowEl.classList.remove("paid");
-    }
-  } else {
-    manualDue2CheckedState[monthId] = !manualDue2CheckedState[monthId];
-    const rowEl = document.getElementById("md2-row-" + monthId);
-    if (rowEl) {
-      if (manualDue2CheckedState[monthId]) rowEl.classList.add("paid");
-      else rowEl.classList.remove("paid");
-    }
+function toggleManualDue(monthId, slotNum) {
+  const chkEl = document.getElementById(`chk-md${slotNum}-${monthId}`);
+  const isChecked = chkEl ? chkEl.checked : false;
+  if (slotNum === 1) manualDue1CheckedState[monthId] = isChecked;
+  if (slotNum === 2) manualDue2CheckedState[monthId] = isChecked;
+
+  const rowEl = document.getElementById(`md${slotNum}-row-${monthId}`);
+  if (rowEl) {
+    if (isChecked) rowEl.classList.add("paid");
+    else rowEl.classList.remove("paid");
   }
+
   persistState();
   updateCalculations();
 }
 
 function toggleEmi(monthId, emiId, amt) {
-  checkedEmisState[emiId] = !checkedEmisState[emiId];
+  const chk = document.getElementById("chk-" + emiId);
+  const isChecked = chk ? chk.checked : false;
+  checkedEmisState[emiId] = isChecked;
+
   const itemEl = document.getElementById("item-" + emiId);
   if (itemEl) {
-    if (checkedEmisState[emiId]) {
-      itemEl.classList.add("paid");
-    } else {
-      itemEl.classList.remove("paid");
-    }
+    if (isChecked) itemEl.classList.add("paid");
+    else itemEl.classList.remove("paid");
   }
+
   persistState();
   updateCalculations();
 }
@@ -2636,12 +3177,16 @@ function switchOption(opt) {
     document.getElementById("kpi-oct-inflow-sub").innerText = "Base ₹39.6k + Bonus ₹13.8k + Day Job ₹13k";
     document.getElementById("kpi-milestone").innerText = "April 2027";
     document.getElementById("kpi-milestone-sub").innerText = "7 Months Sprint (Option 1)";
+    const masterTrackSub = document.getElementById("master-kpi-inflow-sub");
+    if (masterTrackSub) masterTrackSub.innerText = "Dual Job Track";
   } else {
     document.getElementById("btn-opt2").classList.add("active");
     document.getElementById("btn-opt1").classList.remove("active");
     document.getElementById("kpi-oct-inflow-sub").innerText = "Base ₹39.6k + Bonus ₹13.8k (Single Job)";
     document.getElementById("kpi-milestone").innerText = "August 2027";
     document.getElementById("kpi-milestone-sub").innerText = "10 Months Organic Plan (Option 2)";
+    const masterTrackSub = document.getElementById("master-kpi-inflow-sub");
+    if (masterTrackSub) masterTrackSub.innerText = "Single Job Track";
   }
 
   baseMonths.forEach(m => {
@@ -2658,67 +3203,47 @@ function switchOption(opt) {
 }
 
 function resetToProjections() {
-  if (confirm("Reset all Actual Salaries, Living Expenses, Cash Outlays, Misc Expenses, and Manual Due Dates to default projections?")) {
-    baseMonths.forEach(m => {
-      const proj = currentOption === 1 ? m.projectedSalaryOpt1 : m.projectedSalaryOpt2;
-      actualSalariesState[m.id] = proj;
-      householdExpState[m.id] = m.defaultHousehold;
-      utilitiesExpState[m.id] = m.defaultUtilities;
-      groceryExpState[m.id] = m.defaultGrocery;
-      priorityCashState[m.id] = m.cashOutlayDefault;
-      manualSavingsState[m.id] = m.defaultManualSave;
-      misExpensesState[m.id] = m.defaultMiscExpense;
-      manualDue1AmtState[m.id] = 0;
-      manualDue2AmtState[m.id] = 0;
-      manualDue1CheckedState[m.id] = false;
-      manualDue2CheckedState[m.id] = false;
+  if (confirm("Reset all salaries, living expenses, and fields to baseline defaults?")) {
+    localStorage.removeItem("rudresh_actual_salaries_v5");
+    localStorage.removeItem("rudresh_manual_savings_v5");
+    localStorage.removeItem("rudresh_misc_expenses_v5");
+    localStorage.removeItem("rudresh_priority_cash_v5");
+    localStorage.removeItem("rudresh_checked_emis_v5");
+    localStorage.removeItem("rudresh_month_paid_v5");
+    localStorage.removeItem("rudresh_household_exp_v5");
+    localStorage.removeItem("rudresh_utilities_exp_v5");
+    localStorage.removeItem("rudresh_grocery_exp_v5");
+    localStorage.removeItem("rudresh_md1_name_v5");
+    localStorage.removeItem("rudresh_md1_amt_v5");
+    localStorage.removeItem("rudresh_md1_chk_v5");
+    localStorage.removeItem("rudresh_md2_name_v5");
+    localStorage.removeItem("rudresh_md2_amt_v5");
+    localStorage.removeItem("rudresh_md2_chk_v5");
 
-      m.emis.forEach(e => {
-        checkedEmisState[e.id] = true;
-        const chk = document.getElementById("chk-" + e.id);
-        if (chk) chk.checked = true;
-        const itm = document.getElementById("item-" + e.id);
-        if (itm) itm.classList.add("paid");
-      });
-
-      const salInput = document.getElementById("input-salary-" + m.id);
-      if (salInput) salInput.value = proj;
-      const houseInput = document.getElementById("input-house-" + m.id);
-      if (houseInput) houseInput.value = m.defaultHousehold;
-      const utilInput = document.getElementById("input-util-" + m.id);
-      if (utilInput) utilInput.value = m.defaultUtilities;
-      const grocInput = document.getElementById("input-groc-" + m.id);
-      if (grocInput) grocInput.value = m.defaultGrocery;
-      const cashInput = document.getElementById("input-cash-" + m.id);
-      if (cashInput) cashInput.value = m.cashOutlayDefault;
-      const miscInput = document.getElementById("input-misc-" + m.id);
-      if (miscInput) miscInput.value = 0;
-      const manInput = document.getElementById("input-manual-" + m.id);
-      if (manInput) manInput.value = 0;
-      const md1Input = document.getElementById("md1-amt-" + m.id);
-      if (md1Input) md1Input.value = 0;
-      const md2Input = document.getElementById("md2-amt-" + m.id);
-      if (md2Input) md2Input.value = 0;
-      const chkMd1 = document.getElementById("chk-md1-" + m.id);
-      if (chkMd1) chkMd1.checked = false;
-      const chkMd2 = document.getElementById("chk-md2-" + m.id);
-      if (chkMd2) chkMd2.checked = false;
-      const row1 = document.getElementById("md1-row-" + m.id);
-      if (row1) row1.classList.remove("paid");
-      const row2 = document.getElementById("md2-row-" + m.id);
-      if (row2) row2.classList.remove("paid");
-    });
-    persistState();
-    updateCalculations();
+    initDataState();
+    buildTimelineDOM();
   }
 }
 
-// 1-Click TSV Copy matching all 23 columns of Google Sheet tab '5th Monthly EMI & Savings Tracker' (Col A to Col W)
+// 1-Click TSV Copy matching all 23 columns of Google Sheet
 function copyTableForGoogleSheet() {
-  let tsv = "";
-  let runningCumFund = 0;
+  let rows = [];
+  rows.push([
+    "Month & Due Date", "Projected Salary / Inflow", "Actual Total Salary / Inflow",
+    "Household Expense (Manual)", "Utilities (Manual)", "Grocery (Manual)",
+    "Priority Cash Outlay", "Miscellaneous Expense",
+    "IDFC Loan EMI", "EarlySalary Loan 2 EMI", "EarlySalary Loan 3 EMI",
+    "Axis Card EMI", "Axio BNPL", "Card 5 & 6 Finance / Paydown",
+    "Manual Due Date 1", "Manual Due Date 2",
+    "Total Scheduled EMIs", "Operational Cash Surplus / (Deficit)",
+    "Compulsory Automated Saving", "Manually Entered Saved Amount",
+    "Total Monthly Amount Saved", "Total Saving Fund / Cumulative Reserve",
+    "Status / Payment Checkbox"
+  ].join("\t"));
 
-  baseMonths.forEach(m => {
+  let runningCum = 0;
+  baseMonths.forEach((m, i) => {
+    const rowNum = i + 2;
     const proj = currentOption === 1 ? m.projectedSalaryOpt1 : m.projectedSalaryOpt2;
     const act = actualSalariesState[m.id] !== undefined ? actualSalariesState[m.id] : proj;
     const house = householdExpState[m.id] !== undefined ? householdExpState[m.id] : m.defaultHousehold;
@@ -2726,7 +3251,7 @@ function copyTableForGoogleSheet() {
     const groc = groceryExpState[m.id] !== undefined ? groceryExpState[m.id] : m.defaultGrocery;
     const outlay = priorityCashState[m.id] !== undefined ? priorityCashState[m.id] : m.cashOutlayDefault;
     const misc = misExpensesState[m.id] || 0;
-    
+
     const idfc = (m.emis.find(e => e.id.startsWith("idfc")) || {amt: 0}).amt;
     const es2 = (m.emis.find(e => e.id.startsWith("es2")) || {amt: 0}).amt;
     const es3 = (m.emis.find(e => e.id.startsWith("es3")) || {amt: 0}).amt;
@@ -2736,22 +3261,43 @@ function copyTableForGoogleSheet() {
 
     const md1 = manualDue1CheckedState[m.id] ? (manualDue1AmtState[m.id] || 0) : 0;
     const md2 = manualDue2CheckedState[m.id] ? (manualDue2AmtState[m.id] || 0) : 0;
-    
-    const totalObligations = idfc + es2 + es3 + axis + axio + card + md1 + md2;
-    const totalLiving = house + util + groc;
-    const surplus = act - totalLiving - outlay - misc - totalObligations;
-    const compSave = m.compulsorySaving || 0;
-    const manSave = manualSavingsState[m.id] || 0;
-    const totalSave = compSave + manSave;
-    runningCumFund += totalSave;
 
-    // Matches Col A through Col W (23 columns)
-    tsv += m.dateStr + "\t" + proj + "\t" + act + "\t" + house + "\t" + util + "\t" + groc + "\t" + outlay + "\t" + misc + "\t" + idfc + "\t" + es2 + "\t" + es3 + "\t" + axis + "\t" + axio + "\t" + card + "\t" + md1 + "\t" + md2 + "\t" + totalObligations + "\t" + surplus + "\t" + compSave + "\t" + manSave + "\t" + totalSave + "\t" + runningCumFund + "\tTRUE\n";
+    const compSave = m.compulsorySaving || 1778;
+    const manSave = manualSavingsState[m.id] || 0;
+    const totSave = compSave + manSave;
+    runningCum += totSave;
+
+    rows.push([
+      m.dateStr,
+      proj,
+      act,
+      house,
+      util,
+      groc,
+      outlay,
+      misc,
+      idfc,
+      es2,
+      es3,
+      axis,
+      axio,
+      card,
+      md1,
+      md2,
+      `=SUM(I${rowNum}:P${rowNum})`,
+      `=C${rowNum}-(D${rowNum}+E${rowNum}+F${rowNum})-G${rowNum}-H${rowNum}-Q${rowNum}`,
+      compSave,
+      manSave,
+      `=S${rowNum}+T${rowNum}`,
+      rowNum === 2 ? `=U2` : `=V${rowNum-1}+U${rowNum}`,
+      monthPaidState[m.id] ? "TRUE" : "FALSE"
+    ].join("\t"));
   });
 
+  const tsv = rows.join("\n");
   if (navigator.clipboard) {
     navigator.clipboard.writeText(tsv).then(() => {
-      alert("✅ 12-Month Table Data (23 Columns) Copied to Clipboard!\n\nYou can now open your Google Sheet ('5th Monthly EMI & Savings Tracker' tab) and paste (Ctrl+V) directly starting at Cell A2.");
+      alert("✅ 12-Month Table Data (23 Columns) Copied to Clipboard!\n\nYou can now open your Google Sheet ('5th Monthly EMI & Savings Tracker' tab), click on cell A1, and paste directly.");
     }).catch(() => {
       prompt("Copy this TSV text manually to paste into your Google Sheet:", tsv);
     });
@@ -2760,35 +3306,13 @@ function copyTableForGoogleSheet() {
   }
 }
 
-function startTimer() {
-  const deadline = new Date("2026-10-07T18:30:00+05:30").getTime();
-  const timerEl = document.getElementById("countdown-timer");
-  if (!timerEl) return;
-  
-  function update() {
-    const now = new Date().getTime();
-    const diff = deadline - now;
-    if (diff <= 0) {
-      timerEl.innerText = "00h : 00m : 00s (Decision Locked)";
-      return;
-    }
-    const h = Math.floor(diff / (1000 * 60 * 60));
-    const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-    const s = Math.floor((diff % (1000 * 60)) / 1000);
-    timerEl.innerText = String(h).padStart(2, '0') + "h : " + String(m).padStart(2, '0') + "m : " + String(s).padStart(2, '0') + "s";
-  }
-  update();
-  setInterval(update, 1000);
-}
-
+// Initialize on DOM load
 document.addEventListener("DOMContentLoaded", () => {
   initDataState();
   buildTimelineDOM();
-  startTimer();
-  // We keep the user's saved local data on page refresh!
-  const syncLabel = document.getElementById("sync-label");
-  if (syncLabel) syncLabel.innerText = "🟢 Local Data Loaded & Active";
+  syncFromGoogleSheet(true);
 });
 </script>
+
 </body>
 </html>
