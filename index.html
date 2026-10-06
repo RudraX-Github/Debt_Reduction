@@ -1788,7 +1788,7 @@ const DEFAULT_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyDV3eF
 const APPS_SCRIPT_SOURCE_CODE = `/**
  * ============================================================================
  * PERSONAL DEBT REDUCTION & WEALTH CREATION ENGINE - GOOGLE APPS SCRIPT
- * Version 5.0 (Production Live Bi-Directional Web App)
+ * Version 5.2 (Production Live Bi-Directional Web App with JSONP & CORS)
  * Author: Rudreshkumar Chovatiya
  * Spreadsheet ID: 1tAOqVod1YKLpM_rZ2kvOB-6HBzFjr3YiYyysnfdMLiw
  * ============================================================================
@@ -1799,46 +1799,46 @@ var SHEET_EMI_TRACKER = "5th Monthly EMI & Savings Tracker";
 var SHEET_SAVINGS_MATRIX = "Savings Matrix";
 var SHEET_MASTER_DASHBOARD = "Live Master Dashboard";
 
-/**
- * Handles HTTP GET Requests:
- * 1. action=read: Returns complete live dataset from Google Sheet as JSON
- * 2. action=update or parameter 'data': Fallback write mechanism via GET
- * 3. Default: Health check status
- */
 function doGet(e) {
   try {
     var action = (e && e.parameter && e.parameter.action) ? e.parameter.action.toLowerCase() : "";
+    var callback = (e && e.parameter && e.parameter.callback) ? e.parameter.callback : "";
     
     // Fallback GET write
     if (e && e.parameter && e.parameter.data) {
-      return handleUpdate(e.parameter.data);
+      return handleUpdate(e.parameter.data, callback);
     }
     
     // Live Read from Sheet
     if (action === "read" || (e && e.parameter && e.parameter.read)) {
-      return handleRead();
+      return handleRead(callback);
     }
     
-    return ContentService.createTextOutput(JSON.stringify({
+    var resp = {
       status: "ready",
       message: "Personal Debt Reduction & Savings Engine Live Sync Web App is active and running.",
       spreadsheetId: SPREADSHEET_ID,
       tabs: [SHEET_MASTER_DASHBOARD, SHEET_EMI_TRACKER, SHEET_SAVINGS_MATRIX],
       timestamp: new Date().toISOString()
-    })).setMimeType(ContentService.MimeType.JSON);
+    };
+    
+    return createResponse(resp, callback);
     
   } catch (err) {
-    return ContentService.createTextOutput(JSON.stringify({
-      status: "error",
-      error: err.toString()
-    })).setMimeType(ContentService.MimeType.JSON);
+    return createResponse({ status: "error", error: err.toString() }, callback);
   }
 }
 
-/**
- * Handles HTTP POST Requests:
- * Accepts JSON payload from HTML Dashboard (via fetch or hidden form POST)
- */
+function createResponse(dataObj, callback) {
+  var jsonStr = JSON.stringify(dataObj);
+  if (callback) {
+    return ContentService.createTextOutput(callback + "(" + jsonStr + ");")
+      .setMimeType(ContentService.MimeType.JAVASCRIPT);
+  }
+  return ContentService.createTextOutput(jsonStr)
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
 function doPost(e) {
   try {
     var raw = "";
@@ -1847,18 +1847,12 @@ function doPost(e) {
     } else if (e && e.parameter && e.parameter.data) {
       raw = e.parameter.data;
     }
-    return handleUpdate(raw);
+    return handleUpdate(raw, "");
   } catch (err) {
-    return ContentService.createTextOutput(JSON.stringify({
-      status: "error",
-      error: err.toString()
-    })).setMimeType(ContentService.MimeType.JSON);
+    return createResponse({ status: "error", error: err.toString() }, "");
   }
 }
 
-/**
- * Helper to get active spreadsheet
- */
 function getTargetSpreadsheet() {
   try {
     return SpreadsheetApp.openById(SPREADSHEET_ID);
@@ -1867,24 +1861,15 @@ function getTargetSpreadsheet() {
   }
 }
 
-/**
- * READ Handler: Extracts data from 5th Monthly EMI Tracker & Savings Matrix
- */
-function handleRead() {
+function handleRead(callback) {
   var ss = getTargetSpreadsheet();
   if (!ss) {
-    return ContentService.createTextOutput(JSON.stringify({
-      status: "error",
-      message: "Could not open spreadsheet: " + SPREADSHEET_ID
-    })).setMimeType(ContentService.MimeType.JSON);
+    return createResponse({ status: "error", message: "Could not open spreadsheet: " + SPREADSHEET_ID }, callback);
   }
 
   var emiSheet = ss.getSheetByName(SHEET_EMI_TRACKER);
   if (!emiSheet) {
-    return ContentService.createTextOutput(JSON.stringify({
-      status: "error",
-      message: "Tab '" + SHEET_EMI_TRACKER + "' not found."
-    })).setMimeType(ContentService.MimeType.JSON);
+    return createResponse({ status: "error", message: "Tab '" + SHEET_EMI_TRACKER + "' not found." }, callback);
   }
 
   // Read 12 rows of 23 columns (Rows 2 to 13, Cols A to W)
@@ -1894,25 +1879,18 @@ function handleRead() {
   var matrixSheet = ss.getSheetByName(SHEET_SAVINGS_MATRIX);
   var matrixData = matrixSheet ? matrixSheet.getRange(2, 1, 12, 5).getValues() : [];
 
-  return ContentService.createTextOutput(JSON.stringify({
+  return createResponse({
     status: "success",
     rows: rawData,
     savingsMatrix: matrixData,
     timestamp: new Date().toISOString()
-  })).setMimeType(ContentService.MimeType.JSON);
+  }, callback);
 }
 
-/**
- * WRITE Handler: Batch updates rows in '5th Monthly EMI & Savings Tracker'
- * and refreshes linked formulas in Savings Matrix and Master Dashboard
- */
-function handleUpdate(rawJson) {
+function handleUpdate(rawJson, callback) {
   try {
     if (!rawJson) {
-      return ContentService.createTextOutput(JSON.stringify({
-        status: "error",
-        message: "Empty payload received."
-      })).setMimeType(ContentService.MimeType.JSON);
+      return createResponse({ status: "error", message: "Empty payload received." }, callback);
     }
     
     var data = typeof rawJson === "string" ? JSON.parse(rawJson) : rawJson;
@@ -1920,18 +1898,12 @@ function handleUpdate(rawJson) {
     var ss = getTargetSpreadsheet();
     
     if (!ss) {
-      return ContentService.createTextOutput(JSON.stringify({
-        status: "error",
-        message: "Could not open spreadsheet: " + SPREADSHEET_ID
-      })).setMimeType(ContentService.MimeType.JSON);
+      return createResponse({ status: "error", message: "Could not open spreadsheet: " + SPREADSHEET_ID }, callback);
     }
 
     var sheet = ss.getSheetByName(SHEET_EMI_TRACKER);
     if (!sheet) {
-      return ContentService.createTextOutput(JSON.stringify({
-        status: "error",
-        message: "Tab '" + SHEET_EMI_TRACKER + "' not found."
-      })).setMimeType(ContentService.MimeType.JSON);
+      return createResponse({ status: "error", message: "Tab '" + SHEET_EMI_TRACKER + "' not found." }, callback);
     }
 
     // Single Month Update Handler
@@ -1965,20 +1937,17 @@ function handleUpdate(rawJson) {
       ];
       sheet.getRange(rowNum, 1, 1, 23).setValues([singleRow]);
       SpreadsheetApp.flush();
-      return ContentService.createTextOutput(JSON.stringify({
+      return createResponse({
         status: "success",
         action: "update_month",
         rowUpdated: rowNum,
         timestamp: new Date().toISOString()
-      })).setMimeType(ContentService.MimeType.JSON);
+      }, callback);
     }
 
     // Batch 12-Month Array
     if (!rows || !rows.length) {
-      return ContentService.createTextOutput(JSON.stringify({
-        status: "error",
-        message: "No rows provided in payload."
-      })).setMimeType(ContentService.MimeType.JSON);
+      return createResponse({ status: "error", message: "No rows provided in payload." }, callback);
     }
 
     var batch = [];
@@ -2013,7 +1982,6 @@ function handleUpdate(rawJson) {
       ]);
     }
 
-    // Atomic 12-Row Write
     sheet.getRange(2, 1, batch.length, 23).setValues(batch);
     
     // Ensure Row 14 Total/Summary row formulas
@@ -2064,23 +2032,17 @@ function handleUpdate(rawJson) {
 
     SpreadsheetApp.flush();
 
-    return ContentService.createTextOutput(JSON.stringify({
+    return createResponse({
       status: "success",
       updatedRows: batch.length,
       timestamp: new Date().toISOString()
-    })).setMimeType(ContentService.MimeType.JSON);
+    }, callback);
 
   } catch (err) {
-    return ContentService.createTextOutput(JSON.stringify({
-      status: "error",
-      error: err.toString()
-    })).setMimeType(ContentService.MimeType.JSON);
+    return createResponse({ status: "error", error: err.toString() }, callback);
   }
 }
 
-/**
- * Creates custom spreadsheet menu on open
- */
 function onOpen() {
   var ui = SpreadsheetApp.getUi();
   ui.createMenu("⚡ Financial Freedom Engine")
@@ -2144,6 +2106,15 @@ let manualDue2NameState = {};
 let manualDue2AmtState = {};
 let manualDue2CheckedState = {};
 
+// Helper function to safely parse numeric values from sheet cells (handling formatted strings, currency symbols, commas, nulls)
+function parseSheetNum(val, fallbackVal = 0) {
+  if (val === undefined || val === null || val === "") return fallbackVal;
+  if (typeof val === "number") return isNaN(val) ? fallbackVal : val;
+  const clean = String(val).replace(/[₹$,\s]/g, "").trim();
+  const num = parseFloat(clean);
+  return isNaN(num) ? fallbackVal : num;
+}
+
 function initDataState() {
   const getObj = (k) => {
     try {
@@ -2173,10 +2144,10 @@ function initDataState() {
 
   baseMonths.forEach(m => {
     const proj = currentOption === 1 ? m.projectedSalaryOpt1 : m.projectedSalaryOpt2;
-    if (actualSalariesState[m.id] === undefined || actualSalariesState[m.id] <= 0) {
+    if (actualSalariesState[m.id] === undefined) {
       actualSalariesState[m.id] = m.defaultSalary || proj;
     }
-    if (householdExpState[m.id] === undefined || householdExpState[m.id] <= 0) {
+    if (householdExpState[m.id] === undefined) {
       householdExpState[m.id] = m.defaultHousehold;
     }
     if (utilitiesExpState[m.id] === undefined) {
@@ -2250,7 +2221,122 @@ function persistState() {
   setObj("rudresh_md2_chk_v5", manualDue2CheckedState);
 }
 
-// Live Pull from Google Sheet via Web App (Primary) and GViz (Fallback)
+// Applies raw 2D array of rows from Google Sheet to Dashboard State and DOM
+function applySheetRows(rows) {
+  if (!rows || !rows.length) return;
+  
+  rows.forEach((r, idx) => {
+    if (idx < baseMonths.length) {
+      const m = baseMonths[idx];
+      
+      // Col C (idx 2): Actual Total Salary / Inflow
+      if (r[2] !== undefined && r[2] !== null) {
+        const val = parseSheetNum(r[2], -1);
+        if (val > 0) actualSalariesState[m.id] = val;
+      }
+      
+      // Col D (idx 3): Household Expense (Manual)
+      if (r[3] !== undefined && r[3] !== null) {
+        householdExpState[m.id] = parseSheetNum(r[3], 0);
+      }
+      
+      // Col E (idx 4): Utilities (Manual)
+      if (r[4] !== undefined && r[4] !== null) {
+        utilitiesExpState[m.id] = parseSheetNum(r[4], 0);
+      }
+      
+      // Col F (idx 5): Grocery (Manual)
+      if (r[5] !== undefined && r[5] !== null) {
+        groceryExpState[m.id] = parseSheetNum(r[5], 0);
+      }
+      
+      // Col G (idx 6): Priority Cash Outlay
+      if (r[6] !== undefined && r[6] !== null) {
+        priorityCashState[m.id] = parseSheetNum(r[6], 0);
+      }
+      
+      // Col H (idx 7): Miscellaneous Expense
+      if (r[7] !== undefined && r[7] !== null) {
+        misExpensesState[m.id] = parseSheetNum(r[7], 0);
+      }
+      
+      // Col O (idx 14): Manual Due Date 1
+      if (r[14] !== undefined && r[14] !== null) {
+        const md1 = parseSheetNum(r[14], 0);
+        manualDue1AmtState[m.id] = md1;
+        manualDue1CheckedState[m.id] = (md1 > 0);
+      }
+      
+      // Col P (idx 15): Manual Due Date 2
+      if (r[15] !== undefined && r[15] !== null) {
+        const md2 = parseSheetNum(r[15], 0);
+        manualDue2AmtState[m.id] = md2;
+        manualDue2CheckedState[m.id] = (md2 > 0);
+      }
+      
+      // Col T (idx 19): Manually Entered Saved Amount
+      if (r[19] !== undefined && r[19] !== null) {
+        manualSavingsState[m.id] = parseSheetNum(r[19], 0);
+      }
+      
+      // Col W (idx 22): Status / Payment Checkbox
+      if (r[22] !== undefined && r[22] !== null) {
+        monthPaidState[m.id] = (String(r[22]).toLowerCase() === "true" || r[22] === true);
+      }
+    }
+  });
+
+  // Save freshly pulled live sheet numbers to localStorage
+  persistState();
+
+  // Update input fields across all month cards
+  baseMonths.forEach(m => {
+    const elSal = document.getElementById("input-salary-" + m.id);
+    if (elSal && actualSalariesState[m.id] !== undefined) elSal.value = actualSalariesState[m.id];
+    
+    const elHouse = document.getElementById("input-house-" + m.id);
+    if (elHouse && householdExpState[m.id] !== undefined) elHouse.value = householdExpState[m.id];
+    
+    const elUtil = document.getElementById("input-util-" + m.id);
+    if (elUtil && utilitiesExpState[m.id] !== undefined) elUtil.value = utilitiesExpState[m.id];
+    
+    const elGroc = document.getElementById("input-groc-" + m.id);
+    if (elGroc && groceryExpState[m.id] !== undefined) elGroc.value = groceryExpState[m.id];
+    
+    const elCash = document.getElementById("input-cash-" + m.id);
+    if (elCash && priorityCashState[m.id] !== undefined) elCash.value = priorityCashState[m.id];
+    
+    const elMisc = document.getElementById("input-misc-" + m.id);
+    if (elMisc && misExpensesState[m.id] !== undefined) elMisc.value = misExpensesState[m.id];
+    
+    const elSave = document.getElementById("input-manual-" + m.id);
+    if (elSave && manualSavingsState[m.id] !== undefined) elSave.value = manualSavingsState[m.id];
+    
+    const elPaid = document.getElementById("chk-month-paid-" + m.id);
+    if (elPaid && monthPaidState[m.id] !== undefined) elPaid.checked = monthPaidState[m.id];
+    
+    const badgePaid = document.getElementById("paid-badge-" + m.id);
+    if (badgePaid) {
+      badgePaid.className = monthPaidState[m.id] ? "badge-status-paid" : "badge-status-pending";
+      badgePaid.innerText = monthPaidState[m.id] ? "✓ Paid" : "⏳ Pending";
+    }
+
+    const elMd1Amt = document.getElementById("md1-amt-" + m.id);
+    if (elMd1Amt && manualDue1AmtState[m.id] !== undefined) elMd1Amt.value = manualDue1AmtState[m.id];
+    const elMd1Chk = document.getElementById("chk-md1-" + m.id);
+    if (elMd1Chk && manualDue1CheckedState[m.id] !== undefined) elMd1Chk.checked = manualDue1CheckedState[m.id];
+
+    const elMd2Amt = document.getElementById("md2-amt-" + m.id);
+    if (elMd2Amt && manualDue2AmtState[m.id] !== undefined) elMd2Amt.value = manualDue2AmtState[m.id];
+    const elMd2Chk = document.getElementById("chk-md2-" + m.id);
+    if (elMd2Chk && manualDue2CheckedState[m.id] !== undefined) elMd2Chk.checked = manualDue2CheckedState[m.id];
+  });
+
+  // Re-run all calculations for cards, Master Dashboard, and KPIs
+  updateCalculations();
+}
+
+// Live Pull from Google Sheet (Dual Channel: Zero-CORS JSONP GViz + Web App API)
 function syncFromGoogleSheet(isAutoLoad) {
   const syncLabel = document.getElementById("sync-label");
   if (!isAutoLoad) {
@@ -2258,110 +2344,123 @@ function syncFromGoogleSheet(isAutoLoad) {
     if (!proceed) return;
   }
 
-  if (syncLabel) syncLabel.innerText = "⏳ Fetching live data from Google Sheet...";
+  if (syncLabel) syncLabel.innerText = "⏳ Pulling stored values from Google Sheet...";
 
-  const webAppUrl = getAppsScriptUrl();
-  const nocacheTime = new Date().getTime();
-  
-  function applySheetRows(rows) {
-    if (!rows || !rows.length) return;
-    rows.forEach((r, idx) => {
-      if (idx < baseMonths.length) {
-        const m = baseMonths[idx];
-        if (r[2] !== undefined && r[2] !== null && !isNaN(r[2]) && Number(r[2]) > 0) {
-          actualSalariesState[m.id] = Number(r[2]);
-        }
-        if (r[3] !== undefined && r[3] !== null && !isNaN(r[3]) && Number(r[3]) > 0) {
-          householdExpState[m.id] = Number(r[3]);
-        }
-        if (r[4] !== undefined && r[4] !== null && !isNaN(r[4])) {
-          utilitiesExpState[m.id] = Number(r[4]);
-        }
-        if (r[5] !== undefined && r[5] !== null && !isNaN(r[5])) {
-          groceryExpState[m.id] = Number(r[5]);
-        }
-        if (r[6] !== undefined && r[6] !== null && !isNaN(r[6])) {
-          priorityCashState[m.id] = Number(r[6]);
-        }
-        if (r[7] !== undefined && r[7] !== null && !isNaN(r[7])) {
-          misExpensesState[m.id] = Number(r[7]);
-        }
-        if (r[14] !== undefined && r[14] !== null && !isNaN(r[14])) {
-          manualDue1AmtState[m.id] = Number(r[14]);
-          if (Number(r[14]) > 0) manualDue1CheckedState[m.id] = true;
-        }
-        if (r[15] !== undefined && r[15] !== null && !isNaN(r[15])) {
-          manualDue2AmtState[m.id] = Number(r[15]);
-          if (Number(r[15]) > 0) manualDue2CheckedState[m.id] = true;
-        }
-        if (r[19] !== undefined && r[19] !== null && !isNaN(r[19])) {
-          manualSavingsState[m.id] = Number(r[19]);
-        }
-        if (r[22] !== undefined && r[22] !== null) {
-          monthPaidState[m.id] = (String(r[22]).toLowerCase() === "true");
-        }
+  let syncCompleted = false;
+
+  // Channel 1: Google Visualization API via JSONP Script Injection (Zero-CORS, Works in all browsers!)
+  function tryGvizJsonp() {
+    return new Promise((resolve, reject) => {
+      const callbackName = "gvizResponseHandler_" + Date.now();
+      const timeout = setTimeout(() => {
+        cleanup();
+        reject(new Error("GViz JSONP timeout"));
+      }, 7000);
+
+      function cleanup() {
+        clearTimeout(timeout);
+        try { delete window[callbackName]; } catch(e) {}
+        const el = document.getElementById("gviz-jsonp-script");
+        if (el) el.remove();
       }
-    });
 
-    persistState();
-
-    baseMonths.forEach(m => {
-      const elSal = document.getElementById("input-salary-" + m.id);
-      if (elSal) elSal.value = actualSalariesState[m.id];
-      const elHouse = document.getElementById("input-house-" + m.id);
-      if (elHouse) elHouse.value = householdExpState[m.id];
-      const elUtil = document.getElementById("input-util-" + m.id);
-      if (elUtil) elUtil.value = utilitiesExpState[m.id];
-      const elGroc = document.getElementById("input-groc-" + m.id);
-      if (elGroc) elGroc.value = groceryExpState[m.id];
-      const elCash = document.getElementById("input-cash-" + m.id);
-      if (elCash) elCash.value = priorityCashState[m.id];
-      const elMisc = document.getElementById("input-misc-" + m.id);
-      if (elMisc) elMisc.value = misExpensesState[m.id];
-      const elSave = document.getElementById("input-manual-" + m.id);
-      if (elSave) elSave.value = manualSavingsState[m.id];
-      const elPaid = document.getElementById("chk-month-paid-" + m.id);
-      if (elPaid) elPaid.checked = monthPaidState[m.id] || false;
-    });
-
-    updateCalculations();
-    if (syncLabel) syncLabel.innerText = "🟢 Synced Live from Google Sheet!";
-    setTimeout(() => { if (syncLabel) syncLabel.innerText = "Live Synced with Google Sheet"; }, 3500);
-  }
-
-  if (webAppUrl) {
-    fetch(webAppUrl + (webAppUrl.includes("?") ? "&" : "?") + "action=read&_t=" + nocacheTime)
-      .then(res => res.json())
-      .then(data => {
-        if (data && data.status === "success" && data.rows) {
-          applySheetRows(data.rows);
+      window[callbackName] = function(json) {
+        cleanup();
+        if (json && json.table && json.table.rows) {
+          const rowsArray = json.table.rows.map(r => r.c.map(cell => (cell ? (cell.v !== undefined ? cell.v : cell.f) : null)));
+          resolve(rowsArray);
         } else {
-          fallbackGviz();
+          reject(new Error("Empty GViz table response"));
         }
-      })
-      .catch(err => {
-        fallbackGviz();
-      });
-  } else {
-    fallbackGviz();
+      };
+
+      const script = document.createElement("script");
+      script.id = "gviz-jsonp-script";
+      script.src = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?sheet=${encodeURIComponent(SHEET_NAME_EMI)}&tqx=responseHandler:${callbackName}&_t=${Date.now()}`;
+      script.onerror = (err) => {
+        cleanup();
+        reject(err);
+      };
+      document.head.appendChild(script);
+    });
   }
 
-  function fallbackGviz() {
-    const nocacheGviz = GVIZ_URL + "&_t=" + nocacheTime;
-    fetch(nocacheGviz)
-      .then(res => res.text())
-      .then(text => {
-        const jsonMatch = text.match(/google\.visualization\.Query\.setResponse\((.*)\);/);
-        if (!jsonMatch || !jsonMatch[1]) throw new Error("Invalid GViz format");
-        const json = JSON.parse(jsonMatch[1]);
-        const rows = json.table.rows;
-        const rowsArray = rows.map(r => r.c.map(cell => (cell ? cell.v : null)));
-        applySheetRows(rowsArray);
-      })
-      .catch(err => {
-        console.warn("Could not sync with Google Sheet:", err);
-        if (syncLabel) syncLabel.innerText = "🟢 Local Storage Active (Click to sync)";
-      });
+  // Channel 2: Apps Script Web App JSON / JSONP
+  function tryAppsScript() {
+    return new Promise((resolve, reject) => {
+      const webAppUrl = getAppsScriptUrl();
+      if (!webAppUrl) return reject(new Error("No Web App URL configured"));
+
+      // Try JSONP script tag for Web App to bypass CORS
+      const callbackName = "gasResponseHandler_" + Date.now();
+      const timeout = setTimeout(() => {
+        cleanup();
+        reject(new Error("Apps Script Web App timeout"));
+      }, 7000);
+
+      function cleanup() {
+        clearTimeout(timeout);
+        try { delete window[callbackName]; } catch(e) {}
+        const el = document.getElementById("gas-jsonp-script");
+        if (el) el.remove();
+      }
+
+      window[callbackName] = function(json) {
+        cleanup();
+        if (json && json.status === "success" && json.rows) {
+          resolve(json.rows);
+        } else {
+          reject(new Error("Invalid Apps Script response"));
+        }
+      };
+
+      const script = document.createElement("script");
+      script.id = "gas-jsonp-script";
+      const sep = webAppUrl.includes("?") ? "&" : "?";
+      script.src = `${webAppUrl}${sep}action=read&callback=${callbackName}&_t=${Date.now()}`;
+      script.onerror = () => {
+        // Fallback to fetch
+        cleanup();
+        fetch(`${webAppUrl}${sep}action=read&_t=${Date.now()}`)
+          .then(res => res.json())
+          .then(data => {
+            if (data && data.status === "success" && data.rows) resolve(data.rows);
+            else reject(new Error("Fetch failed"));
+          })
+          .catch(reject);
+      };
+      document.head.appendChild(script);
+    });
+  }
+
+  // Execute Channel 1 (GViz JSONP) first as it is fastest and requires no Apps Script authorization
+  tryGvizJsonp()
+    .then(rows => {
+      if (syncCompleted) return;
+      syncCompleted = true;
+      applySheetRows(rows);
+      showSyncSuccess();
+    })
+    .catch(errGviz => {
+      console.warn("GViz JSONP sync attempt failed, trying Apps Script Web App:", errGviz);
+      // Fallback to Channel 2 (Apps Script)
+      tryAppsScript()
+        .then(rows => {
+          if (syncCompleted) return;
+          syncCompleted = true;
+          applySheetRows(rows);
+          showSyncSuccess();
+        })
+        .catch(errGas => {
+          console.warn("Apps Script Web App sync also failed:", errGas);
+          if (syncLabel) syncLabel.innerText = "🟢 Stored Local Data Active (Offline)";
+        });
+    });
+
+  function showSyncSuccess() {
+    const now = new Date();
+    const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    if (syncLabel) syncLabel.innerText = "🟢 Synced Live from Google Sheet (" + timeStr + ")";
   }
 }
 
